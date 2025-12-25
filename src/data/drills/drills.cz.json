@@ -1,0 +1,52 @@
+[
+  {
+    "id": "serve-short-backspin-targets",
+    "title": "Krátký backspin servis na cíle",
+    "description": "Servis krátký backspin do FH/BH. Důraz na nízký odskok a přesnost.",
+    "category": "serve",
+    "ageGroup": "U13",
+    "durationMinutes": 10,
+    "equipment": ["cones", "stopwatch"],
+    "tags": ["servis", "backspin", "přesnost"]
+  },
+  {
+    "id": "serve-receive-push-attack",
+    "title": "Servis → příjem → krátký push → útok",
+    "description": "A servíruje backspin, B krátký push, A první útok (FH/BH dle dohody).",
+    "category": "serve_combo",
+    "ageGroup": "U15",
+    "durationMinutes": 12,
+    "equipment": [],
+    "tags": ["servis", "příjem", "třetí míč", "útok"]
+  },
+  {
+    "id": "regular-fh-bh-two-corners",
+    "title": "Pravidelně FH–BH do dvou rohů",
+    "description": "Pravidelná kombinace na stabilitu postavení a přesun. Tempo podle úrovně.",
+    "category": "regular_combo",
+    "ageGroup": "U11",
+    "durationMinutes": 8,
+    "equipment": [],
+    "tags": ["pravidelné", "přesun", "stabilita"]
+  },
+  {
+    "id": "irregular-random-placement",
+    "title": "Nepravidelně: náhodné umístění",
+    "description": "B posílá míče nepravidelně, A čte hru a hraje základní údery bezpečně.",
+    "category": "irregular_combo",
+    "ageGroup": "U17",
+    "durationMinutes": 10,
+    "equipment": [],
+    "tags": ["nepravidelné", "reakce", "čtení hry"]
+  },
+  {
+    "id": "multiball-open-up-attack",
+    "title": "Zásobník: otevření proti backspinu + pokračování",
+    "description": "Trenér zásobníkem dává backspin, hráč otevře topspinem a pokračuje 2–3 údery.",
+    "category": "multiball",
+    "ageGroup": "ADULT",
+    "durationMinutes": 10,
+    "equipment": ["multiball_basket", "stopwatch"],
+    "tags": ["zásobník", "otevření", "topspin"]
+  }
+]
