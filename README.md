@@ -1,25 +1,27 @@
 # TableTennis Drills
+
 Live demo: https://tabletennis-drills.vercel.app
 
-> Pracovní dokumentace projektu.  
-> README slouží jako **vstupní bod do projektu** – vysvětluje, co projekt je,
-> pro koho je určen a jaký je jeho rozsah.  
-> Detailní technická a architektonická dokumentace je uložena ve složce `/docs`.
+> Pracovní dokumentace projektu. Slouží jako hlavní zdroj pravdy pro kontext,
+> rozhodnutí a další vývoj. Později se rozdělí do více souborů ve složce `/docs`.
 
-Repozitář: `tabletennis-drills`
+---
+
+## Requirements
+
+- **Node.js**: 22+
+- **npm**: dle Node instalace
 
 ---
 
 ## 1) Vize a smysl projektu
 
 TableTennis Drills je webová aplikace pro stolní tenis, určená především
-trenérům a hráčům. Umožňuje rychle procházet a vybírat tréninková cvičení
+trenérům a hráčům. Umožňuje procházet a vybírat tréninková cvičení
 podle jednoduchých filtrů.
 
-Aplikace je navržena tak, aby:
-- byla okamžitě použitelná v praxi (hala, tělocvična, telefon),
-- byla dlouhodobě rozšiřitelná,
-- a dala se v budoucnu přizpůsobit i jiným sportům.
+Návrh aplikace je do určité míry **obecný**, aby bylo možné ji v budoucnu
+přizpůsobit i jiným sportům.
 
 ---
 
@@ -32,28 +34,27 @@ Aplikace je navržena tak, aby:
 
 ## 3) Hlavní cíle projektu
 
-- Jednoduché a rychlé rozhraní pro výběr cvičení.
-- Profesionální kvalita kódu (čitelnost, typy, struktura).
-- Veřejně dostupná funkční aplikace.
-- Mobile-first a plně responzivní design.
+- Jednoduché a rychlé rozhraní pro výběr cvičení
+- Profesionální kvalita kódu (čitelnost, typy, struktura)
+- Veřejně dostupná funkční aplikace
+- Mobile-first a responzivní design
 
 ### Přístup k vývoji
-- Nejdříve jednoduchá, funkční verze (MVP).
-- Postupné a řízené rozšiřování o další funkcionality.
-- Architektura připravená na růst bez nutnosti velkých refaktorů.
+- Nejdříve jednoduchá funkční verze (MVP)
+- Postupné rozšiřování o další funkcionality
 
 ---
 
 ## 4) MVP – první funkční verze
 
-### Hlavní stránka (`/`)
-- Krátké vysvětlení:
-  - co aplikace je,
-  - pro koho je určena.
-- Základní branding (název, logo).
-- Filtry + seznam cvičení.
-- Místo pro sponzory (placeholder).
-- Footer (odkazy, GitHub, kontakt).
+### Hlavní stránka
+- Stručné vysvětlení:
+  - co aplikace je
+  - pro koho je určena
+- Základní branding (název, jednoduché logo / textové logo)
+- Filtry + seznam cvičení
+- Placeholder pro sponzory
+- Footer (GitHub, základní odkazy)
 
 ---
 
@@ -70,66 +71,58 @@ Aplikace je navržena tak, aby:
 - **Typ cvičení**
   - viz seznam níže
 
-Filtry jsou navrženy tak, aby:
-- byly maximálně jednoduché,
-- fungovaly intuitivně i na mobilních zařízeních.
+> Poznámka:  
+> V UI se používají **české popisky**, v datech jsou použity **stabilní interní klíče**
+> (viz `data-model.md`).
 
 ---
 
 ### Seznam cvičení
 
-Seznam slouží jako rychlý přehled a zobrazuje:
-- název,
-- krátký popis,
-- typ cvičení,
-- věkovou kategorii,
-- doporučenou délku.
+Zobrazuje základní informace:
+- název
+- krátký popis
+- typ cvičení
+- věková kategorie
+- doporučená délka
 
-Uživatel získá základní informace i bez otevření detailu.
+Slouží jako rychlý přehled bez nutnosti přecházet na detail.
 
 ---
 
 ### Detail cvičení
 
 Každé cvičení má:
-- **unikátní ID (slug)**,
-- samostatnou stránku (např. `/drills/[id]`).
+- vlastní **unikátní ID (slug)**
+- samostatnou stránku (např. `/drills/[id]`)
 
 Detail obsahuje:
-- název,
-- plný popis,
-- typ cvičení,
-- věkovou kategorii,
-- doporučenou délku,
-- pomůcky,
-- tagy,
-- autora / zdroj (pokud je uveden).
+- název
+- plný popis
+- typ cvičení
+- věkovou kategorii
+- doporučenou délku
+- pomůcky
+- tagy
 
 ---
 
-## 5) Datový model cvičení (MVP – přehled)
+## 5) Datový model cvičení (MVP)
 
 Každé cvičení obsahuje:
 
 - `id` – unikátní identifikátor (string / slug)
 - `title` – název cvičení
 - `description` – textový popis
-- `category` – typ cvičení (stabilní klíč)
-- `ageGroup` – věková kategorie (stabilní klíč)
+- `category` – typ cvičení (interní klíč)
+- `ageGroup` – věková kategorie
 - `durationMinutes` – doporučená délka
 - `equipment` – seznam pomůcek (pokud relevantní)
-- `tags` – seznam tagů
-- `author` – autor nebo zdroj (volitelné)
-
-> Poznámka:  
-> Data používají **stabilní klíče**, zatímco UI zobrazuje **české popisky**
-> definované v konfiguračních konstantách.
-
-Detailní popis datového modelu je v `docs/data-model.md`.
+- `tags` – seznam tagů (v datech již v MVP, UI později)
 
 ---
 
-## 6) Typy cvičení
+## 6) Typy cvičení (UI popisky)
 
 - Servis
 - Kombinace se servisem
@@ -141,16 +134,19 @@ Detailní popis datového modelu je v `docs/data-model.md`.
 - Strečink
 - Zásobník (multiball)
 
+> Interně jsou typy reprezentovány stabilními klíči  
+> (např. `serve`, `regular_combo`, `irregular_combo`, …).
+
 ---
 
 ## 7) Pomůcky
 
 ### Poznámka
 - U běžných kombinací jsou základní pomůcky implicitní
-  (stůl, míčky, pálka).
-- U sportovních her a specifických cvičení se pomůcky uvádějí explicitně.
+  (stůl, míčky, pálka)
+- U her a specifických cvičení se pomůcky uvádějí explicitně
 
-### Pevně definovaný seznam pomůcek (CZ popisky)
+### Pevně definovaný seznam pomůcek (CZ)
 
 - Kloboučky
 - Ohrádky
@@ -162,26 +158,27 @@ Detailní popis datového modelu je v `docs/data-model.md`.
 
 ---
 
-## 8) Technologie (rozhodnuto)
+## 8) Technologie
 
-- Framework: **Next.js** (App Router)
-- UI knihovna: **React**
+- Framework: **Next.js (App Router)**
+- UI: **React**
 - Jazyk: **TypeScript**
 - Styling: **Tailwind CSS**
 - Hosting: **Vercel**
+- Data (MVP): **JSON soubory**
 
 ---
 
 ## 9) Přístupnost a design
 
-- Mobile-first přístup (primárně telefony).
-- Responzivní layout pro telefon, tablet i desktop.
-- Jednoduché a přehledné UI.
-- Důraz na rychlou orientaci a použitelnost v praxi.
+- Mobile-first přístup
+- Responzivní layout (telefon / tablet / desktop)
+- Jednoduché, přehledné UI
+- Důraz na rychlou orientaci a použitelnost v hale / tělocvičně
 
 ---
 
-## 10) Budoucí rozšíření (po MVP)
+## 10) Budoucí rozšíření
 
 ### Média
 - Obrázky
@@ -195,33 +192,36 @@ Detailní popis datového modelu je v `docs/data-model.md`.
 - Admin rozhraní pro správu cvičení
 
 ### Data
-- Přechod z JSON souborů na robustnější úložiště.
-- Zachování kompatibility se stávajícím datovým modelem.
+- Přechod z JSON na databázi
+- Zachování kompatibility datového modelu
 
 ---
 
-## 11) Non-goals (vědomě neřešíme v MVP)
+## 11) Backlog (bez závazku)
 
-- Přihlášení a uživatelské účty
+- Autentizace uživatelů
 - Admin rozhraní
-- Média (obrázky, videa)
+- Správa cvičení (CRUD)
+- Obrázky a videa u cvičení
+- Vyhledávání
+- Obtížnost cvičení
+- Varianty cvičení
 - Vícejazyčnost
+- Export / tisk
+- Možnost přizpůsobení pro jiné sporty
 
 ---
 
-## 12) Definition of Done – MVP
+## 12) Struktura projektu (návrh)
 
-MVP je považováno za hotové, pokud:
-- fungují filtry podle věku a typu cvičení,
-- existuje seznam cvičení i jejich detail,
-- data jsou načítána z JSON přes datovou vrstvu,
-- aplikace je responzivní,
-- aplikace je nasazená a veřejně dostupná.
+Projekt je postavený na Next.js (App Router) a TypeScriptu.  
+Struktura je navržena tak, aby MVP bylo jednoduché, ale bylo možné později
+přidat autentizaci, admin rozhraní, databázi a validace bez velkého refaktoringu.
 
----
-
-## 13) Architektura a další dokumentace
-
-- Detailní architektura: `docs/architecture.md`
-- Datový model: `docs/data-model.md`
-- Rozhodnutí (ADR): `docs/decisions/`
+Hlavní části:
+- `src/app` – routy a stránky
+- `src/features` – doménová logika (např. drills)
+- `src/data` – JSON data (MVP)
+- `src/lib` – utility, validace, konstanty
+- `src/components` – layout a obecné UI komponenty
+- `docs` – architektura, datový model, rozhodnutí
