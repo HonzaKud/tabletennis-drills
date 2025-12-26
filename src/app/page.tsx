@@ -1,12 +1,26 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+
 import { getAllDrills, filterDrills } from "@/features/drills/data/loadDrills";
 import { DrillFilters, DrillFilterState } from "@/features/drills/components/DrillFilters";
-import { DrillList } from "@/features/drills/components/DrillList";
 import { Sponsors } from "@/components/Sponsors";
+import { HeroLogo } from "@/components/HeroLogo";
+
+function buildDrillsUrl(filters: DrillFilterState): string {
+  const params = new URLSearchParams();
+
+  if (filters.ageGroup !== "ALL") params.set("ageGroup", filters.ageGroup);
+  if (filters.category !== "ALL") params.set("category", filters.category);
+
+  const qs = params.toString();
+  return qs ? `/drills?${qs}` : "/drills";
+}
 
 export default function HomePage() {
+  const router = useRouter();
+
   const allDrills = useMemo(() => getAllDrills(), []);
 
   const [filters, setFilters] = useState<DrillFilterState>({
@@ -14,12 +28,17 @@ export default function HomePage() {
     category: "ALL",
   });
 
-  const filtered = useMemo(() => {
+  // Landing page only: show "X z Y" preview for the selected filters.
+  const filteredCount = useMemo(() => {
     return filterDrills(allDrills, {
       ageGroup: filters.ageGroup === "ALL" ? undefined : filters.ageGroup,
       category: filters.category === "ALL" ? undefined : filters.category,
-    });
+    }).length;
   }, [allDrills, filters]);
+
+  const handleSearch = () => {
+    router.push(buildDrillsUrl(filters));
+  };
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-orange-50/40 via-white to-white">
@@ -35,8 +54,8 @@ export default function HomePage() {
                 Tréninková cvičení pro stolní tenis
               </h1>
               <p className="mt-2 max-w-2xl text-sm text-gray-600 md:text-base">
-                Vyber si věkovou kategorii a typ cvičení. Zobrazí se jednoduchý přehled
-                cvičení, který se dá používat přímo v hale na telefonu.
+                Vyber si věkovou kategorii a typ cvičení a klikni na <b>Vyhledat</b>. Pokud nic nevybereš,
+                zobrazí se všechna cvičení.
               </p>
             </div>
           </div>
@@ -49,17 +68,14 @@ export default function HomePage() {
           value={filters}
           onChange={setFilters}
           totalCount={allDrills.length}
-          filteredCount={filtered.length}
+          filteredCount={filteredCount}
+          onSearch={handleSearch}
+          searchLabel="Vyhledat"
         />
 
-        <DrillList
-          drills={filtered}
-          onDrillClick={(id) => {
-            // MVP: detail route will be added in the next iteration.
-            // For now we keep click capability prepared but non-blocking.
-            console.log("Drill clicked:", id);
-          }}
-        />
+        <div className="mt-10 flex justify-center">
+          <HeroLogo />
+        </div>
 
         <Sponsors />
 

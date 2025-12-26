@@ -1,9 +1,11 @@
 /**
  * TableTennis Drills — Domain model (MVP)
  *
- * Notes:
- * - Data uses stable keys (English) for long-term compatibility (e.g. DB, i18n).
- * - UI will show Czech labels mapped from these keys.
+ * Principles:
+ * - Domain values use stable keys (no diacritics, consistent casing) to keep data portable
+ *   across JSON, DB, i18n, and future APIs.
+ * - UI strings (Czech labels) are mapped elsewhere via dictionaries.
+ * - Prefer "const arrays + inferred union types" for strong typing with minimal boilerplate.
  */
 
 export const AGE_GROUPS = ["U9", "U11", "U13", "U15", "U17", "ADULT"] as const;
@@ -32,6 +34,29 @@ export const EQUIPMENT_KEYS = [
   "stopwatch",
 ] as const;
 export type EquipmentKey = (typeof EQUIPMENT_KEYS)[number];
+
+/**
+ * Type-guards for parsing from external sources (URL query, JSON, etc.).
+ * Keeps validation in one place and avoids duplicating enum lists.
+ */
+export function isAgeGroup(value: string | null | undefined): value is AgeGroup {
+  if (!value) return false;
+  return (AGE_GROUPS as readonly string[]).includes(value);
+}
+
+export function isDrillCategory(
+  value: string | null | undefined
+): value is DrillCategory {
+  if (!value) return false;
+  return (DRILL_CATEGORIES as readonly string[]).includes(value);
+}
+
+export function isEquipmentKey(
+  value: string | null | undefined
+): value is EquipmentKey {
+  if (!value) return false;
+  return (EQUIPMENT_KEYS as readonly string[]).includes(value);
+}
 
 export interface Drill {
   /** Stable, unique identifier (slug). Example: "serve-short-backspin-targets" */
