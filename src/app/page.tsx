@@ -7,6 +7,8 @@ import { getAllDrills, filterDrills } from "@/features/drills/data/loadDrills";
 import { DrillFilters, DrillFilterState } from "@/features/drills/components/DrillFilters";
 import { Sponsors } from "@/components/Sponsors";
 import { HeroLogo } from "@/components/HeroLogo";
+import { Footer } from "@/components/Footer";
+import { Header } from "@/components/Header";
 
 function buildDrillsUrl(filters: DrillFilterState): string {
   const params = new URLSearchParams();
@@ -28,7 +30,7 @@ export default function HomePage() {
     category: "ALL",
   });
 
-  // Landing page only: show "X z Y" preview for the selected filters.
+  // Landing page only: internal preview (not displayed in UI).
   const filteredCount = useMemo(() => {
     return filterDrills(allDrills, {
       ageGroup: filters.ageGroup === "ALL" ? undefined : filters.ageGroup,
@@ -42,33 +44,17 @@ export default function HomePage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-orange-50/40 via-white to-white">
-      {/* Top bar */}
-      <header className="border-b border-gray-100 bg-white/80 backdrop-blur">
-        <div className="mx-auto max-w-7xl px-4 py-8">
-          <div className="flex flex-col gap-4">
-            <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-3 py-1 text-xs font-medium text-orange-800">
-                🏓 TableTennis Drills
-              </div>
-              <h1 className="mt-3 text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">
-                Tréninková cvičení pro stolní tenis
-              </h1>
-              <p className="mt-2 max-w-2xl text-sm text-gray-600 md:text-base">
-                Vyber si věkovou kategorii a typ cvičení a klikni na <b>Vyhledat</b>. Pokud nic nevybereš,
-                zobrazí se všechna cvičení.
-              </p>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header title="Tréninková cvičení pro stolní tenis" />
 
       {/* Content */}
       <section className="mx-auto max-w-7xl px-4 py-10">
+        <p className="mb-4 max-w-3xl text-sm text-gray-700 md:text-base">
+          Vyber si věkovou kategorii a typ cvičení a klikni na <b>Vyhledat</b>.
+        </p>
+
         <DrillFilters
           value={filters}
           onChange={setFilters}
-          totalCount={allDrills.length}
-          filteredCount={filteredCount}
           onSearch={handleSearch}
           searchLabel="Vyhledat"
         />
@@ -79,11 +65,7 @@ export default function HomePage() {
 
         <Sponsors />
 
-        {/* Footer */}
-        <footer className="mt-10 flex flex-col gap-2 border-t border-gray-100 pt-6 text-sm text-gray-500 md:flex-row md:items-center md:justify-between">
-          <span>© {new Date().getFullYear()} TableTennis Drills</span>
-          <span className="text-gray-400">MVP • Next.js + TypeScript + Tailwind • Data: JSON</span>
-        </footer>
+        <Footer />
       </section>
     </main>
   );

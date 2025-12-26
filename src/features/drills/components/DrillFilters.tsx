@@ -16,14 +16,12 @@ export type DrillFilterState = {
 type Props = {
   value: DrillFilterState;
   onChange: (next: DrillFilterState) => void;
-  totalCount: number;
-  filteredCount: number;
 
   /**
-   * Optional action button (Landing / Results page).
-   * When provided, the component renders a primary "Search" button.
+   * Primary action (landing + results page).
+   * Triggers navigation / search.
    */
-  onSearch?: () => void;
+  onSearch: () => void;
   searchLabel?: string;
 };
 
@@ -38,20 +36,16 @@ function isCategory(v: string): v is DrillCategory {
 export function DrillFilters({
   value,
   onChange,
-  totalCount,
-  filteredCount,
   onSearch,
   searchLabel = "Vyhledat",
 }: Props) {
-  const isDefault = value.ageGroup === "ALL" && value.category === "ALL";
-
   return (
     <section
       className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm md:p-5"
       aria-label="Filtry cvičení"
     >
-      <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:max-w-3xl md:flex-1">
+      <div className="flex flex-col gap-3 md:flex-row md:items-end">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:flex-1">
           {/* Age group */}
           <label className="flex flex-col gap-1">
             <span className="text-xs font-medium text-gray-600">
@@ -105,36 +99,15 @@ export function DrillFilters({
           </label>
         </div>
 
-        {/* Actions */}
-        <div className="flex items-center justify-between gap-3 md:justify-end">
-          <div className="text-sm text-gray-600" aria-live="polite">
-            <span className="font-medium text-gray-900">{filteredCount}</span>{" "}
-            z <span className="font-medium text-gray-900">{totalCount}</span>
-          </div>
-
-          <div className="flex items-center gap-3">
-            {onSearch ? (
-              <button
-                type="button"
-                className="inline-flex h-11 items-center justify-center rounded-xl bg-gray-900 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-100"
-                onClick={onSearch}
-                title={searchLabel}
-              >
-                {searchLabel}
-              </button>
-            ) : null}
-
-            <button
-              type="button"
-              className="h-11 rounded-xl border border-gray-200 bg-white px-4 text-sm font-medium text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-100 disabled:cursor-not-allowed disabled:opacity-60"
-              onClick={() => onChange({ ageGroup: "ALL", category: "ALL" })}
-              disabled={isDefault}
-              aria-disabled={isDefault}
-              title="Resetovat filtry"
-            >
-              Reset
-            </button>
-          </div>
+        {/* Search */}
+        <div className="md:pl-3">
+          <button
+            type="button"
+            className="inline-flex h-11 w-full items-center justify-center rounded-xl bg-gray-900 px-6 text-sm font-medium text-white shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-100 md:w-auto"
+            onClick={onSearch}
+          >
+            {searchLabel}
+          </button>
         </div>
       </div>
     </section>
