@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { getAllDrills, filterDrills } from "@/features/drills/data/loadDrills";
 import { DrillFilters, DrillFilterState } from "@/features/drills/components/DrillFilters";
 import { DrillList } from "@/features/drills/components/DrillList";
+import { Sponsors } from "@/components/Sponsors";
 
 export default function HomePage() {
   const allDrills = useMemo(() => getAllDrills(), []);
@@ -60,13 +61,7 @@ export default function HomePage() {
           }}
         />
 
-        {/* Sponsors placeholder (MVP) */}
-        <div className="mt-10 rounded-2xl border border-dashed border-gray-300 bg-white p-6">
-          <h2 className="text-sm font-semibold text-gray-900">Sponzoři (placeholder)</h2>
-          <p className="mt-1 text-sm text-gray-600">
-            Sem později doplníme loga sponzorů nebo partnerů. V MVP jen placeholder.
-          </p>
-        </div>
+        <Sponsors />
 
         {/* Footer */}
         <footer className="mt-10 flex flex-col gap-2 border-t border-gray-100 pt-6 text-sm text-gray-500 md:flex-row md:items-center md:justify-between">
