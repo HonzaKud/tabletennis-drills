@@ -48,5 +48,27 @@
     "durationMinutes": 10,
     "equipment": ["multiball_basket", "stopwatch"],
     "tags": ["zásobník", "otevření", "topspin"]
-  }
+  },
+  {
+  "id": "stretching-quadriceps-standing",
+  "title": "Protažení kvadricepsu ve stoje",
+  "description": "Základní statické protažení přední strany stehen.",
+  "category": "stretching",
+  "ageGroup": "ADULT",
+  "durationMinutes": 2,
+  "equipment": [],
+  "tags": ["strečink", "kvadriceps", "rozklus"],
+  "image": "/assets/drills/stretching/quad-stretch-standing.webp"
+},
+{
+  "id": "stretching-hamstrings-seated",
+  "title": "Protažení hamstringů vsedě",
+  "description": "Protažení zadní strany stehen a spodních zad v sedu.",
+  "category": "stretching",
+  "ageGroup": "ADULT",
+  "durationMinutes": 3,
+  "equipment": [],
+  "tags": ["strečink", "hamstringy", "záda"],
+  "image": "/assets/drills/stretching/hamstring-stretch-seated.webp"
+}
 ]
