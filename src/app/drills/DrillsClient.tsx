@@ -4,11 +4,16 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { getAllDrills, filterDrills } from "@/features/drills/data/loadDrills";
-import { DrillFilters, DrillFilterState } from "@/features/drills/components/DrillFilters";
+import {
+  DrillFilters,
+  DrillFilterState,
+} from "@/features/drills/components/DrillFilters";
 import { DrillList } from "@/features/drills/components/DrillList";
 import { isAgeGroup, isDrillCategory } from "@/features/drills/types/drill";
 
-function parseFilterStateFromSearchParams(params: URLSearchParams): DrillFilterState {
+function parseFilterStateFromSearchParams(
+  params: URLSearchParams
+): DrillFilterState {
   const ageGroupRaw = params.get("ageGroup");
   const categoryRaw = params.get("category");
 
@@ -26,6 +31,17 @@ function buildDrillsUrl(filters: DrillFilterState): string {
 
   const qs = params.toString();
   return qs ? `/drills?${qs}` : "/drills";
+}
+
+function buildDrillDetailUrl(drillId: string, urlFilters: DrillFilterState): string {
+  const params = new URLSearchParams();
+
+  if (urlFilters.ageGroup !== "ALL") params.set("ageGroup", urlFilters.ageGroup);
+  if (urlFilters.category !== "ALL") params.set("category", urlFilters.category);
+
+  const qs = params.toString();
+  const base = `/drills/${encodeURIComponent(drillId)}`;
+  return qs ? `${base}?${qs}` : base;
 }
 
 function formatCzCount(n: number): string {
@@ -64,6 +80,10 @@ export function DrillsClient() {
     router.push(buildDrillsUrl(draftFilters));
   };
 
+  const openDrillDetail = (drillId: string) => {
+    router.push(buildDrillDetailUrl(drillId, urlFilters));
+  };
+
   return (
     <>
       <DrillFilters
@@ -81,12 +101,7 @@ export function DrillsClient() {
       </div>
 
       <div className="mt-6">
-        <DrillList
-          drills={filtered}
-          onDrillClick={(id) => {
-            console.log("Drill clicked:", id);
-          }}
-        />
+        <DrillList drills={filtered} onDrillClick={openDrillDetail} />
       </div>
     </>
   );
