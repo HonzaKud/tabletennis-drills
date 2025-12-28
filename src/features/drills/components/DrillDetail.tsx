@@ -98,7 +98,8 @@ export function DrillDetail({
 
             {drill.equipment.length > 0 && (
               <span className="rounded-full bg-gray-50 px-2.5 py-1 text-xs font-medium text-gray-700">
-                Pomůcky: {drill.equipment.map((k) => EQUIPMENT_LABELS[k]).join(", ")}
+                Pomůcky:{" "}
+                {drill.equipment.map((k) => EQUIPMENT_LABELS[k]).join(", ")}
               </span>
             )}
           </div>
@@ -135,35 +136,6 @@ export function DrillDetail({
           )}
         </div>
       </article>
-
-      {/* Bottom nav (nice on mobile) */}
-      <div className="mt-6 flex items-center justify-between gap-3">
-        {prevHref ? (
-          <Link
-            href={prevHref}
-            className="inline-flex flex-1 items-center justify-center rounded-xl bg-gray-900 px-4 py-3 text-sm font-medium text-white shadow-sm hover:bg-gray-800"
-          >
-            ← {prevLabel}
-          </Link>
-        ) : (
-          <span className="inline-flex flex-1 items-center justify-center rounded-xl bg-gray-100 px-4 py-3 text-sm font-medium text-gray-400">
-            ← {prevLabel}
-          </span>
-        )}
-
-        {nextHref ? (
-          <Link
-            href={nextHref}
-            className="inline-flex flex-1 items-center justify-center rounded-xl bg-gray-900 px-4 py-3 text-sm font-medium text-white shadow-sm hover:bg-gray-800"
-          >
-            {nextLabel} →
-          </Link>
-        ) : (
-          <span className="inline-flex flex-1 items-center justify-center rounded-xl bg-gray-100 px-4 py-3 text-sm font-medium text-gray-400">
-            {nextLabel} →
-          </span>
-        )}
-      </div>
     </main>
   );
 }
