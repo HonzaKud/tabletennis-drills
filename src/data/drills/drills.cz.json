@@ -70,5 +70,125 @@
   "equipment": [],
   "tags": ["strečink", "hamstringy", "záda"],
   "image": "/assets/drills/stretching/hamstring-stretch-seated.webp"
+},
+{
+  "id": "regular-topspin-bh-middle-fh-cycle",
+  "title": "Pravidelná kombinace BH–střed–BH–FH (topspin)",
+  "description": "Pravidelná kombinace bez servisu: backhand → střed (vždy forehand) → backhand → forehand. Hráč A hraje celou kombinaci topspinem, hráč B blokuje. Kombinaci lze hrát směrově do backhandu, forehandu nebo na střed dle domluvy.",
+  "category": "regular_combo",
+  "ageGroup": "U13",
+  "durationMinutes": 8,
+  "equipment": [],
+  "tags": [
+    "pravidelné",
+    "topspin",
+    "blok",
+    "přesun",
+    "koordinace"
+  ]
+},
+{
+  "id": "regular-topspin-fh-middle-fh-bh-cycle",
+  "title": "Pravidelná kombinace FH–střed–FH–BH (topspin)",
+  "description": "Pravidelná kombinace bez servisu: forehand → střed (vždy forehand) → forehand → backhand. Hráč A hraje celou kombinaci topspinem (FH i BH), hráč B blokuje. Směr umístění se domlouvá (do FH / do BH / na střed) a lze ho po pár minutách změnit. Opakuje se nepřetržitě do kola.",
+  "category": "regular_combo",
+  "ageGroup": "U13",
+  "durationMinutes": 8,
+  "equipment": [],
+  "tags": ["pravidelné", "topspin", "blok", "přesun", "střed", "stabilita"]
+},
+{
+  "id": "serve-short-backspin-bh-open-fh-fh-middle-switch",
+  "title": "Servis krátký backspin → BH otevření → FH–FH (střed) s výměnou směru",
+  "description": "Pravidelná kombinace se servisem: krátký servis se spodní falší, soupeř krátce přijme (pink) do backhandu. Útočník otevře backhandovým topspinem, pokračuje forehandovým topspinem a poté forehandovým topspinem ze středu. Poslední úder jde vždy na opačnou stranu než první dva topspiny (výměna směru). Po této sekvenci se výměna dohrává volně zápasovým způsobem.",
+  "category": "serve_combo",
+  "ageGroup": "U15",
+  "durationMinutes": 12,
+  "equipment": [],
+  "tags": [
+    "servis",
+    "backspin",
+    "otevření",
+    "topspin",
+    "změna směru",
+    "třetí míč",
+    "zápasová hra"
+  ]
+},
+{
+  "id": "serve-short-backspin-fh-open-bh-middle-switch",
+  "title": "Servis krátký backspin → FH otevření → BH → FH (střed) s výměnou směru",
+  "description": "Pravidelná kombinace se servisem: krátký servis se spodní falší, soupeř krátce přijme. Útočník zahraje forehandový topspin z forehandu, pokračuje backhandovým topspinem z backhandu a poté forehandovým topspinem ze středu. Třetí úder jde vždy na opačnou stranu než první dva topspiny (výměna směru). Soupeř první dva údery blokuje, po třetím úderu se výměna dohrává volně zápasovým způsobem.",
+  "category": "serve_combo",
+  "ageGroup": "U15",
+  "durationMinutes": 12,
+  "equipment": [],
+  "tags": [
+    "servis",
+    "backspin",
+    "otevření",
+    "topspin",
+    "změna směru",
+    "střed",
+    "třetí míč",
+    "zápasová hra"
+  ]
+},
+{
+  "id": "regular-cross-line-fh-bh-cycle",
+  "title": "Pravidelně křížem vs. po lajně (FH–BH cyklus)",
+  "description": "Pravidelná rozehrávací kombinace bez servisu pro hráče se stejnou rukou (pravák–pravák / levák–levák). Jeden hráč hraje všechny údery křížem, druhý všechny údery po lajně. Sekvence: FH křížem → FH po lajně (do BH) → BH křížem → BH po lajně (do FH) a stále dokola. Důraz na rytmus, kontrolu a stabilitu úderů.",
+  "category": "regular_combo",
+  "ageGroup": "U11",
+  "durationMinutes": 8,
+  "equipment": [],
+  "tags": [
+    "rozehrávka",
+    "pravidelné",
+    "křížem",
+    "po lajně",
+    "forehand",
+    "backhand",
+    "rytmus",
+    "kontrola"
+  ]
+},
+{
+  "id": "serve-backspin-bh-open-cross-jam-bh-middle",
+  "title": "Servis backspin → BH otevření → křížem na hranici BH/střed (přechod)",
+  "description": "Pravidelně-nepravidelná kombinace se servisem: krátký servis se spodní rotací, soupeř přijme (pink) do backhandu. Útočník otevře backhandovým topspinem křížem. Poté soupeř blokuje převážně křížem do zóny mezi backhandem a středem (\"jam\" na hraně), hledá hranici přechodu a mění umístění tak, aby útočník musel rozhodovat mezi BH topspinem a FH topspinem ze středu. Hraje se kontinuálně do nekonečna, bez zakončení.",
+  "category": "serve_combo",
+  "ageGroup": "U17",
+  "durationMinutes": 10,
+  "equipment": [],
+  "tags": [
+    "servis",
+    "backspin",
+    "otevření",
+    "topspin",
+    "blok",
+    "křížem",
+    "přechod",
+    "rozhodování",
+    "nepravidelné"
+  ]
+},
+{
+  "id": "irregular-middle-corner-topspin-cycle",
+  "title": "Nepravidelně: střed ↔ roh (topspinový přechod)",
+  "description": "Nepravidelná kombinace bez servisu: soupeř hraje kontrolní míče na střed, útočník ze středu vždy hraje forehandový topspin. Následující míč jde nepravidelně do jednoho z rohů – do forehandu nebo backhandu. Z rohu útočník hraje odpovídající topspin (FH nebo BH) a vrací se zpět na střed, kde opět hraje forehandový topspin. Kombinace se opakuje do nekonečna, soupeř může cíleně měnit roh dle domluvy.",
+  "category": "irregular_combo",
+  "ageGroup": "U15",
+  "durationMinutes": 10,
+  "equipment": [],
+  "tags": [
+    "nepravidelné",
+    "topspin",
+    "střed",
+    "roh",
+    "přechod",
+    "pohyb",
+    "rozhodování"
+  ]
 }
 ]
