@@ -44,16 +44,12 @@ export function isAgeGroup(value: string | null | undefined): value is AgeGroup 
   return (AGE_GROUPS as readonly string[]).includes(value);
 }
 
-export function isDrillCategory(
-  value: string | null | undefined
-): value is DrillCategory {
+export function isDrillCategory(value: string | null | undefined): value is DrillCategory {
   if (!value) return false;
   return (DRILL_CATEGORIES as readonly string[]).includes(value);
 }
 
-export function isEquipmentKey(
-  value: string | null | undefined
-): value is EquipmentKey {
+export function isEquipmentKey(value: string | null | undefined): value is EquipmentKey {
   if (!value) return false;
   return (EQUIPMENT_KEYS as readonly string[]).includes(value);
 }
@@ -76,6 +72,9 @@ export interface Drill {
 
   /** Recommended duration in minutes */
   durationMinutes: number;
+
+  /** Optional image path (served from /public). Example: "/assets/drills/stretching/hamstring-stretch-seated.webp" */
+  image?: string;
 
   /** Optional equipment (stable keys), empty array means "no special equipment" */
   equipment: EquipmentKey[];

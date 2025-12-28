@@ -1,5 +1,10 @@
+import Image from "next/image";
 import { Drill } from "../types/drill";
-import { AGE_GROUP_LABELS, DRILL_CATEGORY_LABELS, EQUIPMENT_LABELS } from "../constants/labels";
+import {
+  AGE_GROUP_LABELS,
+  DRILL_CATEGORY_LABELS,
+  EQUIPMENT_LABELS,
+} from "../constants/labels";
 
 type Props = {
   drill: Drill;
@@ -21,7 +26,7 @@ export function DrillCard({ drill, onClick }: Props) {
   return (
     <article
       className={[
-        "group relative rounded-2xl border border-gray-200 bg-white p-5 shadow-sm",
+        "group relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-5 shadow-sm",
         "transition-shadow hover:shadow-md",
         clickable ? "cursor-pointer" : "",
       ].join(" ")}
@@ -37,6 +42,20 @@ export function DrillCard({ drill, onClick }: Props) {
       }
       aria-label={clickable ? `Otevřít cvičení: ${drill.title}` : undefined}
     >
+      {/* Image (optional) */}
+      {drill.image && (
+        <div className="relative mb-4 aspect-[4/3] w-full overflow-hidden rounded-xl bg-gray-50">
+          <Image
+            src={drill.image}
+            alt={drill.title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 50vw"
+            priority={false}
+          />
+        </div>
+      )}
+
       {/* Top row */}
       <div className="flex items-start justify-between gap-3">
         <h3 className="text-base font-semibold leading-snug text-gray-900 md:text-lg">
@@ -73,7 +92,7 @@ export function DrillCard({ drill, onClick }: Props) {
         )}
       </div>
 
-      {/* Tags (MVP: shown as subtle chips) */}
+      {/* Tags */}
       {drill.tags.length > 0 && (
         <div className="mt-4 flex flex-wrap gap-2">
           {drill.tags.slice(0, 6).map((t) => (
