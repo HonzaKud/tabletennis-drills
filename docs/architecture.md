@@ -1,189 +1,263 @@
-# Architektura projektu – TableTennis Drills
+Architektura projektu – TableTennis Drills
 
-Tento dokument popisuje architekturu projektu TableTennis Drills,
-hlavní technická rozhodnutí a strukturu aplikace.
+Tento dokument popisuje architekturu projektu TableTennis Drills, hlavní technická rozhodnutí a strukturu aplikace v aktuálním stavu (MVP).
 
 Cílem architektury je:
-- umožnit rychlý vývoj MVP
-- zachovat čistotu a čitelnost kódu
-- připravit projekt na budoucí rozšíření (auth, admin, databáze, média)
-- minimalizovat nutnost velkých refaktorů v dalších fázích
 
----
+umožnit rychlý vývoj funkčního MVP
+
+zachovat čitelnost a jednoduchost kódu
+
+jasně oddělit doménovou logiku, UI a data
+
+připravit projekt na budoucí rozšíření bez nutnosti velkých refaktorů
 
 1) Přehled architektury
 
 Aplikace je postavena jako moderní webová aplikace s využitím:
-- Next.js (App Router)
-- React
-- TypeScript
-- Tailwind CSS
-- JSON dat (MVP)
+
+Next.js (App Router)
+
+React
+
+TypeScript
+
+Tailwind CSS
+
+JSON dat (MVP)
 
 Architektura je navržena tak, aby:
-- UI bylo oddělené od datové vrstvy
-- doménová logika byla soustředěná do feature modulů
-- datový zdroj (JSON → DB) šel vyměnit bez zásahu do UI
 
----
+UI nepracovalo přímo s datovým zdrojem
+
+doménová logika byla soustředěna do feature modulů
+
+datový zdroj (JSON → databáze / API) šel vyměnit bez zásahu do UI
 
 2) Rozhodnutí: Next.js + App Router
+Důvody volby Next.js
 
-Důvody volby Next.js:
-- server-side rendering a static rendering
-- vestavěný routing
-- API routy (připraveno pro budoucí backend)
-- bezproblémový deployment na Vercel
+vestavěný routing
 
-App Router:
-- moderní standard Next.js
-- lepší práce s layouty
-- možnost server components
-- dlouhodobá udržitelnost
+možnost server-side i static renderingu
 
----
+jasná struktura projektu
+
+bezproblémový deployment na Vercel
+
+připravenost na budoucí backend (API routes)
+
+App Router
+
+moderní standard Next.js
+
+práce s layouty a routami
+
+oddělení server a client komponent
+
+dlouhodobá udržitelnost projektu
 
 3) Rozhodnutí: React + TypeScript
 
-- React jako UI knihovna (součást Next.js)
-- TypeScript zajišťuje:
-  - typovou bezpečnost
-  - lepší refaktoring
-  - čitelné a konzistentní datové modely
-  - nižší chybovost při růstu projektu
+React jako UI knihovna (součást Next.js)
 
----
+TypeScript zajišťuje:
+
+typovou bezpečnost
+
+konzistentní datový model
+
+snadnější refaktoring
+
+nižší chybovost při růstu projektu
 
 4) Vrstvy aplikace
+Routing a stránky (src/app)
 
-Routing a stránky (src/app):
-- URL struktura
-- layouty
-- error handling
-- server-side načítání dat
+definice URL struktury
 
-Feature vrstva (src/features):
-- doménová logika aplikace
-- komponenty, typy a helpery
-- příklad: features/drills
+layouty a stránky
 
-Datová vrstva (src/data + src/lib/data):
-- JSON data
-- abstrakce nad zdrojem dat
-- validace
+navigace mezi stránkami
 
-Sdílené utility (src/lib):
-- konstanty
-- helper funkce
-- konfigurační hodnoty
+client a server komponenty dle potřeby
 
-Layout a UI komponenty (src/components):
-- Header
-- Footer
-- Sponsors
-- znovupoužitelné UI prvky
+Feature vrstva (src/features)
 
----
+doménová logika aplikace
 
-5) Struktura adresářů (vysoká úroveň)
+komponenty, typy a helpery vztahující se ke konkrétní doméně
+
+příklad: features/drills
+
+Datová vrstva (src/data)
+
+JSON soubory sloužící jako zdroj dat v MVP
+
+data jsou verzována v Git repozitáři
+
+Sdílené UI komponenty (src/components)
+
+layoutové a znovupoužitelné komponenty
+
+Header, Footer, Sponsors apod.
+
+Dokumentace (docs)
+
+architektura
+
+datový model
+
+technická rozhodnutí (ADR)
+
+5) Struktura adresářů (aktuální)
 
 src/
-- app/
-- features/
-- data/
-- lib/
-- components/
-- styles/
-- tests/
 
----
+app/
+
+features/
+
+data/
+
+components/
+
+styles/
+
+docs/
+
+Adresářová struktura je záměrně jednoduchá a odpovídá rozsahu MVP.
 
 6) Feature-first přístup
 
-Doménová logika je strukturovaná feature-first.
+Projekt používá feature-first strukturu.
+
+Příklad struktury:
 
 features/drills/
-- components/
-- lib/
-- types/
-- index.ts
+
+components/
+
+data/
+
+types/
+
+index.ts
 
 Výhody:
-- jasné oddělení domén
-- snadné přidávání dalších feature
-- lepší orientace v projektu
 
----
+jasné oddělení doménové logiky
+
+snadné přidávání dalších feature
+
+lepší orientace v projektu
+
+omezení vzájemných závislostí
 
 7) Datová architektura (MVP)
+Zdroj dat
 
-Zdroj dat:
-- JSON soubory v src/data/drills/
-- jazyk dat: čeština
-- data verzovaná v Git repozitáři
-- struktura dat a význam jednotlivých polí jsou detailně popsány v docs/data-model.md
+JSON soubory v src/data/drills/
 
-Přístup k datům:
-- UI nikdy nečte JSON přímo
-- data se načítají přes lib/data
-- umožňuje přechod na DB bez refaktoru
+jazyk dat: čeština
 
----
+data jsou součástí repozitáře
 
-8) Stabilní klíče vs. popisky
+struktura dat je popsána v docs/data-model.md
+
+Přístup k datům
+
+UI komponenty nepracují přímo s JSON
+
+data jsou načítána přes loader ve feature vrstvě
+
+UI pracuje pouze s typovanými daty
+
+Tento přístup umožňuje:
+
+pozdější přechod na databázi nebo API
+
+zachování stejného rozhraní pro UI
+
+8) Stabilní klíče vs. UI popisky
 
 Rozhodnutí:
-- data používají stabilní klíče
-- UI zobrazuje české popisky
+
+data používají stabilní interní klíče
+
+UI zobrazuje české popisky
 
 Příklad:
-ageGroup = U13
-equipment = cones, ladder
+
+Data:
+ageGroup = "U13"
+equipment = ["cones", "ladder"]
 
 UI:
 cones → Kloboučky
 ladder → Koordinační žebřík
 
----
+Tento přístup:
+
+zajišťuje stabilitu dat
+
+umožňuje budoucí vícejazyčnost
+
+odděluje data od prezentace
 
 9) Routingová struktura
+MVP
 
-MVP:
-- /
-- /drills/[id]
+/ – landing stránka s filtry
 
-Budoucí:
-- /login
-- /admin
-- /admin/drills
-- /profile
+/drills – seznam cvičení (výsledky)
 
----
+Budoucí rozšíření
+
+/drills/[id] – detail cvičení
+
+/login
+
+/admin
+
+/admin/drills
+
+/profile
 
 10) Responzivita a design
 
-- mobile-first přístup
-- Tailwind CSS
-- použití v hale / tělocvičně
+mobile-first přístup
 
----
+Tailwind CSS
+
+jednoduché a přehledné UI
+
+optimalizováno pro použití při tréninku
 
 11) Připravenost na budoucí rozšíření
 
-Architektura počítá s:
-- autentizací
-- admin rozhraním
-- validací dat
-- databází
-- médii
-- vícejazyčností
+Architektura je připravena na:
 
----
+autentizaci uživatelů
+
+admin rozhraní
+
+validaci dat
+
+přechod na databázi
+
+práci s médii (obrázky, videa)
+
+vícejazyčnost
 
 12) Shrnutí
 
-Architektura:
-- podporuje rychlý vývoj MVP
-- je čitelná a udržitelná
-- odpovídá moderním postupům
-- umožňuje dlouhodobý rozvoj projektu
+Architektura projektu:
+
+odpovídá aktuálnímu stavu MVP
+
+podporuje rychlý vývoj
+
+je čitelná a udržitelná
+
+umožňuje postupné rozšiřování bez zásadních změn

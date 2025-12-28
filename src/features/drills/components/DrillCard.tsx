@@ -42,20 +42,6 @@ export function DrillCard({ drill, onClick }: Props) {
       }
       aria-label={clickable ? `Otevřít cvičení: ${drill.title}` : undefined}
     >
-      {/* Image (optional) */}
-      {drill.image && (
-        <div className="relative mb-4 aspect-[4/3] w-full overflow-hidden rounded-xl bg-gray-50">
-          <Image
-            src={drill.image}
-            alt={drill.title}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 50vw"
-            priority={false}
-          />
-        </div>
-      )}
-
       {/* Top row */}
       <div className="flex items-start justify-between gap-3">
         <h3 className="text-base font-semibold leading-snug text-gray-900 md:text-lg">
@@ -73,6 +59,20 @@ export function DrillCard({ drill, onClick }: Props) {
       <p className="mt-2 line-clamp-3 text-sm text-gray-600">
         {drill.description}
       </p>
+
+      {/* Image (optional, placed below description) */}
+      {drill.image && (
+        <div className="relative mt-4 aspect-[4/3] w-full overflow-hidden rounded-xl bg-gray-50">
+          <Image
+            src={drill.image}
+            alt={drill.title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 50vw"
+            priority={false}
+          />
+        </div>
+      )}
 
       {/* Meta chips */}
       <div className="mt-4 flex flex-wrap items-center gap-2">
