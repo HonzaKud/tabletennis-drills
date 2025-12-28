@@ -52,14 +52,18 @@ export function DrillFilters({
               Věková kategorie
             </span>
             <select
-              className="h-11 rounded-xl border border-gray-200 bg-white px-3 text-sm text-gray-900 shadow-sm focus:border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-100"
+              className="h-11 rounded-xl border border-gray-200 bg-white px-3 text-sm text-gray-900 shadow-sm focus:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-100"
               value={value.ageGroup}
               onChange={(e) => {
                 const raw = e.target.value;
                 onChange({
                   ...value,
                   ageGroup:
-                    raw === "ALL" ? "ALL" : isAgeGroup(raw) ? raw : value.ageGroup,
+                    raw === "ALL"
+                      ? "ALL"
+                      : isAgeGroup(raw)
+                      ? raw
+                      : value.ageGroup,
                 });
               }}
             >
@@ -78,14 +82,18 @@ export function DrillFilters({
               Typ cvičení
             </span>
             <select
-              className="h-11 rounded-xl border border-gray-200 bg-white px-3 text-sm text-gray-900 shadow-sm focus:border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-100"
+              className="h-11 rounded-xl border border-gray-200 bg-white px-3 text-sm text-gray-900 shadow-sm focus:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-100"
               value={value.category}
               onChange={(e) => {
                 const raw = e.target.value;
                 onChange({
                   ...value,
                   category:
-                    raw === "ALL" ? "ALL" : isCategory(raw) ? raw : value.category,
+                    raw === "ALL"
+                      ? "ALL"
+                      : isCategory(raw)
+                      ? raw
+                      : value.category,
                 });
               }}
             >
@@ -103,7 +111,12 @@ export function DrillFilters({
         <div className="md:pl-3">
           <button
             type="button"
-            className="inline-flex h-11 w-full items-center justify-center rounded-xl bg-gray-900 px-6 text-sm font-medium text-white shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-100 md:w-auto"
+            className={[
+              "inline-flex h-11 w-full items-center justify-center rounded-xl px-6 text-sm font-medium text-white shadow-sm",
+              "bg-[#256CC6] hover:bg-[#1F5AA6]",
+              "focus:outline-none focus:ring-2 focus:ring-blue-200",
+              "md:w-auto",
+            ].join(" ")}
             onClick={onSearch}
           >
             {searchLabel}
