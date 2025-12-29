@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  AGE_GROUPS,
-  DRILL_CATEGORIES,
-  AgeGroup,
-  DrillCategory,
-} from "../types/drill";
+import { AGE_GROUPS, DRILL_CATEGORIES, AgeGroup, DrillCategory } from "../types/drill";
 import { AGE_GROUP_LABELS, DRILL_CATEGORY_LABELS } from "../constants/labels";
 
 export type DrillFilterState = {
@@ -33,12 +28,7 @@ function isCategory(v: string): v is DrillCategory {
   return (DRILL_CATEGORIES as readonly string[]).includes(v);
 }
 
-export function DrillFilters({
-  value,
-  onChange,
-  onSearch,
-  searchLabel = "Vyhledat",
-}: Props) {
+export function DrillFilters({ value, onChange, onSearch, searchLabel = "Vyhledat" }: Props) {
   return (
     <section
       className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm md:p-5"
@@ -48,9 +38,7 @@ export function DrillFilters({
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:flex-1">
           {/* Age group */}
           <label className="flex flex-col gap-1">
-            <span className="text-xs font-medium text-gray-600">
-              Věková kategorie
-            </span>
+            <span className="text-xs font-medium text-gray-600">Věková kategorie</span>
             <select
               className="h-11 rounded-xl border border-gray-200 bg-white px-3 text-sm text-gray-900 shadow-sm focus:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-100"
               value={value.ageGroup}
@@ -58,19 +46,14 @@ export function DrillFilters({
                 const raw = e.target.value;
                 onChange({
                   ...value,
-                  ageGroup:
-                    raw === "ALL"
-                      ? "ALL"
-                      : isAgeGroup(raw)
-                      ? raw
-                      : value.ageGroup,
+                  ageGroup: raw === "ALL" ? "ALL" : isAgeGroup(raw) ? raw : value.ageGroup,
                 });
               }}
             >
               <option value="ALL">Všechny</option>
               {AGE_GROUPS.map((k) => (
                 <option key={k} value={k}>
-                  {AGE_GROUP_LABELS[k]}
+                  {AGE_GROUP_LABELS[k] ?? k}
                 </option>
               ))}
             </select>
@@ -78,9 +61,7 @@ export function DrillFilters({
 
           {/* Category */}
           <label className="flex flex-col gap-1">
-            <span className="text-xs font-medium text-gray-600">
-              Typ cvičení
-            </span>
+            <span className="text-xs font-medium text-gray-600">Typ cvičení</span>
             <select
               className="h-11 rounded-xl border border-gray-200 bg-white px-3 text-sm text-gray-900 shadow-sm focus:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-100"
               value={value.category}
@@ -88,19 +69,14 @@ export function DrillFilters({
                 const raw = e.target.value;
                 onChange({
                   ...value,
-                  category:
-                    raw === "ALL"
-                      ? "ALL"
-                      : isCategory(raw)
-                      ? raw
-                      : value.category,
+                  category: raw === "ALL" ? "ALL" : isCategory(raw) ? raw : value.category,
                 });
               }}
             >
               <option value="ALL">Všechny</option>
               {DRILL_CATEGORIES.map((k) => (
                 <option key={k} value={k}>
-                  {DRILL_CATEGORY_LABELS[k]}
+                  {DRILL_CATEGORY_LABELS[k] ?? k}
                 </option>
               ))}
             </select>

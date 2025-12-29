@@ -9,7 +9,17 @@
  */
 
 export const AGE_GROUPS = ["U9", "U11", "U13", "U15", "U17", "ADULT"] as const;
+/**
+ * Age groups selectable in UI (filters). Does NOT include "ALL".
+ */
 export type AgeGroup = (typeof AGE_GROUPS)[number];
+
+/**
+ * Age group stored in data (JSON).
+ * Allows "ALL" to mean "suitable for all age groups".
+ */
+export const DRILL_AGE_GROUPS = ["ALL", ...AGE_GROUPS] as const;
+export type DrillAgeGroup = (typeof DRILL_AGE_GROUPS)[number];
 
 export const DRILL_CATEGORIES = [
   "serve",
@@ -44,6 +54,11 @@ export function isAgeGroup(value: string | null | undefined): value is AgeGroup 
   return (AGE_GROUPS as readonly string[]).includes(value);
 }
 
+export function isDrillAgeGroup(value: string | null | undefined): value is DrillAgeGroup {
+  if (!value) return false;
+  return (DRILL_AGE_GROUPS as readonly string[]).includes(value);
+}
+
 export function isDrillCategory(value: string | null | undefined): value is DrillCategory {
   if (!value) return false;
   return (DRILL_CATEGORIES as readonly string[]).includes(value);
@@ -67,13 +82,16 @@ export interface Drill {
   /** Stable category key used for filtering */
   category: DrillCategory;
 
-  /** Stable age group key used for filtering */
-  ageGroup: AgeGroup;
+  /**
+   * Age group stored in data.
+   * Can be a specific age group or "ALL" (meaning suitable for all age groups).
+   */
+  ageGroup: DrillAgeGroup;
 
   /** Recommended duration in minutes */
   durationMinutes: number;
 
-  /** Optional image path (served from /public). Example: "/assets/drills/stretching/hamstring-stretch-seated.webp" */
+  /** Optional image path (served from /public). Example: "/assets/drills/stretching/hamstring.webp" */
   image?: string;
 
   /** Optional equipment (stable keys), empty array means "no special equipment" */

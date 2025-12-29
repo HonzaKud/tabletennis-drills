@@ -7,17 +7,14 @@
  * - This file is the single source of truth for UI naming
  */
 
-import {
-  AgeGroup,
-  DrillCategory,
-  EquipmentKey,
-} from "../types/drill";
+import { DrillAgeGroup, DrillCategory, EquipmentKey } from "../types/drill";
 
 /* =========================
    Age groups
 ========================= */
 
-export const AGE_GROUP_LABELS: Record<AgeGroup, string> = {
+export const AGE_GROUP_LABELS: Record<DrillAgeGroup, string> = {
+  ALL: "Všechny věkové kategorie",
   U9: "U9",
   U11: "U11",
   U13: "U13",
