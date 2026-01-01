@@ -1,10 +1,12 @@
 @import "tailwindcss";
 
+/* Základní barevné proměnné – vždy světlý režim */
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
 
+/* Tailwind theme binding */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -12,13 +14,21 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* ⚠️ ZRUŠENO:
+   Dark mode přes prefers-color-scheme byl odstraněn,
+   aby mobil nikdy nepřepínal pozadí na černé.
+*/
+
+/*
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
 }
+*/
 
+/* Globální styl body */
 body {
   background: var(--background);
   color: var(--foreground);
