@@ -36,6 +36,8 @@ export function Sponsors({
   title = "Projekt podporují",
   sponsors = DEFAULT_SPONSORS,
 }: Props) {
+  const isOdd = sponsors.length % 2 === 1;
+
   return (
     <section
       aria-label={title}
@@ -46,32 +48,39 @@ export function Sponsors({
       </div>
 
       <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
-        {sponsors.map((s) => (
-          <a
-            key={s.id}
-            href={s.href ?? "https://www.google.com"}
-            target="_blank"
-            rel="noreferrer"
-            className={[
-              "flex items-center justify-center",
-              "rounded-xl border border-gray-200 bg-white px-4 py-3 shadow-sm",
-              "hover:bg-gray-50 hover:border-gray-300",
-              "focus:outline-none focus:ring-2 focus:ring-blue-100",
-              "transition",
-            ].join(" ")}
-            aria-label={s.name}
-            title={s.name}
-          >
-            <Image
-              src={s.logo}
-              alt={s.name}
-              width={240}
-              height={96}
-              className="h-12 w-auto select-none object-contain"
-              priority={false}
-            />
-          </a>
-        ))}
+        {sponsors.map((s, idx) => {
+          const isLast = idx === sponsors.length - 1;
+          const centerLastOnMobile = isOdd && isLast;
+
+          return (
+            <a
+              key={s.id}
+              href={s.href ?? "https://www.google.com"}
+              target="_blank"
+              rel="noreferrer"
+              className={[
+                "flex items-center justify-center",
+                "rounded-xl border border-gray-200 bg-white px-4 py-3 shadow-sm",
+                "hover:bg-gray-50 hover:border-gray-300",
+                "focus:outline-none focus:ring-2 focus:ring-blue-100",
+                "transition",
+                // If odd count: last sponsor spans both columns on mobile so it centers
+                centerLastOnMobile ? "col-span-2 sm:col-span-1" : "",
+              ].join(" ")}
+              aria-label={s.name}
+              title={s.name}
+            >
+              <Image
+                src={s.logo}
+                alt={s.name}
+                width={240}
+                height={96}
+                className="h-12 w-auto select-none object-contain"
+                priority={false}
+              />
+            </a>
+          );
+        })}
       </div>
     </section>
   );
