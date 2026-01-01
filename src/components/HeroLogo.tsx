@@ -25,27 +25,19 @@ function sizeClasses(size: NonNullable<Props["size"]>) {
   }
 }
 
-export function HeroLogo({
-  size = "hero",
-  className,
-}: Props) {
+export function HeroLogo({ size = "hero", className }: Props) {
   const s = sizeClasses(size);
 
   return (
     <section
       aria-label="Hlavní logo aplikace"
       className={[
-        "w-full max-w-2xl rounded-2xl border border-gray-100 bg-white p-8 text-center",
+        // Keep the original "card" spacing, but make it visually invisible.
+        "w-full max-w-2xl rounded-2xl border border-transparent bg-transparent p-8 text-center shadow-none",
         className ?? "",
       ].join(" ")}
     >
-      <div
-        className={[
-          "mx-auto grid place-items-center bg-white",
-          s.box,
-        ].join(" ")}
-        aria-hidden="true"
-      >
+      <div className={["mx-auto grid place-items-center", s.box].join(" ")} aria-hidden="true">
         <Image
           src={AppLogo as StaticImageData}
           alt="Logo aplikace TableTennis Drills"
