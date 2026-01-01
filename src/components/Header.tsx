@@ -25,18 +25,19 @@ export function Header({
       <div className="mx-auto flex max-w-6xl items-center px-5 py-3">
         <div>
           <h1 className="flex items-center gap-3 text-2xl font-bold tracking-tight text-white md:text-2xl">
+            {/* Brand link: no frame/background, larger readable logo, accessible focus ring */}
             <a
               href="/"
               aria-label="Domů"
               title="Domů"
-              className="inline-flex items-center justify-center rounded-xl border border-white/20 bg-white/10 p-2 shadow-sm backdrop-blur transition hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/30"
+              className="inline-flex items-center justify-center rounded-md focus:outline-none focus:ring-2 focus:ring-white/40 focus:ring-offset-2 focus:ring-offset-[#0D2C56]"
             >
               <Image
                 src={AppLogo as StaticImageData}
                 alt="Logo aplikace"
-                width={32}
-                height={32}
-                className="h-6 w-6"
+                width={48}
+                height={48}
+                className="h-9 w-9 select-none object-contain"
                 priority={false}
               />
             </a>
