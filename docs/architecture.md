@@ -6,13 +6,13 @@ Cílem architektury je umožnit rychlý vývoj funkčního MVP, zachovat čiteln
 
 ## 1) Přehled architektury
 
-Aplikace je postavena jako moderní webová aplikace s využitím následujících technologií: Next.js (App Router), React, TypeScript, Tailwind CSS a JSON dat jako zdroje dat v MVP.
+Aplikace je postavena jako moderní webová aplikace s využitím následujících technologií: Next.js (App Router), React, TypeScript, Tailwind CSS a JSON data jako zdroj dat v MVP.
 
 Architektura je navržena tak, aby UI nepracovalo přímo s datovým zdrojem, doménová logika byla soustředěna do feature modulů a datový zdroj (JSON → databáze / API) šel vyměnit bez zásahu do UI vrstvy.
 
 ## 2) Rozhodnutí: Next.js + App Router
 
-Next.js byl zvolen z následujících důvodů: vestavěný routing, možnost server-side i static renderingu, jasná a škálovatelná struktura projektu, bezproblémový deployment na Vercel a připravenost na budoucí backend (API routes).
+Next.js byl zvolen z následujících důvodů: vestavěný routing, možnost server-side i static renderingu, jasná a škálovatelná struktura projektu, bezproblémový deployment (Vercel / GitHub Pages) a připravenost na budoucí backend (API routes).
 
 App Router je použit jako moderní standard Next.js. Umožňuje práci s layouty a routami, oddělení server a client komponent a dlouhodobou udržitelnost projektu.
 
@@ -35,7 +35,7 @@ Routing odpovídá aktuálnímu MVP:
 
 ### Feature vrstva (`src/features`)
 
-Feature vrstva obsahuje doménovou logiku aplikace. Každá feature (např. `drills`) má vlastní strukturu zahrnující typy, data, helpery a UI komponenty vztahující se ke konkrétní doméně.
+Feature vrstva obsahuje doménovou logiku aplikace. Každá feature (např. `drills`) má vlastní strukturu zahrnující typy, datové loadery, helpery a UI komponenty vztahující se ke konkrétní doméně.
 
 Feature vrstva slouží jako mezivrstva mezi UI a datovým zdrojem.
 
@@ -49,24 +49,34 @@ Zdroj dat je považován za vyměnitelný detail (JSON → databáze / API).
 
 Obsahuje layoutové a znovupoužitelné UI komponenty, které nejsou svázané s konkrétní doménou. Patří sem například Header, Footer, Sponsors a obecné UI prvky.
 
-### Dokumentace (`docs`)
+### Statické assety (`src/assets`)
 
-Adresář `docs` obsahuje technickou dokumentaci projektu, konkrétně architekturu, datový model a technická rozhodnutí (ADR). Dokumentace slouží jako zdroj pravdy pro další vývoj.
+Adresář `src/assets` obsahuje statické grafické podklady používané v aplikaci (loga, SVG, branding, sponzoři apod.). Assety nejsou součástí doménové logiky.
+
+### Dokumentace (`docs` – root projektu)
+
+Adresář `docs` se nachází v kořeni repozitáře a obsahuje technickou dokumentaci projektu – architekturu, datový model a technická rozhodnutí (ADR). Dokumentace slouží jako zdroj pravdy pro další vývoj projektu.
 
 ## 5) Struktura adresářů (aktuální)
 
 Aktuální struktura projektu:
 
-src/
-- app/
-- features/
-- data/
-- components/
-- docs/
+/
+├─ docs/
+│  ├─ architecture.md
+│  ├─ data-model.md
+│  └─ decisions/
+│
+├─ src/
+│  ├─ app/
+│  ├─ features/
+│  ├─ data/
+│  ├─ components/
+│  └─ assets/
+│
+└─ public/
 
-Styly jsou řešeny pomocí Tailwind CSS a globálního souboru `src/app/globals.css`. Samostatný adresář `styles/` není v projektu používán.
-
-Adresářová struktura je záměrně jednoduchá a odpovídá rozsahu MVP.
+Styly jsou řešeny pomocí Tailwind CSS a globálního souboru `src/app/globals.css`. Samostatný adresář `styles/` není v projektu používán. Adresářová struktura je záměrně jednoduchá a odpovídá rozsahu MVP.
 
 ## 6) Feature-first přístup
 
@@ -74,10 +84,10 @@ Projekt používá feature-first strukturu. Každá doména (např. drills) je i
 
 Příklad struktury feature:
 features/drills/
-- components/
-- data/
-- types/
-- index.ts
+├─ components/
+├─ data/
+├─ types/
+└─ index.ts
 
 Tento přístup zajišťuje jasné oddělení doménové logiky, snadné přidávání dalších feature, lepší orientaci v projektu a omezení vzájemných závislostí.
 
@@ -99,7 +109,7 @@ ageGroup = "U13"
 equipment = ["cones", "ladder"]
 
 UI:
-cones → Kloboučky  
+cones → Kloboučky
 ladder → Koordinační žebřík
 
 Tento přístup zajišťuje stabilitu dat, umožňuje budoucí vícejazyčnost a odděluje data od prezentace.
@@ -111,7 +121,7 @@ Aktuální MVP routing:
 - `/drills` – seznam cvičení
 - `/drills/[id]` – detail cvičení
 
-Budoucí rozšíření mohou zahrnovat:
+Možná budoucí rozšíření:
 - `/login`
 - `/admin`
 - `/admin/drills`
@@ -123,8 +133,8 @@ Aplikace je navržena mobile-first přístupem. Styling je realizován pomocí T
 
 ## 11) Připravenost na budoucí rozšíření
 
-Architektura je připravena na autentizaci uživatelů, admin rozhraní, validaci dat, přechod na databázi, práci s médii (obrázky, videa) a vícejazyčnost bez nutnosti zásadních architektonických změn.
+Architektura je připravena na autentizaci uživatelů, admin rozhraní, validaci dat, přechod na databázi / API, práci s médii (obrázky, videa) a vícejazyčnost bez nutnosti zásadních architektonických změn v existujícím kódu.
 
 ## 12) Shrnutí
 
-Architektura projektu TableTennis Drills odpovídá aktuálnímu stavu MVP, podporuje rychlý vývoj, je čitelná a udržitelná a umožňuje postupné rozšiřování bez zásadních změn v existujícím kódu.
+Architektura projektu TableTennis Drills odpovídá aktuálnímu stavu MVP, je čitelná, udržitelná a podporuje rychlý vývoj i budoucí rozšiřování projektu.
