@@ -25,8 +25,8 @@ filtrů.
 
 Projekt je od začátku navržen tak, aby:
 - byl snadno pochopitelný a použitelný přímo v hale / tělocvičně
-- měl čistý a čitelný kód
-- bylo možné ho v budoucnu rozšířit (detail cvičení, média, databáze)
+- měl čistý, čitelný a typově bezpečný kód
+- bylo možné ho postupně rozšiřovat bez zásadních refaktorů
 
 Datový a doménový model je záměrně **obecný**, aby bylo možné aplikaci později
 přizpůsobit i jiným sportům.
@@ -51,7 +51,7 @@ přizpůsobit i jiným sportům.
 
 - Nejprve funkční a stabilní MVP
 - Dokumentace jako zdroj pravdy
-- Postupné rozšiřování bez velkých refaktorů
+- Postupné rozšiřování bez zbytečné komplexity
 
 ---
 
@@ -60,7 +60,12 @@ přizpůsobit i jiným sportům.
 ### Routing (MVP)
 
 - `/` – landing stránka s filtry a úvodem
-- `/drills` – stránka se seznamem cvičení (výsledky)
+- `/drills` – seznam cvičení (výsledky)
+- `/drills/[id]` – **detail cvičení** (již součást MVP)
+
+> Poznámka:  
+> Detail cvičení je v MVP dostupný, i když zatím obsahuje pouze základní data
+> bez médií.
 
 ---
 
@@ -83,16 +88,35 @@ vstupní bod a rozcestník.
 
 ### Filtry (MVP)
 
-- **Věková kategorie**
-  - U9
-  - U11
-  - U13
-  - U15
-  - U17
-  - Dospělí
+#### Věková kategorie (UI)
 
-- **Typ cvičení**
-  - viz seznam níže
+- U9
+- U11
+- U13
+- U15
+- U17
+- Dospělí
+
+#### Speciální hodnota
+
+- **ALL** – cvičení vhodné pro všechny věkové kategorie  
+  (např. rozcvička, strečink)
+
+> V datech je `ALL` reprezentováno explicitně a filtr ho vždy zahrne.
+
+---
+
+### Typ cvičení (UI popisky)
+
+- Servis
+- Kombinace se servisem
+- Kombinace bez servisu
+- Pravidelné kombinace
+- Nepravidelné kombinace
+- Pravidelně–nepravidelné kombinace
+- Rozcvička
+- Strečink
+- Zásobník (multiball)
 
 > Poznámka:  
 > V UI se používají **české popisky**,  
@@ -110,7 +134,22 @@ Zobrazuje základní informace o každém cvičení:
 - věková kategorie
 - doporučená délka
 
-Slouží jako rychlý přehled bez nutnosti detailního zobrazení.
+Slouží jako rychlý přehled bez nutnosti detailního studia.
+
+---
+
+### Detail cvičení (`/drills/[id]`)
+
+Obsahuje:
+- název cvičení
+- popis
+- typ cvičení
+- věkovou kategorii
+- délku trvání
+- seznam pomůcek
+- tagy
+
+Detail je připravený na budoucí rozšíření o média a další metadata.
 
 ---
 
@@ -122,31 +161,15 @@ Každé cvičení obsahuje:
 - `title` – název cvičení
 - `description` – textový popis
 - `category` – typ cvičení (interní klíč)
-- `ageGroup` – věková kategorie
+- `ageGroup` – věková kategorie (`U9` … `ADULT` | `ALL`)
 - `durationMinutes` – doporučená délka
 - `equipment` – seznam pomůcek (pole, může být prázdné)
-- `tags` – seznam tagů (v datech již v MVP, UI později)
+- `tags` – seznam tagů
+- `image?` – volitelný obrázek (připraveno pro budoucí použití)
 
 ---
 
-## 6) Typy cvičení (UI popisky)
-
-- Servis
-- Kombinace se servisem
-- Kombinace bez servisu
-- Pravidelné kombinace
-- Nepravidelné kombinace
-- Pravidelně–nepravidelné kombinace
-- Rozcvička
-- Strečink
-- Zásobník (multiball)
-
-> Interně jsou typy reprezentovány stabilními klíči  
-> (např. `serve`, `regular_combo`, `irregular_combo`, …).
-
----
-
-## 7) Pomůcky
+## 6) Pomůcky
 
 ### Poznámka
 
@@ -169,7 +192,7 @@ Interně jsou pomůcky reprezentovány stabilními klíči
 
 ---
 
-## 8) Technologie
+## 7) Technologie
 
 - Framework: **Next.js (App Router)**
 - UI: **React**
@@ -180,7 +203,7 @@ Interně jsou pomůcky reprezentovány stabilními klíči
 
 ---
 
-## 9) Přístupnost a design
+## 8) Přístupnost a design
 
 - Mobile-first přístup
 - Responzivní layout (telefon / tablet / desktop)
@@ -189,17 +212,12 @@ Interně jsou pomůcky reprezentovány stabilními klíči
 
 ---
 
-## 10) Budoucí rozšíření (mimo MVP)
-
-### Detail cvičení
-- samostatná stránka cvičení (`/drills/[id]`)
-- detailní popis
-- média (obrázky, video, YouTube)
+## 9) Budoucí rozšíření (mimo MVP)
 
 ### Média
 - obrázky
 - videa
-- ikony a ilustrace
+- YouTube odkazy
 
 ### Uživatelé
 - přihlášení
@@ -212,7 +230,7 @@ Interně jsou pomůcky reprezentovány stabilními klíči
 
 ---
 
-## 11) Backlog (bez závazku)
+## 10) Backlog (bez závazku)
 
 - Autentizace uživatelů
 - Admin rozhraní
@@ -226,7 +244,7 @@ Interně jsou pomůcky reprezentovány stabilními klíči
 
 ---
 
-## 12) Struktura projektu (aktuální)
+## 11) Struktura projektu (aktuální)
 
 Projekt je postavený na Next.js (App Router) a TypeScriptu.
 
@@ -236,3 +254,6 @@ Hlavní části:
 - `src/data` – JSON data (MVP)
 - `src/components` – layout a obecné UI komponenty
 - `docs` – architektura, datový model, rozhodnutí (ADR)
+
+Struktura projektu odpovídá **feature-first přístupu** a je navržena tak,
+aby byla dlouhodobě udržitelná.
