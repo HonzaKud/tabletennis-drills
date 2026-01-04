@@ -106,7 +106,7 @@ vstupní bod a rozcestník.
 
 ---
 
-### Typ cvičení (UI popisky)
+### Typ cvičení (UI popisky) 
 
 - Servis
 - Kombinace se servisem
