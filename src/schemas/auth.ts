@@ -22,10 +22,7 @@ const PASSWORD_MAX_LENGTH = 72;
 
 export const loginSchema = z.object({
   email: z
-    .string({
-      required_error: "Email je povinný.",
-      invalid_type_error: "Email musí být text.",
-    })
+    .string()
     .trim()
     .min(1, "Email je povinný.")
     .max(EMAIL_MAX_LENGTH, "Email je příliš dlouhý.")
@@ -34,10 +31,7 @@ export const loginSchema = z.object({
     .transform((v) => v.toLowerCase()),
 
   password: z
-    .string({
-      required_error: "Heslo je povinné.",
-      invalid_type_error: "Heslo musí být text.",
-    })
+    .string()
     // We do NOT trim passwords (leading/trailing spaces can be valid by user intent).
     .min(PASSWORD_MIN_LENGTH, `Heslo musí mít alespoň ${PASSWORD_MIN_LENGTH} znaků.`)
     .max(PASSWORD_MAX_LENGTH, `Heslo může mít maximálně ${PASSWORD_MAX_LENGTH} znaků.`),
