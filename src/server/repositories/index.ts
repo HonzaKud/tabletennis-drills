@@ -5,25 +5,32 @@ import type { UserRepo } from "./userRepo";
 
 import { InMemorySessionRepo } from "./memory/sessionRepo.memory";
 import { InMemoryUserRepo, getDemoSeedUsers } from "./memory/userRepo.memory";
+import { KvSessionRepo } from "./kv/sessionRepo.kv";
 
 /**
  * Repository composition root.
  *
- * Auth v1 uses in-memory repositories (documented in docs/auth.md).
- * Later we can swap implementations (e.g., MongoDB) without changing
- * services or API routes.
+ * Sessions:
+ * - Local dev: in-memory (fast, simple)
+ * - Vercel prod: KV (shared across serverless instances)
  *
- * Important: Keep these as singletons so sessions/users persist for the
- * lifetime of the server runtime (within the limits of serverless).
- *
- * Demo user:
- * - Controlled via AUTH_ENABLE_DEMO_USER=true
- * - Seed data via AUTH_DEV_SEED_EMAIL + AUTH_DEV_SEED_PASSWORD_HASH
- * - Safe default: disabled unless explicitly enabled.
+ * Users:
+ * - Auth v1 demo: in-memory seed user via env (AUTH_ENABLE_DEMO_USER)
+ * - Later: MongoDB user store (Auth v2)
  */
+
+function isVercelKvAvailable(): boolean {
+  // @vercel/kv works when Upstash/Vercel KV env vars are present.
+  // Vercel KV typically provides KV_REST_API_URL / KV_REST_API_TOKEN.
+  return Boolean(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);
+}
+
+const useKvForSessions = process.env.NODE_ENV === "production" && isVercelKvAvailable();
 
 // --- Singleton instances ---
 
-export const sessionRepo: SessionRepo = new InMemorySessionRepo();
+export const sessionRepo: SessionRepo = useKvForSessions
+  ? new KvSessionRepo()
+  : new InMemorySessionRepo();
 
 export const userRepo: UserRepo = new InMemoryUserRepo(getDemoSeedUsers());
