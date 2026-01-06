@@ -3,10 +3,20 @@ import "server-only";
 import crypto from "node:crypto";
 import type { UserId, UserRecord, UserRepo } from "../userRepo";
 
+/**
+ * Normalize email for consistent lookups.
+ */
 function normalizeEmail(email: string): string {
   return email.trim().toLowerCase();
 }
 
+/**
+ * Global in-memory store.
+ *
+ * We keep this on globalThis so it survives HMR / module reloads
+ * during local dev and behaves predictably in serverless runtimes
+ * (within a single instance).
+ */
 const GLOBAL_USERS_KEY = Symbol.for("ttd.auth.users");
 
 type GlobalWithUsers = typeof globalThis & {
@@ -27,10 +37,20 @@ function getGlobalUserStore() {
   return g[GLOBAL_USERS_KEY]!;
 }
 
+/**
+ * Demo user feature flag.
+ *
+ * Enabled explicitly via env so we never accidentally expose
+ * a demo account in real production.
+ */
 function isDemoUserEnabled(): boolean {
   return process.env.AUTH_ENABLE_DEMO_USER === "true";
 }
 
+/**
+ * Read demo user credentials from env.
+ * Returns null when demo user is disabled or misconfigured.
+ */
 function getDemoSeedUser():
   | { email: string; passwordHash: string }
   | null {
@@ -44,25 +64,50 @@ function getDemoSeedUser():
   return { email, passwordHash };
 }
 
+/**
+ * Generate a deterministic user ID for the demo user.
+ *
+ * IMPORTANT:
+ * - This MUST be stable across serverless instances.
+ * - Otherwise sessions stored in KV would reference a userId
+ *   that does not exist in another instance's in-memory store.
+ *
+ * We derive the ID from the normalized email using a hash.
+ */
+function stableDemoUserIdFromEmail(email: string): UserId {
+  return crypto
+    .createHash("sha256")
+    .update(`ttd:demo-user:${normalizeEmail(email)}`)
+    .digest("hex");
+}
+
 export class InMemoryUserRepo implements UserRepo {
   private get store() {
     return getGlobalUserStore();
   }
 
   constructor(seedUsers?: Array<Omit<UserRecord, "id" | "createdAt">>) {
-    if (seedUsers && seedUsers.length > 0) {
-      for (const user of seedUsers) {
-        const emailKey = normalizeEmail(user.email);
+    if (!seedUsers || seedUsers.length === 0) return;
 
-        // Prevent re-seeding duplicates across HMR / bundle reloads.
-        if (this.store.usersByEmail.has(emailKey)) continue;
+    for (const user of seedUsers) {
+      const emailKey = normalizeEmail(user.email);
 
-        this.insert({
-          ...user,
-          id: this.generateUserId(),
-          createdAt: new Date(),
-        });
-      }
+      // Prevent re-seeding duplicates across HMR / instance reuse.
+      if (this.store.usersByEmail.has(emailKey)) continue;
+
+      const isDemoUser =
+        isDemoUserEnabled() &&
+        emailKey === normalizeEmail(process.env.AUTH_DEV_SEED_EMAIL ?? "");
+
+      const id: UserId = isDemoUser
+        ? stableDemoUserIdFromEmail(emailKey)
+        : crypto.randomUUID();
+
+      this.insert({
+        ...user,
+        id,
+        createdAt: new Date(),
+      });
     }
   }
 
@@ -87,28 +132,26 @@ export class InMemoryUserRepo implements UserRepo {
     this.store.usersById.set(record.id, record);
     this.store.usersByEmail.set(emailKey, record);
   }
-
-  private generateUserId(): UserId {
-    return crypto.randomUUID();
-  }
 }
 
+/**
+ * Create a seed user record (without id / createdAt).
+ */
 export function createDevSeedUser(params: {
   email: string;
   passwordHash: string;
 }): Omit<UserRecord, "id" | "createdAt"> {
   return {
-    email: params.email,
+    email: normalizeEmail(params.email),
     passwordHash: params.passwordHash,
     isActive: true,
   };
 }
 
 /**
- * Convenience helper to create the demo seed user record from env vars.
- * Returns [] when demo user is disabled or not configured.
+ * Convenience helper to build demo seed users array from env.
  *
- * Use this when building repositories.
+ * Returns [] when demo user is disabled or not configured.
  */
 export function getDemoSeedUsers(): Array<Omit<UserRecord, "id" | "createdAt">> {
   const demo = getDemoSeedUser();
