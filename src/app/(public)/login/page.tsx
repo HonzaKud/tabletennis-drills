@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import LoginForm from "@/components/auth/LoginForm";
+import LoginRedirectIfAuthed from "@/components/auth/LoginRedirectIfAuthed";
 import { getSessionIdFromCookies } from "@/lib/auth/cookies";
 import { authService } from "@/server/auth/service";
 
@@ -22,6 +23,9 @@ export default async function LoginPage() {
   return (
     <main className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-md rounded-lg bg-white shadow-md p-6">
+        {/* Client fallback: if the page was served from cache/CSR and user is already authed */}
+        <LoginRedirectIfAuthed />
+
         <header className="mb-6">
           <h1 className="text-2xl font-semibold text-gray-900">Přihlášení</h1>
           <p className="mt-2 text-sm text-gray-600">
