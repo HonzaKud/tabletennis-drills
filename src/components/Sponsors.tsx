@@ -15,7 +15,7 @@ const DEFAULT_SPONSORS: Sponsor[] = [
   { id: "ddm", name: "DDM", logo: SponsorDDM, href: "https://www.google.com" },
   {
     id: "mesto-vlasim",
-    name: "Město Vlašim",
+    name: "Město",
     logo: SponsorMestoVlasim,
     href: "https://www.google.com",
   },
