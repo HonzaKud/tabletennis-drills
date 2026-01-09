@@ -3,7 +3,7 @@
 import Image, { StaticImageData } from "next/image";
 import { useEffect, useState } from "react";
 
-import AppLogo from "@/assets/brand/tabletennis-logo.svg";
+import AppLogoMark from "@/assets/brand/tabletennis-helmet.svg";
 import LogoutButton from "@/components/auth/LogoutButton";
 
 type Props = {
@@ -69,7 +69,7 @@ export function Header({
               className="inline-flex items-center justify-center rounded-md focus:outline-none focus:ring-2 focus:ring-white/40 focus:ring-offset-2 focus:ring-offset-[#0D2C56]"
             >
               <Image
-                src={AppLogo as StaticImageData}
+                src={AppLogoMark as StaticImageData}
                 alt="Logo aplikace"
                 width={48}
                 height={48}
