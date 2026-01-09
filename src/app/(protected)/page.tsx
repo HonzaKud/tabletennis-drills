@@ -44,7 +44,7 @@ export default function HomePage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-orange-50/40 via-white to-white">
-      <Header title="Tréninková cvičení pro stolní tenis" />
+      <Header title="Trénink stolního tenisu" />
 
       {/* Content */}
       <section className="mx-auto max-w-7xl px-4 py-10">
