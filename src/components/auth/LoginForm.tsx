@@ -57,7 +57,6 @@ export default function LoginForm() {
           credentials: "include",
         });
 
-        // Handle common HTTP-level errors first (even if body isn't JSON).
         if (res.status === 429) {
           setServerError("Příliš mnoho pokusů. Zkus to prosím za chvíli.");
           return;
@@ -74,12 +73,10 @@ export default function LoginForm() {
         };
 
         if (res.ok && data.ok) {
-          // Full navigation is the most reliable after setting httpOnly cookies.
           window.location.assign("/");
           return;
         }
 
-        // Map known error cases
         if (!data.ok) {
           if (data.error === "INVALID_CREDENTIALS") {
             setServerError("Neplatný email nebo heslo.");
@@ -87,9 +84,6 @@ export default function LoginForm() {
           }
 
           if (data.error === "VALIDATION_ERROR" && data.issues?.length) {
-            // Clear previous server errors on fields (optional, but feels cleaner)
-            // form.clearErrors(); // keep client validation errors; only add server ones
-
             for (const issue of data.issues) {
               if (issue.path === "email" || issue.path === "password") {
                 form.setError(issue.path as keyof LoginInput, {
@@ -122,13 +116,13 @@ export default function LoginForm() {
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
       {serverError ? (
-        <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-800">
+        <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800">
           {serverError}
         </div>
       ) : null}
 
       <div className="space-y-1">
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="email" className="block text-sm font-medium text-gray-800">
           Email
         </label>
         <input
@@ -136,7 +130,12 @@ export default function LoginForm() {
           type="email"
           autoComplete="email"
           inputMode="email"
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gray-200"
+          className={[
+            "w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900",
+            "outline-none transition",
+            "focus:border-blue-300 focus:ring-4 focus:ring-blue-100",
+            "disabled:opacity-60",
+          ].join(" ")}
           {...form.register("email")}
           disabled={isPending}
         />
@@ -148,7 +147,7 @@ export default function LoginForm() {
       <div className="space-y-1">
         <label
           htmlFor="password"
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-gray-800"
         >
           Heslo
         </label>
@@ -156,7 +155,12 @@ export default function LoginForm() {
           id="password"
           type="password"
           autoComplete="current-password"
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gray-200"
+          className={[
+            "w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900",
+            "outline-none transition",
+            "focus:border-blue-300 focus:ring-4 focus:ring-blue-100",
+            "disabled:opacity-60",
+          ].join(" ")}
           {...form.register("password")}
           disabled={isPending}
         />
@@ -168,7 +172,13 @@ export default function LoginForm() {
       <button
         type="submit"
         disabled={isPending}
-        className="w-full rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-60"
+        className={[
+          "w-full rounded-xl px-4 py-2.5 text-sm font-semibold text-white",
+          "bg-blue-600 hover:bg-blue-700",
+          "focus:outline-none focus:ring-4 focus:ring-blue-200",
+          "disabled:opacity-60 disabled:hover:bg-blue-600",
+          "transition",
+        ].join(" ")}
       >
         {isPending ? "Přihlašuji…" : "Přihlásit"}
       </button>
