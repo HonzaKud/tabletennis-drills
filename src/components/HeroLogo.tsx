@@ -37,13 +37,25 @@ export function HeroLogo({ size = "hero", className }: Props) {
         className ?? "",
       ].join(" ")}
     >
-      <div className={["mx-auto grid place-items-center", s.box].join(" ")} aria-hidden="true">
+      <div
+        className={[
+          "mx-auto grid place-items-center",
+          s.box,
+          // Move the logo slightly upwards (subtle, responsive)
+          "-mt-2 md:-mt-4",
+        ].join(" ")}
+        aria-hidden="true"
+      >
         <Image
           src={AppLogo as StaticImageData}
           alt="Logo aplikace TableTennis Drills"
           width={1024}
           height={1024}
-          className="select-none h-full w-full object-contain"
+          className={[
+            "select-none h-full w-full object-contain",
+            // Variant A: soft ambient shadow
+            "drop-shadow-[0_18px_40px_rgba(0,0,0,0.18)]",
+          ].join(" ")}
           priority={false}
         />
       </div>
