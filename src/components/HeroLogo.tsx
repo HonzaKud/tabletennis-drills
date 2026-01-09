@@ -32,8 +32,10 @@ export function HeroLogo({ size = "hero", className }: Props) {
     <section
       aria-label="Hlavní logo aplikace"
       className={[
-        // Keep the original "card" spacing, but make it visually invisible.
-        "w-full max-w-2xl rounded-2xl border border-transparent bg-transparent p-8 text-center shadow-none",
+        // Card spacing stays, but now we intentionally add bottom space
+        "w-full max-w-2xl rounded-2xl border border-transparent bg-transparent",
+        "pt-6 pb-12 md:pb-16", // ⬅️ víc místa POD logem
+        "text-center shadow-none",
         className ?? "",
       ].join(" ")}
     >
@@ -41,8 +43,8 @@ export function HeroLogo({ size = "hero", className }: Props) {
         className={[
           "mx-auto grid place-items-center",
           s.box,
-          // Move the logo slightly upwards (subtle, responsive)
-          "-mt-2 md:-mt-4",
+          // Move logo further up (still safe)
+          "-mt-4 md:-mt-6",
         ].join(" ")}
         aria-hidden="true"
       >
@@ -53,8 +55,8 @@ export function HeroLogo({ size = "hero", className }: Props) {
           height={1024}
           className={[
             "select-none h-full w-full object-contain",
-            // Variant A: soft ambient shadow
-            "drop-shadow-[0_18px_40px_rgba(0,0,0,0.18)]",
+            // Stronger, deeper ambient shadow
+            "drop-shadow-[0_26px_55px_rgba(0,0,0,0.28)]",
           ].join(" ")}
           priority={false}
         />
