@@ -1,7 +1,7 @@
 import Image, { StaticImageData } from "next/image";
 
 import SponsorDDM from "@/assets/sponsors/sponzor-ddm.svg";
-import SponsorMestoVlasim from "@/assets/sponsors/sponzor-mesto-vlasim.svg";
+import SponsorMesto from "@/assets/sponsors/sponzor-mesto.svg";
 import SponsorFirma from "@/assets/sponsors/sponzor-firma.svg";
 
 type Sponsor = {
@@ -12,15 +12,20 @@ type Sponsor = {
 };
 
 const DEFAULT_SPONSORS: Sponsor[] = [
-  { id: "ddm", name: "DDM", logo: SponsorDDM, href: "https://www.google.com" },
   {
-    id: "mesto-vlasim",
-    name: "Město",
-    logo: SponsorMestoVlasim,
+    id: "ddm",
+    name: "DDM",
+    logo: SponsorDDM,
     href: "https://www.google.com",
   },
   {
-    id: "firma",
+    id: "mesto",
+    name: "Město",
+    logo: SponsorMesto,
+    href: "https://www.google.com",
+  },
+  {
+    id: "partner",
     name: "Partner",
     logo: SponsorFirma,
     href: "https://www.google.com",
@@ -64,7 +69,6 @@ export function Sponsors({
                 "hover:bg-gray-50 hover:border-gray-300",
                 "focus:outline-none focus:ring-2 focus:ring-blue-100",
                 "transition",
-                // If odd count: last sponsor spans both columns on mobile so it centers
                 centerLastOnMobile ? "col-span-2 sm:col-span-1" : "",
               ].join(" ")}
               aria-label={s.name}
