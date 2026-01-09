@@ -25,7 +25,7 @@ type MeResponse =
   | { authenticated: true; user: { id: string; email: string } };
 
 export function Header({
-  title = "Tréninková cvičení pro stolní tenis",
+  title = "Trénink stolního tenisu",
   subtitle,
 }: Props) {
   const [me, setMe] = useState<MeResponse | null>(null);
