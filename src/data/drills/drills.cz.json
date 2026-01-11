@@ -222,5 +222,23 @@
       "regenerace",
       "rozklus"
     ]
-  }
+  },
+  {
+  "id": "stretching-shoulder-cross-body",
+  "title": "Protažení ramene přes tělo",
+  "description": "Statický strečink ramenního kloubu a zadní části paže. Jedna paže je přitažená přes tělo, druhá ruka ji jemně přitahuje k hrudníku. Ramena jsou uvolněná, trup vzpřímený. Držet plynule, bez švihu a s klidným dýcháním. Vystřídat obě strany.",
+  "type": "STRETCHING",
+  "ageGroups": ["ALL"],
+  "durationMinutes": 2,
+  "equipment": [],
+  "tags": [
+    "strečink",
+    "rameno",
+    "paže",
+    "zadní delt",
+    "mobilita",
+    "prevence zranění"
+  ],
+  "image": "/assets/drills/stretching/shoulder-cross-body-stretch.webp"
+}
 ]
