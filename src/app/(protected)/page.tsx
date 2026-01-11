@@ -73,11 +73,6 @@ export default function HomePage() {
           searchLabel="Vyhledat"
         />
 
-        {/* (volitelné) jen pokud chceš někde ukázat počet */}
-        <div className="mt-3 text-sm text-gray-600">
-          Nalezeno: <span className="font-medium text-gray-900">{filteredCount}</span>
-        </div>
-
         <div className="mt-10 flex justify-center">
           <HeroLogo />
         </div>
