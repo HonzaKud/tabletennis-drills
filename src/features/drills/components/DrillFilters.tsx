@@ -129,7 +129,7 @@ export function DrillFilters({ value, onChange, onSearch, searchLabel = "Vyhleda
           {/* Combination: pattern */}
           {showCombinationFilters && (
             <label className="flex flex-col gap-1">
-              <span className="text-xs font-medium text-gray-600">Struktura kombinace</span>
+              <span className="text-xs font-medium text-gray-600">Pravidelná/Nepravidelná</span>
               <select
                 className="h-11 rounded-xl border border-gray-200 bg-white px-3 text-sm text-gray-900 shadow-sm focus:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-100"
                 value={value.comboPattern}
@@ -152,7 +152,7 @@ export function DrillFilters({ value, onChange, onSearch, searchLabel = "Vyhleda
           {/* Combination: start mode */}
           {showCombinationFilters && (
             <label className="flex flex-col gap-1">
-              <span className="text-xs font-medium text-gray-600">Start</span>
+              <span className="text-xs font-medium text-gray-600">Se sevisem/Bez servisu</span>
               <select
                 className="h-11 rounded-xl border border-gray-200 bg-white px-3 text-sm text-gray-900 shadow-sm focus:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-100"
                 value={value.startMode}
