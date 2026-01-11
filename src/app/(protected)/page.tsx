@@ -63,7 +63,7 @@ export default function HomePage() {
       <section className="mx-auto max-w-7xl px-4 py-10">
         <p className="mb-4 max-w-3xl text-sm text-gray-700 md:text-base">
           Vyber si věkovou kategorii a typ cvičení a klikni na <b>Vyhledat</b>.
-          U <b>Kombinací</b> se objeví i upřesnění (pravidelná/nepravidelná + start).
+          U <b>Kombinací</b> se objeví upřesnění (pravidelná/nepravidelná a se servisem/bez servisu).
         </p>
 
         <DrillFilters

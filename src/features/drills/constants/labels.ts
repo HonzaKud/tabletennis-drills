@@ -28,7 +28,7 @@ import {
  * Note: "ALL" is handled in filter UI separately.
  */
 export const AGE_GROUP_LABELS: Record<AgeGroup | "ALL", string> = {
-  ALL: "Všechny věkové kategorie",
+  ALL: "Všechny",
   U9: "U9",
   U11: "U11",
   U13: "U13",
@@ -42,7 +42,7 @@ export const AGE_GROUP_LABELS: Record<AgeGroup | "ALL", string> = {
 ========================= */
 
 export const DRILL_TYPE_LABELS: Record<DrillType | "ALL", string> = {
-  ALL: "Všechny typy cvičení",
+  ALL: "Všechny",
   SERVE: "Servis",
   COMBINATION: "Kombinace",
   MULTIBALL: "Zásobník (multiball)",
@@ -60,7 +60,7 @@ export const DRILL_TYPE_LABELS: Record<DrillType | "ALL", string> = {
  * Shown only when type === "COMBINATION".
  */
 export const COMBO_PATTERN_LABELS: Record<ComboPattern | "ALL", string> = {
-  ALL: "Všechny kombinace",
+  ALL: "Všechny",
   REGULAR: "Pravidelná kombinace",
   IRREGULAR: "Nepravidelná kombinace",
 };
@@ -74,9 +74,9 @@ export const COMBO_PATTERN_LABELS: Record<ComboPattern | "ALL", string> = {
  * - FEED   = start by feed / free rally (without serve)
  */
 export const START_MODE_LABELS: Record<StartMode | "ALL", string> = {
-  ALL: "Start nezáleží",
-  SERVE: "Start: servis",
-  FEED: "Start: nahození / rozehra",
+  ALL: "Všechny",
+  SERVE: "Se servisem",
+  FEED: "Bez servisu",
 };
 
 /* =========================
