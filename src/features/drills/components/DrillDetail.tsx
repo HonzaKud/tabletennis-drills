@@ -1,10 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import { Drill } from "../types/drill";
+import { Drill, AgeGroupAll, AgeGroup } from "../types/drill";
 import {
   AGE_GROUP_LABELS,
-  DRILL_CATEGORY_LABELS,
+  DRILL_TYPE_LABELS,
+  COMBO_PATTERN_LABELS,
+  START_MODE_LABELS,
   EQUIPMENT_LABELS,
 } from "../constants/labels";
 
@@ -25,6 +27,13 @@ function formatDuration(minutes: number): string {
   return `${minutes} min`;
 }
 
+function formatAgeGroups(ageGroups: readonly [AgeGroupAll] | readonly AgeGroup[]): string {
+  if (ageGroups.length === 1 && ageGroups[0] === "ALL") return "Vše";
+  return (ageGroups as readonly AgeGroup[])
+    .map((g) => AGE_GROUP_LABELS[g] ?? g)
+    .join(", ");
+}
+
 export function DrillDetail({
   drill,
   backHref,
@@ -33,6 +42,19 @@ export function DrillDetail({
   prevLabel = "Předchozí",
   nextLabel = "Další",
 }: Props) {
+  const ageLabel = formatAgeGroups(drill.ageGroups);
+  const typeLabel = DRILL_TYPE_LABELS[drill.type] ?? drill.type;
+
+  const showComboBadges = drill.type === "COMBINATION";
+  const comboPatternLabel =
+    showComboBadges ? COMBO_PATTERN_LABELS[drill.comboPattern] ?? drill.comboPattern : null;
+
+  // Subtle hint: show start mode only when it's unambiguous (single mode)
+  const startModeLabel =
+    showComboBadges && drill.startModes.length === 1
+      ? (START_MODE_LABELS[drill.startModes[0]] ?? drill.startModes[0])
+      : null;
+
   return (
     <main className="mx-auto w-full max-w-3xl px-4 py-6 md:py-10">
       {/* Top nav */}
@@ -84,22 +106,41 @@ export function DrillDetail({
           </h1>
 
           <div className="flex flex-wrap items-center gap-2">
-            <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-700">
-              {AGE_GROUP_LABELS[drill.ageGroup]}
+            {/* Age groups */}
+            <span
+              className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-700"
+              title="Věková kategorie"
+            >
+              {ageLabel}
             </span>
 
+            {/* Main type */}
             <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-700">
-              {DRILL_CATEGORY_LABELS[drill.category]}
+              {typeLabel}
             </span>
 
+            {/* Combination extras */}
+            {showComboBadges && comboPatternLabel && (
+              <span className="rounded-full bg-indigo-50 px-2.5 py-1 text-xs font-medium text-indigo-700">
+                {comboPatternLabel}
+              </span>
+            )}
+
+            {startModeLabel && (
+              <span className="rounded-full bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-700">
+                {startModeLabel}
+              </span>
+            )}
+
+            {/* Duration */}
             <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700">
               {formatDuration(drill.durationMinutes)}
             </span>
 
+            {/* Equipment */}
             {drill.equipment.length > 0 && (
               <span className="rounded-full bg-gray-50 px-2.5 py-1 text-xs font-medium text-gray-700">
-                Pomůcky:{" "}
-                {drill.equipment.map((k) => EQUIPMENT_LABELS[k]).join(", ")}
+                Pomůcky: {drill.equipment.map((k) => EQUIPMENT_LABELS[k]).join(", ")}
               </span>
             )}
           </div>

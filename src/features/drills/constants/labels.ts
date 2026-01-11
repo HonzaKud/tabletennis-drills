@@ -1,19 +1,33 @@
 /**
  * UI labels for drills domain
  *
- * Notes:
- * - Data uses stable English keys
- * - UI shows Czech human-readable labels
- * - This file is the single source of truth for UI naming
+ * Principles:
+ * - Domain uses stable English keys (ASCII, enums/unions).
+ * - UI displays Czech, human-readable labels.
+ * - This file is the single source of truth for UI naming.
+ *
+ * IMPORTANT:
+ * - Do NOT use labels for logic.
+ * - Logic must always rely on domain keys from types/drill.ts.
  */
 
-import { DrillAgeGroup, DrillCategory, EquipmentKey } from "../types/drill";
+import {
+  AgeGroup,
+  DrillType,
+  ComboPattern,
+  StartMode,
+  EquipmentKey,
+} from "../types/drill";
 
 /* =========================
-   Age groups
+   Age groups (UI)
 ========================= */
 
-export const AGE_GROUP_LABELS: Record<DrillAgeGroup, string> = {
+/**
+ * Labels for selectable age groups in UI.
+ * Note: "ALL" is handled in filter UI separately.
+ */
+export const AGE_GROUP_LABELS: Record<AgeGroup | "ALL", string> = {
   ALL: "Všechny věkové kategorie",
   U9: "U9",
   U11: "U11",
@@ -24,19 +38,45 @@ export const AGE_GROUP_LABELS: Record<DrillAgeGroup, string> = {
 };
 
 /* =========================
-   Drill categories
+   Drill types (main filter)
 ========================= */
 
-export const DRILL_CATEGORY_LABELS: Record<DrillCategory, string> = {
-  serve: "Servis",
-  serve_combo: "Kombinace se servisem",
-  no_serve_combo: "Kombinace bez servisu",
-  regular_combo: "Pravidelné kombinace",
-  irregular_combo: "Nepravidelné kombinace",
-  mixed_regular_irregular: "Pravidelně–nepravidelné kombinace",
-  warmup: "Rozcvička",
-  stretching: "Strečink",
-  multiball: "Zásobník (multiball)",
+export const DRILL_TYPE_LABELS: Record<DrillType | "ALL", string> = {
+  ALL: "Všechny typy cvičení",
+  SERVE: "Servis",
+  COMBINATION: "Kombinace",
+  MULTIBALL: "Zásobník (multiball)",
+  WARMUP: "Rozcvička",
+  STRETCHING: "Strečink",
+  GAMES: "Hry / Soutěže",
+};
+
+/* =========================
+   Combination-specific filters
+========================= */
+
+/**
+ * Structure of combination (pattern).
+ * Shown only when type === "COMBINATION".
+ */
+export const COMBO_PATTERN_LABELS: Record<ComboPattern | "ALL", string> = {
+  ALL: "Všechny kombinace",
+  REGULAR: "Pravidelná kombinace",
+  IRREGULAR: "Nepravidelná kombinace",
+};
+
+/**
+ * Start mode of a drill.
+ * Shown only when type === "COMBINATION".
+ *
+ * Meaning:
+ * - SERVE  = start by serve
+ * - FEED   = start by feed / free rally (without serve)
+ */
+export const START_MODE_LABELS: Record<StartMode | "ALL", string> = {
+  ALL: "Start nezáleží",
+  SERVE: "Start: servis",
+  FEED: "Start: nahození / rozehra",
 };
 
 /* =========================
@@ -49,6 +89,6 @@ export const EQUIPMENT_LABELS: Record<EquipmentKey, string> = {
   ladder: "Koordinační žebřík",
   jump_rope: "Švihadlo",
   robot: "Robot",
-  multiball_basket: "Zásobník",
+  multiball_basket: "Zásobník na míčky",
   stopwatch: "Stopky",
 };

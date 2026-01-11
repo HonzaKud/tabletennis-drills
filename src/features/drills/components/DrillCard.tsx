@@ -1,8 +1,10 @@
 import Image from "next/image";
-import { Drill } from "../types/drill";
+import { Drill, AgeGroupAll, AgeGroup } from "../types/drill";
 import {
   AGE_GROUP_LABELS,
-  DRILL_CATEGORY_LABELS,
+  DRILL_TYPE_LABELS,
+  COMBO_PATTERN_LABELS,
+  START_MODE_LABELS,
   EQUIPMENT_LABELS,
 } from "../constants/labels";
 
@@ -20,8 +22,28 @@ function formatDuration(minutes: number): string {
   return `${minutes} min`;
 }
 
+function formatAgeGroups(ageGroups: readonly [AgeGroupAll] | readonly AgeGroup[]): string {
+  if (ageGroups.length === 1 && ageGroups[0] === "ALL") return "Vše";
+  return (ageGroups as readonly AgeGroup[])
+    .map((g) => AGE_GROUP_LABELS[g] ?? g)
+    .join(", ");
+}
+
 export function DrillCard({ drill, onClick }: Props) {
   const clickable = typeof onClick === "function";
+
+  const ageLabel = formatAgeGroups(drill.ageGroups);
+  const typeLabel = DRILL_TYPE_LABELS[drill.type] ?? drill.type;
+
+  const showComboBadges = drill.type === "COMBINATION";
+  const comboPatternLabel =
+    showComboBadges ? COMBO_PATTERN_LABELS[drill.comboPattern] ?? drill.comboPattern : null;
+
+  // Small hint for start modes (kept subtle, optional)
+  const startModeLabel =
+    showComboBadges && drill.startModes.length === 1
+      ? (START_MODE_LABELS[drill.startModes[0]] ?? drill.startModes[0])
+      : null;
 
   return (
     <article
@@ -49,16 +71,17 @@ export function DrillCard({ drill, onClick }: Props) {
         </h3>
 
         <div className="flex shrink-0 items-center gap-2">
-          <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-700">
-            {AGE_GROUP_LABELS[drill.ageGroup]}
+          <span
+            className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-700"
+            title="Věková kategorie"
+          >
+            {ageLabel}
           </span>
         </div>
       </div>
 
       {/* Description */}
-      <p className="mt-2 line-clamp-3 text-sm text-gray-600">
-        {drill.description}
-      </p>
+      <p className="mt-2 line-clamp-3 text-sm text-gray-600">{drill.description}</p>
 
       {/* Image (optional, placed below description) */}
       {drill.image && (
@@ -77,8 +100,20 @@ export function DrillCard({ drill, onClick }: Props) {
       {/* Meta chips */}
       <div className="mt-4 flex flex-wrap items-center gap-2">
         <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-700">
-          {DRILL_CATEGORY_LABELS[drill.category]}
+          {typeLabel}
         </span>
+
+        {showComboBadges && comboPatternLabel && (
+          <span className="rounded-full bg-indigo-50 px-2.5 py-1 text-xs font-medium text-indigo-700">
+            {comboPatternLabel}
+          </span>
+        )}
+
+        {startModeLabel && (
+          <span className="rounded-full bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-700">
+            {startModeLabel}
+          </span>
+        )}
 
         <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700">
           {formatDuration(drill.durationMinutes)}
@@ -86,8 +121,7 @@ export function DrillCard({ drill, onClick }: Props) {
 
         {drill.equipment.length > 0 && (
           <span className="rounded-full bg-gray-50 px-2.5 py-1 text-xs font-medium text-gray-700">
-            Pomůcky:{" "}
-            {drill.equipment.map((k) => EQUIPMENT_LABELS[k]).join(", ")}
+            Pomůcky: {drill.equipment.map((k) => EQUIPMENT_LABELS[k]).join(", ")}
           </span>
         )}
       </div>
