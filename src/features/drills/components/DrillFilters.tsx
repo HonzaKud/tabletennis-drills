@@ -9,10 +9,10 @@
  *   - comboPattern (REGULAR / IRREGULAR)
  *   - startMode (SERVE / FEED)
  *
- * Notes:
- * - Filters are intentionally simple (single-select).
- * - Data itself can contain multiple age groups (ageGroups[]), but the UI filter remains single choice.
- * - Validation for external values is centralized in types/drill.ts (type-guards).
+ * Layout:
+ * - Mobile: 1 column (filters stack)
+ * - >= sm: 2 columns (filters sit side-by-side)
+ * - Combination extra filters should also sit side-by-side on desktop
  */
 
 import {
@@ -58,10 +58,7 @@ type Props = {
   searchLabel?: string;
 };
 
-function normalizeCombinationFilters(
-  next: DrillFilterState,
-  prev: DrillFilterState,
-): DrillFilterState {
+function normalizeCombinationFilters(next: DrillFilterState, prev: DrillFilterState): DrillFilterState {
   // If user switches away from COMBINATION, reset combination-only filters to "ALL"
   // so they don't accidentally constrain results when returning later.
   if (next.type !== "COMBINATION") {
@@ -77,12 +74,7 @@ function normalizeCombinationFilters(
   };
 }
 
-export function DrillFilters({
-  value,
-  onChange,
-  onSearch,
-  searchLabel = "Vyhledat",
-}: Props) {
+export function DrillFilters({ value, onChange, onSearch, searchLabel = "Vyhledat" }: Props) {
   const showCombinationFilters = value.type === "COMBINATION";
 
   return (
@@ -101,7 +93,6 @@ export function DrillFilters({
               onChange={(e) => {
                 const raw = e.target.value;
                 const nextAgeGroup = isAgeGroupFilter(raw) ? raw : value.ageGroup;
-
                 onChange({ ...value, ageGroup: nextAgeGroup });
               }}
             >
@@ -123,7 +114,6 @@ export function DrillFilters({
               onChange={(e) => {
                 const raw = e.target.value;
                 const nextType = isDrillTypeFilter(raw) ? raw : value.type;
-
                 onChange(normalizeCombinationFilters({ ...value, type: nextType }, value));
               }}
             >
@@ -138,7 +128,7 @@ export function DrillFilters({
 
           {/* Combination: pattern */}
           {showCombinationFilters && (
-            <label className="flex flex-col gap-1 sm:col-span-2">
+            <label className="flex flex-col gap-1">
               <span className="text-xs font-medium text-gray-600">Struktura kombinace</span>
               <select
                 className="h-11 rounded-xl border border-gray-200 bg-white px-3 text-sm text-gray-900 shadow-sm focus:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-100"
@@ -161,7 +151,7 @@ export function DrillFilters({
 
           {/* Combination: start mode */}
           {showCombinationFilters && (
-            <label className="flex flex-col gap-1 sm:col-span-2">
+            <label className="flex flex-col gap-1">
               <span className="text-xs font-medium text-gray-600">Start</span>
               <select
                 className="h-11 rounded-xl border border-gray-200 bg-white px-3 text-sm text-gray-900 shadow-sm focus:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-100"
