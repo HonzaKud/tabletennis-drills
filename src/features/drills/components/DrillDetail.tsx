@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import { Drill, AgeGroupAll, AgeGroup } from "../types/drill";
+import { Drill, AgeGroupAll, AgeGroup, DrillType, isCombinationDrill } from "../types/drill";
 import {
   AGE_GROUP_LABELS,
   DRILL_TYPE_LABELS,
@@ -34,6 +34,17 @@ function formatAgeGroups(ageGroups: readonly [AgeGroupAll] | readonly AgeGroup[]
     .join(", ");
 }
 
+/**
+ * Picks a primary type to show on a single badge.
+ *
+ * Rule:
+ * - Prefer "COMBINATION" if present (most informative)
+ * - Otherwise take the first type (keeps author's ordering)
+ */
+function getPrimaryType(types: readonly DrillType[]): DrillType {
+  return (types as readonly DrillType[]).includes("COMBINATION") ? "COMBINATION" : types[0];
+}
+
 export function DrillDetail({
   drill,
   backHref,
@@ -43,17 +54,25 @@ export function DrillDetail({
   nextLabel = "Další",
 }: Props) {
   const ageLabel = formatAgeGroups(drill.ageGroups);
-  const typeLabel = DRILL_TYPE_LABELS[drill.type] ?? drill.type;
 
-  const showComboBadges = drill.type === "COMBINATION";
-  const comboPatternLabel =
-    showComboBadges ? COMBO_PATTERN_LABELS[drill.comboPattern] ?? drill.comboPattern : null;
+  const primaryType = getPrimaryType(drill.types);
+  const primaryTypeLabel = DRILL_TYPE_LABELS[primaryType] ?? primaryType;
+
+  const combo = isCombinationDrill(drill);
+
+  const comboPatternLabel = combo
+    ? (COMBO_PATTERN_LABELS[drill.comboPattern] ?? drill.comboPattern)
+    : null;
 
   // Subtle hint: show start mode only when it's unambiguous (single mode)
   const startModeLabel =
-    showComboBadges && drill.startModes.length === 1
+    combo && drill.startModes.length === 1
       ? (START_MODE_LABELS[drill.startModes[0]] ?? drill.startModes[0])
       : null;
+
+  const extraTypeLabels = drill.types
+    .filter((t) => t !== primaryType)
+    .map((t) => DRILL_TYPE_LABELS[t] ?? t);
 
   return (
     <main className="mx-auto w-full max-w-3xl px-4 py-6 md:py-10">
@@ -114,13 +133,24 @@ export function DrillDetail({
               {ageLabel}
             </span>
 
-            {/* Main type */}
+            {/* Primary type */}
             <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-700">
-              {typeLabel}
+              {primaryTypeLabel}
             </span>
 
+            {/* Extra types (e.g. WARMUP + STRETCHING) */}
+            {extraTypeLabels.map((lbl) => (
+              <span
+                key={lbl}
+                className="rounded-full bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-700"
+                title="Další zařazení"
+              >
+                {lbl}
+              </span>
+            ))}
+
             {/* Combination extras */}
-            {showComboBadges && comboPatternLabel && (
+            {combo && comboPatternLabel && (
               <span className="rounded-full bg-indigo-50 px-2.5 py-1 text-xs font-medium text-indigo-700">
                 {comboPatternLabel}
               </span>

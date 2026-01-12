@@ -11,13 +11,7 @@
  * - Logic must always rely on domain keys from types/drill.ts.
  */
 
-import {
-  AgeGroup,
-  DrillType,
-  ComboPattern,
-  StartMode,
-  EquipmentKey,
-} from "../types/drill";
+import { AgeGroup, DrillType, ComboPattern, StartMode, EquipmentKey } from "../types/drill";
 
 /* =========================
    Age groups (UI)
@@ -70,7 +64,7 @@ export const COMBO_PATTERN_LABELS: Record<ComboPattern | "ALL", string> = {
  * Shown only when type === "COMBINATION".
  *
  * Meaning:
- * - SERVE  = start by serve
+ * - SERVE  = start by serve (3rd/5th ball context)
  * - FEED   = start by feed / free rally (without serve)
  */
 export const START_MODE_LABELS: Record<StartMode | "ALL", string> = {

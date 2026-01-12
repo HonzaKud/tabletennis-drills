@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Drill, AgeGroupAll, AgeGroup } from "../types/drill";
+import { Drill, AgeGroupAll, AgeGroup, DrillType, isCombinationDrill } from "../types/drill";
 import {
   AGE_GROUP_LABELS,
   DRILL_TYPE_LABELS,
@@ -29,21 +29,54 @@ function formatAgeGroups(ageGroups: readonly [AgeGroupAll] | readonly AgeGroup[]
     .join(", ");
 }
 
+/**
+ * Picks a primary type to show on a single badge.
+ *
+ * Rule:
+ * - Prefer "COMBINATION" if present (most informative for the browsing experience)
+ * - Otherwise take the first type (keeps author's ordering in JSON)
+ */
+function getPrimaryType(types: readonly DrillType[]): DrillType {
+  return (types as readonly DrillType[]).includes("COMBINATION") ? "COMBINATION" : types[0];
+}
+
+/**
+ * Keyboard activation helper for clickable cards.
+ */
+function isActivateKey(key: string): boolean {
+  return key === "Enter" || key === " ";
+}
+
 export function DrillCard({ drill, onClick }: Props) {
   const clickable = typeof onClick === "function";
 
   const ageLabel = formatAgeGroups(drill.ageGroups);
-  const typeLabel = DRILL_TYPE_LABELS[drill.type] ?? drill.type;
 
-  const showComboBadges = drill.type === "COMBINATION";
-  const comboPatternLabel =
-    showComboBadges ? COMBO_PATTERN_LABELS[drill.comboPattern] ?? drill.comboPattern : null;
+  const primaryType = getPrimaryType(drill.types);
+  const typeLabel = DRILL_TYPE_LABELS[primaryType] ?? primaryType;
 
-  // Small hint for start modes (kept subtle, optional)
+  const isCombo = isCombinationDrill(drill);
+
+  const comboPatternLabel = isCombo
+    ? (COMBO_PATTERN_LABELS[drill.comboPattern] ?? drill.comboPattern)
+    : null;
+
+  // Subtle hint: show start mode only when it's unambiguous (single mode)
   const startModeLabel =
-    showComboBadges && drill.startModes.length === 1
+    isCombo && drill.startModes.length === 1
       ? (START_MODE_LABELS[drill.startModes[0]] ?? drill.startModes[0])
       : null;
+
+  /**
+   * Optional: show additional types as subtle extra chips (except the primary one).
+   * Useful for drills like WARMUP + STRETCHING.
+   */
+  const extraTypeLabels = drill.types
+    .filter((t) => t !== primaryType)
+    .slice(0, 2)
+    .map((t) => DRILL_TYPE_LABELS[t] ?? t);
+
+  const handleOpen = clickable ? () => onClick!(drill.id) : undefined;
 
   return (
     <article
@@ -52,13 +85,16 @@ export function DrillCard({ drill, onClick }: Props) {
         "transition-shadow hover:shadow-md",
         clickable ? "cursor-pointer" : "",
       ].join(" ")}
-      onClick={clickable ? () => onClick(drill.id) : undefined}
+      onClick={handleOpen}
       role={clickable ? "button" : undefined}
       tabIndex={clickable ? 0 : undefined}
       onKeyDown={
         clickable
           ? (e) => {
-              if (e.key === "Enter" || e.key === " ") onClick?.(drill.id);
+              if (isActivateKey(e.key)) {
+                e.preventDefault(); // prevent page scroll on Space
+                onClick?.(drill.id);
+              }
             }
           : undefined
       }
@@ -99,11 +135,24 @@ export function DrillCard({ drill, onClick }: Props) {
 
       {/* Meta chips */}
       <div className="mt-4 flex flex-wrap items-center gap-2">
+        {/* Primary type */}
         <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-700">
           {typeLabel}
         </span>
 
-        {showComboBadges && comboPatternLabel && (
+        {/* Extra types (if any) */}
+        {extraTypeLabels.map((lbl) => (
+          <span
+            key={lbl}
+            className="rounded-full bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-700"
+            title="Další zařazení"
+          >
+            {lbl}
+          </span>
+        ))}
+
+        {/* Combination extras */}
+        {isCombo && comboPatternLabel && (
           <span className="rounded-full bg-indigo-50 px-2.5 py-1 text-xs font-medium text-indigo-700">
             {comboPatternLabel}
           </span>
@@ -115,10 +164,12 @@ export function DrillCard({ drill, onClick }: Props) {
           </span>
         )}
 
+        {/* Duration */}
         <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700">
           {formatDuration(drill.durationMinutes)}
         </span>
 
+        {/* Equipment */}
         {drill.equipment.length > 0 && (
           <span className="rounded-full bg-gray-50 px-2.5 py-1 text-xs font-medium text-gray-700">
             Pomůcky: {drill.equipment.map((k) => EQUIPMENT_LABELS[k]).join(", ")}

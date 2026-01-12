@@ -8,7 +8,8 @@
  *
  * Revize (2026):
  * - ageGroup -> ageGroups (multi-select) with ["ALL"] sentinel
- * - category -> type (main drill type)
+ * - type -> types (multi-select) so a single drill can belong to multiple types
+ *   (e.g. ["WARMUP","STRETCHING"])
  * - add combination-specific dimensions:
  *   - comboPattern (REGULAR | IRREGULAR)
  *   - startModes (SERVE | FEED), where:
@@ -22,26 +23,19 @@ export const AGE_GROUPS = ["U9", "U11", "U13", "U15", "U17", "ADULT"] as const;
 export type AgeGroup = (typeof AGE_GROUPS)[number];
 
 /**
- * Age group stored in data (JSON) as an array.
+ * Age groups stored in data (JSON) as an array.
  * - ["ALL"] means "suitable for all age groups"
  * - otherwise an array of one or more specific groups, e.g. ["U9","U11"]
  */
 export const AGE_GROUP_ALL = "ALL" as const;
 export type AgeGroupAll = typeof AGE_GROUP_ALL;
 
-export type DrillAgeGroups = readonly [AgeGroupAll] | readonly AgeGroup[];
+export type DrillAgeGroups = readonly [AgeGroupAll] | readonly [AgeGroup, ...AgeGroup[]];
 
 /** Age group filter state in UI (single select). */
 export type AgeGroupFilter = AgeGroup | AgeGroupAll;
 
-export const DRILL_TYPES = [
-  "SERVE",
-  "COMBINATION",
-  "MULTIBALL",
-  "WARMUP",
-  "STRETCHING",
-  "GAMES",
-] as const;
+export const DRILL_TYPES = ["SERVE", "COMBINATION", "MULTIBALL", "WARMUP", "STRETCHING", "GAMES"] as const;
 export type DrillType = (typeof DRILL_TYPES)[number];
 
 /** Drill type filter state in UI (single select). */
@@ -55,16 +49,18 @@ export const START_MODES = ["SERVE", "FEED"] as const;
 export type StartMode = (typeof START_MODES)[number];
 export type StartModeFilter = StartMode | "ALL";
 
-export const EQUIPMENT_KEYS = [
-  "cones",
-  "barriers",
-  "ladder",
-  "jump_rope",
-  "robot",
-  "multiball_basket",
-  "stopwatch",
-] as const;
+export const EQUIPMENT_KEYS = ["cones", "barriers", "ladder", "jump_rope", "robot", "multiball_basket", "stopwatch"] as const;
 export type EquipmentKey = (typeof EQUIPMENT_KEYS)[number];
+
+/**
+ * Drill types stored in data (JSON) as an array.
+ * Always at least one value.
+ * Examples:
+ * - ["SERVE"]
+ * - ["WARMUP","STRETCHING"]
+ * - ["COMBINATION"]
+ */
+export type DrillTypes = readonly [DrillType, ...DrillType[]];
 
 /**
  * Type-guards for parsing from external sources (URL query, JSON, etc.).
@@ -115,7 +111,7 @@ export function isEquipmentKey(value: string | null | undefined): value is Equip
   return (EQUIPMENT_KEYS as readonly string[]).includes(value);
 }
 
-/** Shared fields for all drill types. */
+/** Shared fields for all drills. */
 export interface DrillBase {
   /** Stable, unique identifier (slug). Example: "serve-short-backspin-targets" */
   id: string;
@@ -126,8 +122,11 @@ export interface DrillBase {
   /** Czech description shown in UI */
   description: string;
 
-  /** Main drill type used for filtering */
-  type: DrillType;
+  /**
+   * Drill types used for filtering.
+   * A single drill can belong to multiple types (e.g. warmup + stretching).
+   */
+  types: DrillTypes;
 
   /**
    * Age groups stored in data.
@@ -151,9 +150,7 @@ export interface DrillBase {
 
 /** Additional fields required for combination drills. */
 export interface CombinationDrill extends DrillBase {
-  type: "COMBINATION";
-
-  /** REGULAR = fixed pattern; IRREGULAR = decision / random target */
+  /** Must include COMBINATION in `types` (enforced via runtime checks / authoring discipline). */
   comboPattern: ComboPattern;
 
   /**
@@ -161,20 +158,20 @@ export interface CombinationDrill extends DrillBase {
    * - ["SERVE"] means serve is required (3rd/5th ball context)
    * - ["SERVE","FEED"] means start is optional (serve OR feed/rozehra)
    */
-  startModes: readonly StartMode[];
-}
-
-/** Any drill that is not a combination. */
-export interface NonCombinationDrill extends DrillBase {
-  type: Exclude<DrillType, "COMBINATION">;
-
-  // Ensure these do not accidentally appear on non-combination drills.
-  comboPattern?: never;
-  startModes?: never;
+  startModes: readonly [StartMode, ...StartMode[]];
 }
 
 /** Union type for all drills in the app. */
-export type Drill = CombinationDrill | NonCombinationDrill;
+export type Drill = DrillBase | (DrillBase & CombinationDrill);
+
+/**
+ * Type guard: check whether a drill is a combination drill.
+ * We consider a drill a combination if its `types` includes COMBINATION.
+ * (comboPattern/startModes are then expected to exist.)
+ */
+export function isCombinationDrill(drill: Drill): drill is DrillBase & CombinationDrill {
+  return (drill.types as readonly string[]).includes("COMBINATION");
+}
 
 /**
  * Helper: checks whether a drill is suitable for a given age group filter.
@@ -189,8 +186,18 @@ export function matchesAgeGroup(drill: Pick<DrillBase, "ageGroups">, filter: Age
 }
 
 /**
+ * Helper: checks whether a drill matches type filter.
+ * - If filter is "ALL", everything matches.
+ * - Otherwise, drill must include the selected type.
+ */
+export function matchesType(drill: Pick<DrillBase, "types">, filter: DrillTypeFilter): boolean {
+  if (filter === "ALL") return true;
+  return (drill.types as readonly string[]).includes(filter);
+}
+
+/**
  * Helper: checks whether a drill matches combination-specific filters.
- * Call this only when drill.type === "COMBINATION".
+ * Call this only when drill is a combination drill.
  */
 export function matchesCombinationFilters(
   drill: Pick<CombinationDrill, "comboPattern" | "startModes">,

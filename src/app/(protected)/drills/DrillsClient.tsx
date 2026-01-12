@@ -14,17 +14,17 @@
  *   - type=COMBINATION | (omitted for ALL)
  *   - comboPattern=REGULAR | IRREGULAR | (omitted for ALL)
  *   - startMode=SERVE | FEED | (omitted for ALL)
+ *
+ * Note:
+ * - Drill model now supports multi-type drills via drill.types[].
+ * - UI filter still remains single-select (type=...).
  */
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { getAllDrills, filterDrills } from "@/features/drills/data/loadDrills";
-import {
-  DrillFilters,
-  DrillFilterState,
-} from "@/features/drills/components/DrillFilters";
-
+import { DrillFilters, DrillFilterState } from "@/features/drills/components/DrillFilters";
 import { DrillList } from "@/features/drills/components/DrillList";
 import {
   isAgeGroupFilter,
@@ -129,18 +129,10 @@ export function DrillsClient() {
 
   return (
     <>
-      <DrillFilters
-        value={draftFilters}
-        onChange={setDraftFilters}
-        onSearch={applySearch}
-        searchLabel="Vyhledat"
-      />
+      <DrillFilters value={draftFilters} onChange={setDraftFilters} onSearch={applySearch} searchLabel="Vyhledat" />
 
       <div className="mt-3 text-sm text-gray-600">
-        Nalezeno:{" "}
-        <span className="font-medium text-gray-900">
-          {formatCzCount(filtered.length)}
-        </span>
+        Nalezeno: <span className="font-medium text-gray-900">{formatCzCount(filtered.length)}</span>
       </div>
 
       <div className="mt-6">

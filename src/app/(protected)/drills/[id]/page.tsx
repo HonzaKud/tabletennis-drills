@@ -4,14 +4,14 @@ import { getAllDrills, filterDrills } from "@/features/drills/data/loadDrills";
 import { DrillDetail } from "@/features/drills/components/DrillDetail";
 import {
   Drill,
-  isAgeGroupFilter,
-  isDrillTypeFilter,
-  isComboPatternFilter,
-  isStartModeFilter,
   AgeGroupFilter,
   DrillTypeFilter,
   ComboPatternFilter,
   StartModeFilter,
+  isAgeGroupFilter,
+  isDrillTypeFilter,
+  isComboPatternFilter,
+  isStartModeFilter,
 } from "@/features/drills/types/drill";
 
 type PageProps = {
@@ -55,9 +55,12 @@ function buildDrillsResultsUrl(filters: UrlFilters): string {
 
   // Persist combo filters only when type === COMBINATION
   if (filters.type === "COMBINATION") {
-    if (filters.comboPattern && filters.comboPattern !== "ALL")
+    if (filters.comboPattern && filters.comboPattern !== "ALL") {
       params.set("comboPattern", filters.comboPattern);
-    if (filters.startMode && filters.startMode !== "ALL") params.set("startMode", filters.startMode);
+    }
+    if (filters.startMode && filters.startMode !== "ALL") {
+      params.set("startMode", filters.startMode);
+    }
   }
 
   const qs = params.toString();
@@ -71,9 +74,12 @@ function buildDrillDetailUrl(id: string, filters: UrlFilters): string {
   if (filters.type && filters.type !== "ALL") params.set("type", filters.type);
 
   if (filters.type === "COMBINATION") {
-    if (filters.comboPattern && filters.comboPattern !== "ALL")
+    if (filters.comboPattern && filters.comboPattern !== "ALL") {
       params.set("comboPattern", filters.comboPattern);
-    if (filters.startMode && filters.startMode !== "ALL") params.set("startMode", filters.startMode);
+    }
+    if (filters.startMode && filters.startMode !== "ALL") {
+      params.set("startMode", filters.startMode);
+    }
   }
 
   const qs = params.toString();
@@ -81,7 +87,10 @@ function buildDrillDetailUrl(id: string, filters: UrlFilters): string {
   return qs ? `${base}?${qs}` : base;
 }
 
-function getAdjacentIds(drills: Drill[], currentId: string): { prevId?: string; nextId?: string } {
+function getAdjacentIds(
+  drills: readonly Drill[],
+  currentId: string,
+): { prevId?: string; nextId?: string } {
   const idx = drills.findIndex((d) => d.id === currentId);
   if (idx < 0) return {};
 
@@ -102,6 +111,7 @@ export default async function DrillDetailPage({ params, searchParams }: PageProp
   if (!drill) notFound();
 
   // Build a filtered list so prev/next navigation respects current results context.
+  // NOTE: filterDrills supports multi-type drills (drill.types[]) and ageGroups[] internally.
   const filtered = filterDrills(all, {
     ageGroup: urlFilters.ageGroup && urlFilters.ageGroup !== "ALL" ? urlFilters.ageGroup : undefined,
     type: urlFilters.type && urlFilters.type !== "ALL" ? urlFilters.type : undefined,

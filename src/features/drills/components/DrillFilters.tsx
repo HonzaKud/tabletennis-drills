@@ -12,7 +12,7 @@
  * Layout:
  * - Mobile: 1 column (filters stack)
  * - >= sm: 2 columns (filters sit side-by-side)
- * - Combination extra filters should also sit side-by-side on desktop
+ * - Combination extra filters also sit side-by-side on desktop
  */
 
 import {
@@ -83,7 +83,14 @@ export function DrillFilters({ value, onChange, onSearch, searchLabel = "Vyhleda
       aria-label="Filtry cvičení"
     >
       <div className="flex flex-col gap-3 md:flex-row md:items-end">
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:flex-1">
+        {/* Filters */}
+        <div
+          className={[
+            "grid grid-cols-1 gap-3 md:flex-1",
+            // On small+ screens keep two columns so filters sit side-by-side
+            "sm:grid-cols-2",
+          ].join(" ")}
+        >
           {/* Age group */}
           <label className="flex flex-col gap-1">
             <span className="text-xs font-medium text-gray-600">Věková kategorie</span>
@@ -129,7 +136,7 @@ export function DrillFilters({ value, onChange, onSearch, searchLabel = "Vyhleda
           {/* Combination: pattern */}
           {showCombinationFilters && (
             <label className="flex flex-col gap-1">
-              <span className="text-xs font-medium text-gray-600">Pravidelná/Nepravidelná</span>
+              <span className="text-xs font-medium text-gray-600">Struktura kombinace</span>
               <select
                 className="h-11 rounded-xl border border-gray-200 bg-white px-3 text-sm text-gray-900 shadow-sm focus:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-100"
                 value={value.comboPattern}
@@ -152,7 +159,7 @@ export function DrillFilters({ value, onChange, onSearch, searchLabel = "Vyhleda
           {/* Combination: start mode */}
           {showCombinationFilters && (
             <label className="flex flex-col gap-1">
-              <span className="text-xs font-medium text-gray-600">Se sevisem/Bez servisu</span>
+              <span className="text-xs font-medium text-gray-600">Start</span>
               <select
                 className="h-11 rounded-xl border border-gray-200 bg-white px-3 text-sm text-gray-900 shadow-sm focus:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-100"
                 value={value.startMode}
