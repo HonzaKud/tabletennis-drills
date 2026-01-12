@@ -246,7 +246,7 @@
   "id": "stretching-triceps-overhead",
   "title": "Protažení tricepsu nad hlavou",
   "description": "Statický strečink zadní strany paže a oblasti ramen. Jedna paže je zvednutá nad hlavu a pokrčená v lokti, druhá ruka jemně tlačí loket směrem dolů a dozadu. Trup zůstává vzpřímený, ramena jsou uvolněná. Cvik provádět plynule bez švihu, s klidným dýcháním. Vystřídat obě strany.",
-  "type": "STRETCHING",
+  "types": ["WARMUP", "STRETCHING"],
   "ageGroups": ["ALL"],
   "durationMinutes": 2,
   "equipment": [],
