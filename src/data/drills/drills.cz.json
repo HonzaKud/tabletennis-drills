@@ -260,6 +260,83 @@
     "rozcvička"
   ],
   "image": "/assets/drills/stretching/triceps-overhead-stretch.webp"
+},
+{
+  "id": "stretching-cobra-spine-extension",
+  "title": "Kobra – protažení páteře v lehu",
+  "description": "Statický strečink páteře a přední strany trupu. Cvičenec leží na břiše, dlaně má opřené o podložku pod rameny a plynule se vytlačuje do záklonu. Pánev zůstává na zemi, ramena jsou stažená dolů od uší a pohled směřuje vpřed nebo mírně vzhůru. Cvik provádět kontrolovaně, bez švihu, s klidným dýcháním.",
+  "types": ["WARMUP", "STRETCHING"],
+  "ageGroups": ["ALL"],
+  "durationMinutes": 2,
+  "equipment": [],
+  "tags": [
+    "strečink",
+    "páteř",
+    "záda",
+    "bedra",
+    "mobilita",
+    "regenerace",
+    "rozcvička"
+  ],
+  "image": "/assets/drills/stretching/cobra-spine-extension.webp"
+},
+{
+  "id": "stretching-shoulder-hand-clasp-behind-back",
+  "title": "Protažení ramen za zády – spojení rukou",
+  "description": "Statický strečink ramen a paží. Cvičenec stojí vzpřímeně zády k „kameře“, jednu paži vede shora za hlavu a pokrčí v lokti, druhou paži vede ze spodní části zad nahoru. Snaží se dotknout nebo spojit dlaně/prsty za zády. Ramena drží uvolněná, hrudník otevřený, bez prohýbání v bedrech. Dýchat klidně, bez švihu, poté vystřídat strany.",
+  "types": ["WARMUP", "STRETCHING"],
+  "ageGroups": ["ALL"],
+  "durationMinutes": 2,
+  "equipment": [],
+  "tags": [
+    "strečink",
+    "ramena",
+    "paže",
+    "mobilita",
+    "rozsah pohybu",
+    "prevence zranění",
+    "rozcvička"
+  ],
+  "image": "/assets/drills/stretching/shoulder-hand-clasp-behind-back.webp"
+},
+{
+  "id": "stretching-seated-hamstring-single-leg",
+  "title": "Protažení hamstringů vsedě – jedna noha",
+  "description": "Statický strečink zadní strany stehen a spodních zad. Cvičenec sedí na podložce, jedna noha je natažená před tělem, druhá je pokrčená stranou. Trup se plynule předklání z kyčlí směrem k natažené noze, paže směřují vpřed ke špičce chodidla. Záda zůstávají co nejvíce rovná, pohyb je kontrolovaný, bez švihu. Po výdrži vystřídat strany.",
+  "types": ["WARMUP", "STRETCHING"],
+  "ageGroups": ["ALL"],
+  "durationMinutes": 2,
+  "equipment": [],
+  "tags": [
+    "strečink",
+    "hamstringy",
+    "zadní strana stehen",
+    "záda",
+    "mobilita",
+    "regenerace",
+    "rozcvička"
+  ],
+  "image": "/assets/drills/stretching/seated-hamstring-single-leg.webp"
+},
+{
+  "id": "stretching-calf-wall",
+  "title": "Protažení lýtek u stěny",
+  "description": "Statický strečink lýtkových svalů. Cvičenec stojí čelem ke stěně, dlaně má opřené o zeď v úrovni ramen. Jedna noha je vpředu pokrčená, druhá vzadu natažená s patou pevně na zemi. Trup je lehce nakloněný vpřed, záda rovná. Protažení se soustředí na lýtko zadní nohy. Po výdrži vystřídat strany.",
+  "types": ["WARMUP", "STRETCHING"],
+  "ageGroups": ["ALL"],
+  "durationMinutes": 2,
+  "equipment": [],
+  "tags": [
+    "strečink",
+    "lýtka",
+    "kotníky",
+    "dolní končetiny",
+    "mobilita",
+    "prevence zranění",
+    "rozcvička"
+  ],
+  "image": "/assets/drills/stretching/calf-wall-stretch.webp"
 }
+
 ]
 
