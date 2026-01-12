@@ -100,7 +100,8 @@
     "ageGroups": ["U13"],
     "durationMinutes": 8,
     "equipment": [],
-    "tags": ["pravidelné", "topspin", "blok", "přesun", "střed", "stabilita"]
+    "tags": ["pravidelné", "topspin", "blok", "přesun", "střed", "stabilita"],
+    "image": "/assets/drills/regular_combo/regular-topspin-fh-middle-fh-bh-cycle.webp"
   },
     {
     "id": "serve-short-backspin-bh-open-fh-fh-middle-switch",
