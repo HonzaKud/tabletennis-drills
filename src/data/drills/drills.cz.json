@@ -342,7 +342,7 @@
   "id": "stretching-neck-lateral-standing",
   "title": "Úklon hlavy do strany – protažení krku",
   "description": "Statický strečink svalů krční páteře. Cvičenec stojí vzpřímeně, ramena jsou uvolněná. Jedna ruka je položena na temeni hlavy a jemně přitahuje hlavu do úklonu ke straně. Druhá paže volně visí podél těla. Pohyb je pomalý, bez tahu a švihu, s klidným dýcháním. Po výdrži se strany vystřídají.",
-  "type": "STRETCHING",
+  "types": ["WARMUP", "STRETCHING"],
   "ageGroups": ["ALL"],
   "durationMinutes": 2,
   "equipment": [],
