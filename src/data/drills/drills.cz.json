@@ -7,7 +7,8 @@
     "ageGroups": ["U13"],
     "durationMinutes": 10,
     "equipment": ["cones", "stopwatch"],
-    "tags": ["servis", "backspin", "přesnost"]
+    "tags": ["servis", "backspin", "přesnost"],
+    "image": "/assets/drills/regular_combo/serve-short-backspin-targets.webp"
   },
   {
     "id": "serve-receive-push-attack",
