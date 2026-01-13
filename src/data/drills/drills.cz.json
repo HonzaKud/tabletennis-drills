@@ -31,7 +31,8 @@
     "ageGroups": ["U11"],
     "durationMinutes": 8,
     "equipment": [],
-    "tags": ["pravidelné", "přesun", "stabilita"]
+    "tags": ["pravidelné", "přesun", "stabilita"],
+    "image": "/assets/drills/regular_combo/regular-fh-bh-two-corners.webp"
   },
   {
     "id": "irregular-random-placement",
