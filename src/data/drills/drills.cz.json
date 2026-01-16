@@ -13,14 +13,15 @@
   {
     "id": "serve-receive-push-attack",
     "title": "Servis → příjem → krátký push → útok",
-    "description": "A servíruje backspin, B krátký push, A první útok (FH/BH dle dohody).",
+    "description": "A servíruje backspin, B push do BH nebo FH po domluvě, A první útok (FH/BH dle dohody).",
     "types": ["COMBINATION"],
     "comboPattern": "IRREGULAR",
     "startModes": ["SERVE"],
     "ageGroups": ["U15"],
     "durationMinutes": 12,
     "equipment": [],
-    "tags": ["servis", "příjem", "třetí míč", "útok"]
+    "tags": ["servis", "příjem", "třetí míč", "útok"],
+    "image": "/assets/drills/regular_combo/serve-receive-push-attack.webp"
   },
   {
     "id": "regular-fh-bh-two-corners",
