@@ -189,7 +189,8 @@
       "přechod",
       "rozhodování",
       "nepravidelné"
-    ]
+    ],
+    "image": "/assets/drills/regular_combo/serve-backspin-bh-open-cross-jam-bh-middle.webp"
   },
   {
     "id": "irregular-middle-corner-topspin-cycle",
@@ -398,44 +399,6 @@
     "uvolnění"
   ],
   "image": "/assets/drills/stretching/standing-trunk-rotation.webp"
-},
-{
-  "id": "warmup-neck-circles",
-  "title": "Kroužení hlavou – mobilita krku",
-  "description": "Mobilizační cvik pro krční páteř. Cvičenec stojí vzpřímeně, ramena jsou uvolněná a spuštěná dolů. Hlava se pomalu a plynule pohybuje v kruhu – vpřed, do strany, vzad a na druhou stranu. Pohyb je kontrolovaný, bez švihu a bez záklonu do krajních poloh. Po několika krouženích se směr změní.",
-  "types": ["WARMUP", "STRETCHING"],
-  "ageGroups": ["ALL"],
-  "durationMinutes": 1,
-  "equipment": [],
-  "tags": [
-    "rozcvička",
-    "mobilita",
-    "krk",
-    "krční páteř",
-    "šíje",
-    "uvolnění",
-    "prevence zranění"
-  ],
-  "image": "/assets/drills/stretching/neck-circles.webp"
-},
-{
-  "id": "warmup-neck-circles",
-  "title": "Kroužení hlavou – mobilita krku",
-  "description": "Mobilizační cvik pro krční páteř. Cvičenec stojí vzpřímeně, ramena jsou uvolněná a spuštěná dolů. Hlava se pomalu a plynule pohybuje v kruhu – vpřed, do strany, vzad a na druhou stranu. Pohyb je kontrolovaný, bez švihu a bez záklonu do krajních poloh. Po několika krouženích se směr změní.",
-  "types": ["WARMUP", "STRETCHING"],
-  "ageGroups": ["ALL"],
-  "durationMinutes": 1,
-  "equipment": [],
-  "tags": [
-    "rozcvička",
-    "mobilita",
-    "krk",
-    "krční páteř",
-    "šíje",
-    "uvolnění",
-    "prevence zranění"
-  ],
-  "image": "/assets/drills/stretching/neck-circles.webp"
 },
 {
   "id": "warmup-neck-circles",
