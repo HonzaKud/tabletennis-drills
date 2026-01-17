@@ -112,6 +112,26 @@
   ],
   "image": "/assets/drills/stretching/standing-trunk-rotation.webp"
 },
+{
+  "id": "stretching-standing-side-bend-overhead",
+  "title": "Boční úklon ve stoje s paží nad hlavou",
+  "description": "Stůj vzpřímeně na šířku ramen. Jednu ruku polož na bok pro stabilitu, druhou paži zvedni nad hlavu. S nádechem se vytáhni vzhůru, s výdechem proveď pomalý úklon trupu do strany (ne dopředu ani dozadu). Ramena drž nízko, pánev zůstává stabilní a chodidla celou plochou na zemi. Cítíš protažení na boku trupu (bok, žebra) a v podpaží. Vydrž staticky, klidně dýchej a poté vystřídej strany.",
+  "types": ["WARMUP", "STRETCHING"],
+  "ageGroups": ["ALL"],
+  "durationMinutes": 2,
+  "equipment": [],
+  "tags": [
+    "strečink",
+    "bok",
+    "trup",
+    "šikmé břišní svaly",
+    "latissimy",
+    "rameno",
+    "mobilita",
+    "regenerace"
+  ],
+  "image": "/assets/drills/stretching/standing-side-bend-overhead.webp"
+},
   {
     "id": "serve-short-backspin-targets",
     "title": "Krátký backspin servis na cíle",
@@ -192,6 +212,24 @@
     "equipment": [],
     "tags": ["strečink", "hamstringy", "záda"],
     "image": "/assets/drills/stretching/hamstring-stretch-seated.webp"
+  },
+    {
+    "id": "stretching-hamstrings-forward-bend",
+    "title": "Předklon s nataženými nohami – dotyk špiček",
+    "description": "Statický strečink zadní strany stehen a spodních zad. Cvičenec stojí nebo sedí s nataženými nohami, provede předklon a snaží se dotknout rukama špiček u nohou. Pohyb je plynulý, bez švihu, s důrazem na klidné dýchání.",
+    "types": ["WARMUP", "STRETCHING"],
+    "ageGroups": ["ALL"],
+    "durationMinutes": 2,
+    "equipment": [],
+    "tags": [
+      "strečink",
+      "hamstringy",
+      "záda",
+      "předklon",
+      "regenerace",
+      "rozklus"
+    ],
+    "image": "/assets/drills/stretching/stretching-hamstrings-forward-bend.webp"
   },
   {
     "id": "regular-topspin-bh-middle-fh-cycle",
@@ -326,24 +364,6 @@
     ]
   },
   {
-    "id": "stretching-hamstrings-forward-bend",
-    "title": "Předklon s nataženými nohami – dotyk špiček",
-    "description": "Statický strečink zadní strany stehen a spodních zad. Cvičenec stojí nebo sedí s nataženými nohami, provede předklon a snaží se dotknout rukama špiček u nohou. Pohyb je plynulý, bez švihu, s důrazem na klidné dýchání.",
-    "types": ["WARMUP", "STRETCHING"],
-    "ageGroups": ["ALL"],
-    "durationMinutes": 2,
-    "equipment": [],
-    "tags": [
-      "strečink",
-      "hamstringy",
-      "záda",
-      "předklon",
-      "regenerace",
-      "rozklus"
-    ],
-    "image": "/assets/drills/stretching/stretching-hamstrings-forward-bend.webp"
-  },
-  {
   "id": "stretching-cobra-spine-extension",
   "title": "Kobra – protažení páteře v lehu",
   "description": "Statický strečink páteře a přední strany trupu. Cvičenec leží na břiše, dlaně má opřené o podložku pod rameny a plynule se vytlačuje do záklonu. Pánev zůstává na zemi, ramena jsou stažená dolů od uší a pohled směřuje vpřed nebo mírně vzhůru. Cvik provádět kontrolovaně, bez švihu, s klidným dýcháním.",
@@ -437,27 +457,8 @@
     "aktivace"
   ],
   "image": "/assets/drills/stretching/single-leg-knee-hug-balance.webp"
-},
-{
-  "id": "stretching-standing-side-bend-overhead",
-  "title": "Boční úklon ve stoje s paží nad hlavou",
-  "description": "Stůj vzpřímeně na šířku ramen. Jednu ruku polož na bok pro stabilitu, druhou paži zvedni nad hlavu. S nádechem se vytáhni vzhůru, s výdechem proveď pomalý úklon trupu do strany (ne dopředu ani dozadu). Ramena drž nízko, pánev zůstává stabilní a chodidla celou plochou na zemi. Cítíš protažení na boku trupu (bok, žebra) a v podpaží. Vydrž staticky, klidně dýchej a poté vystřídej strany.",
-  "types": ["WARMUP", "STRETCHING"],
-  "ageGroups": ["ALL"],
-  "durationMinutes": 2,
-  "equipment": [],
-  "tags": [
-    "strečink",
-    "bok",
-    "trup",
-    "šikmé břišní svaly",
-    "latissimy",
-    "rameno",
-    "mobilita",
-    "regenerace"
-  ],
-  "image": "/assets/drills/stretching/standing-side-bend-overhead.webp"
 }
+
 
 ]
 
