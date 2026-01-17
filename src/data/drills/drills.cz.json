@@ -327,18 +327,7 @@
     "tags": ["pravidelné", "topspin", "blok", "přesun", "střed", "stabilita"],
     "image": "/assets/drills/regular_combo/regular-topspin-fh-middle-fh-bh-cycle.webp"
   },
-  {
-    "id": "serve-short-backspin-targets",
-    "title": "Krátký backspin servis na cíle",
-    "description": "Servis krátký backspin do FH/BH. Důraz na nízký odskok a přesnost.",
-    "types": ["SERVE"],
-    "ageGroups": ["U13"],
-    "durationMinutes": 10,
-    "equipment": ["cones", "stopwatch"],
-    "tags": ["servis", "backspin", "přesnost"],
-    "image": "/assets/drills/regular_combo/serve-short-backspin-targets.webp"
-  },
-  {
+    {
     "id": "serve-receive-push-attack",
     "title": "Servis → příjem → krátký push → útok",
     "description": "A servíruje backspin, B push do BH nebo FH po domluvě, A první útok (FH/BH dle dohody).",
@@ -350,6 +339,40 @@
     "equipment": [],
     "tags": ["servis", "příjem", "třetí míč", "útok"],
     "image": "/assets/drills/regular_combo/serve-receive-push-attack.webp"
+  },
+    {
+    "id": "serve-backspin-bh-open-cross-jam-bh-middle",
+    "title": "Servis backspin → BH otevření → křížem na hranici BH/střed (přechod)",
+    "description": "Pravidelně-nepravidelná kombinace se servisem: krátký servis se spodní rotací, soupeř přijme (pink) do backhandu. Útočník otevře backhandovým topspinem křížem. Poté soupeř blokuje převážně křížem do zóny mezi backhandem a středem (\"jam\" na hraně), hledá hranici přechodu a mění umístění tak, aby útočník musel rozhodovat mezi BH topspinem a FH topspinem ze středu. Hraje se kontinuálně do nekonečna, bez zakončení.",
+    "types": ["COMBINATION"],
+    "comboPattern": "IRREGULAR",
+    "startModes": ["SERVE"],
+    "ageGroups": ["U17"],
+    "durationMinutes": 10,
+    "equipment": [],
+    "tags": [
+      "servis",
+      "backspin",
+      "otevření",
+      "topspin",
+      "blok",
+      "křížem",
+      "přechod",
+      "rozhodování",
+      "nepravidelné"
+    ],
+    "image": "/assets/drills/regular_combo/serve-backspin-bh-open-cross-jam-bh-middle.webp"
+  },
+  {
+    "id": "serve-short-backspin-targets",
+    "title": "Krátký backspin servis na cíle",
+    "description": "Servis krátký backspin do FH/BH. Důraz na nízký odskok a přesnost.",
+    "types": ["SERVE"],
+    "ageGroups": ["U13"],
+    "durationMinutes": 10,
+    "equipment": ["cones", "stopwatch"],
+    "tags": ["servis", "backspin", "přesnost"],
+    "image": "/assets/drills/regular_combo/serve-short-backspin-targets.webp"
   },
   {
     "id": "irregular-random-placement",
@@ -413,29 +436,6 @@
       "třetí míč",
       "zápasová hra"
     ]
-  },
-  {
-    "id": "serve-backspin-bh-open-cross-jam-bh-middle",
-    "title": "Servis backspin → BH otevření → křížem na hranici BH/střed (přechod)",
-    "description": "Pravidelně-nepravidelná kombinace se servisem: krátký servis se spodní rotací, soupeř přijme (pink) do backhandu. Útočník otevře backhandovým topspinem křížem. Poté soupeř blokuje převážně křížem do zóny mezi backhandem a středem (\"jam\" na hraně), hledá hranici přechodu a mění umístění tak, aby útočník musel rozhodovat mezi BH topspinem a FH topspinem ze středu. Hraje se kontinuálně do nekonečna, bez zakončení.",
-    "types": ["COMBINATION"],
-    "comboPattern": "IRREGULAR",
-    "startModes": ["SERVE"],
-    "ageGroups": ["U17"],
-    "durationMinutes": 10,
-    "equipment": [],
-    "tags": [
-      "servis",
-      "backspin",
-      "otevření",
-      "topspin",
-      "blok",
-      "křížem",
-      "přechod",
-      "rozhodování",
-      "nepravidelné"
-    ],
-    "image": "/assets/drills/regular_combo/serve-backspin-bh-open-cross-jam-bh-middle.webp"
   },
   {
     "id": "irregular-middle-corner-topspin-cycle",
