@@ -132,6 +132,37 @@
   ],
   "image": "/assets/drills/stretching/standing-side-bend-overhead.webp"
 },
+    {
+    "id": "stretching-hamstrings-forward-bend",
+    "title": "Předklon s nataženými nohami – dotyk špiček",
+    "description": "Statický strečink zadní strany stehen a spodních zad. Cvičenec stojí nebo sedí s nataženými nohami, provede předklon a snaží se dotknout rukama špiček u nohou. Pohyb je plynulý, bez švihu, s důrazem na klidné dýchání.",
+    "types": ["WARMUP", "STRETCHING"],
+    "ageGroups": ["ALL"],
+    "durationMinutes": 2,
+    "equipment": [],
+    "tags": [
+      "strečink",
+      "hamstringy",
+      "záda",
+      "předklon",
+      "regenerace",
+      "rozklus"
+    ],
+    "image": "/assets/drills/stretching/stretching-hamstrings-forward-bend.webp"
+  },
+    {
+    "id": "regular-fh-bh-two-corners",
+    "title": "Pravidelně FH–BH do dvou rohů",
+    "description": "Pravidelná kombinace na stabilitu postavení a přesun. Tempo podle úrovně.",
+    "types": ["COMBINATION"],
+    "comboPattern": "REGULAR",
+    "startModes": ["SERVE", "FEED"],
+    "ageGroups": ["U11"],
+    "durationMinutes": 8,
+    "equipment": [],
+    "tags": ["pravidelné", "přesun", "stabilita"],
+    "image": "/assets/drills/regular_combo/regular-fh-bh-two-corners.webp"
+  },
   {
     "id": "serve-short-backspin-targets",
     "title": "Krátký backspin servis na cíle",
@@ -156,19 +187,7 @@
     "tags": ["servis", "příjem", "třetí míč", "útok"],
     "image": "/assets/drills/regular_combo/serve-receive-push-attack.webp"
   },
-  {
-    "id": "regular-fh-bh-two-corners",
-    "title": "Pravidelně FH–BH do dvou rohů",
-    "description": "Pravidelná kombinace na stabilitu postavení a přesun. Tempo podle úrovně.",
-    "types": ["COMBINATION"],
-    "comboPattern": "REGULAR",
-    "startModes": ["SERVE", "FEED"],
-    "ageGroups": ["U11"],
-    "durationMinutes": 8,
-    "equipment": [],
-    "tags": ["pravidelné", "přesun", "stabilita"],
-    "image": "/assets/drills/regular_combo/regular-fh-bh-two-corners.webp"
-  },
+
   {
     "id": "irregular-random-placement",
     "title": "Nepravidelně: náhodné umístění",
@@ -213,24 +232,7 @@
     "tags": ["strečink", "hamstringy", "záda"],
     "image": "/assets/drills/stretching/hamstring-stretch-seated.webp"
   },
-    {
-    "id": "stretching-hamstrings-forward-bend",
-    "title": "Předklon s nataženými nohami – dotyk špiček",
-    "description": "Statický strečink zadní strany stehen a spodních zad. Cvičenec stojí nebo sedí s nataženými nohami, provede předklon a snaží se dotknout rukama špiček u nohou. Pohyb je plynulý, bez švihu, s důrazem na klidné dýchání.",
-    "types": ["WARMUP", "STRETCHING"],
-    "ageGroups": ["ALL"],
-    "durationMinutes": 2,
-    "equipment": [],
-    "tags": [
-      "strečink",
-      "hamstringy",
-      "záda",
-      "předklon",
-      "regenerace",
-      "rozklus"
-    ],
-    "image": "/assets/drills/stretching/stretching-hamstrings-forward-bend.webp"
-  },
+
   {
     "id": "regular-topspin-bh-middle-fh-cycle",
     "title": "Pravidelná kombinace BH–střed–BH–FH (topspin)",
