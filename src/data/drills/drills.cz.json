@@ -210,6 +210,62 @@
     "tags": ["strečink", "kvadriceps", "rozklus"],
     "image": "/assets/drills/stretching/quad-stretch-standing.webp"
   },
+  {
+  "id": "warmup-single-leg-knee-hug-balance",
+  "title": "Přitahování kolene k hrudníku ve stoji",
+  "description": "Mobilizační a aktivační cvik ve stoji zaměřený na kyčle, spodní záda a stabilitu. Cvičenec stojí na jedné noze, druhou nohu pokrčí v koleni a oběma rukama ji přitáhne k hrudníku. Trup je vzpřímený, ramena uvolněná, pohled směřuje vpřed. Stojná noha je lehce pokrčená a aktivní. Cvik se provádí staticky s klidným dýcháním, poté se vystřídají strany.",
+  "types": ["WARMUP", "STRETCHING"],
+  "ageGroups": ["ALL"],
+  "durationMinutes": 1,
+  "equipment": [],
+  "tags": [
+    "rozcvička",
+    "mobilita",
+    "stabilita",
+    "kyčle",
+    "spodní záda",
+    "rovnováha",
+    "aktivace"
+  ],
+  "image": "/assets/drills/stretching/single-leg-knee-hug-balance.webp"
+},{
+  "id": "stretching-calf-wall",
+  "title": "Protažení lýtek u stěny",
+  "description": "Statický strečink lýtkových svalů. Cvičenec stojí čelem ke stěně, dlaně má opřené o zeď v úrovni ramen. Jedna noha je vpředu pokrčená, druhá vzadu natažená s patou pevně na zemi. Trup je lehce nakloněný vpřed, záda rovná. Protažení se soustředí na lýtko zadní nohy. Po výdrži vystřídat strany.",
+  "types": ["WARMUP", "STRETCHING"],
+  "ageGroups": ["ALL"],
+  "durationMinutes": 2,
+  "equipment": [],
+  "tags": [
+    "strečink",
+    "lýtka",
+    "kotníky",
+    "dolní končetiny",
+    "mobilita",
+    "prevence zranění",
+    "rozcvička"
+  ],
+  "image": "/assets/drills/stretching/calf-wall-stretch.webp"
+},
+{
+  "id": "stretching-calf-wall-toe",
+  "title": "Protažení lýtka o zeď (špička na zdi)",
+  "description": "Postav se čelem ke zdi. Jednu nohu dej mírně dozadu a špičku (přední část chodidla) opři o zeď – pata zůstává na zemi. Druhá noha je vpředu pro stabilitu. Drž trup vzpřímeně a pomalu přenášej váhu dopředu, dokud neucítíš protažení v lýtku a Achillově šlaše zadní/strečované nohy. Koleno strečované nohy drž natažené (pro lýtko), případně ho lehce pokrč (více na Achillovku/hlubší část lýtka). Vydrž, dýchej klidně, bez švihu. Poté vystřídej nohy.",
+  "types": ["WARMUP", "STRETCHING"],
+  "ageGroups": ["ALL"],
+  "durationMinutes": 2,
+  "equipment": ["WALL"],
+  "tags": [
+    "strečink",
+    "lýtko",
+    "achillovka",
+    "kotník",
+    "mobilita",
+    "regenerace",
+    "prevence zranění"
+  ],
+  "image": "/assets/drills/stretching/calf-wall-toe.webp"
+},
     {
     "id": "regular-fh-bh-two-corners",
     "title": "Pravidelně FH–BH do dvou rohů",
@@ -400,65 +456,6 @@
       "pohyb",
       "rozhodování"
     ]
-  },
-{
-  "id": "stretching-calf-wall",
-  "title": "Protažení lýtek u stěny",
-  "description": "Statický strečink lýtkových svalů. Cvičenec stojí čelem ke stěně, dlaně má opřené o zeď v úrovni ramen. Jedna noha je vpředu pokrčená, druhá vzadu natažená s patou pevně na zemi. Trup je lehce nakloněný vpřed, záda rovná. Protažení se soustředí na lýtko zadní nohy. Po výdrži vystřídat strany.",
-  "types": ["WARMUP", "STRETCHING"],
-  "ageGroups": ["ALL"],
-  "durationMinutes": 2,
-  "equipment": [],
-  "tags": [
-    "strečink",
-    "lýtka",
-    "kotníky",
-    "dolní končetiny",
-    "mobilita",
-    "prevence zranění",
-    "rozcvička"
-  ],
-  "image": "/assets/drills/stretching/calf-wall-stretch.webp"
-},
-{
-  "id": "stretching-calf-wall-toe",
-  "title": "Protažení lýtka o zeď (špička na zdi)",
-  "description": "Postav se čelem ke zdi. Jednu nohu dej mírně dozadu a špičku (přední část chodidla) opři o zeď – pata zůstává na zemi. Druhá noha je vpředu pro stabilitu. Drž trup vzpřímeně a pomalu přenášej váhu dopředu, dokud neucítíš protažení v lýtku a Achillově šlaše zadní/strečované nohy. Koleno strečované nohy drž natažené (pro lýtko), případně ho lehce pokrč (více na Achillovku/hlubší část lýtka). Vydrž, dýchej klidně, bez švihu. Poté vystřídej nohy.",
-  "types": ["WARMUP", "STRETCHING"],
-  "ageGroups": ["ALL"],
-  "durationMinutes": 2,
-  "equipment": ["WALL"],
-  "tags": [
-    "strečink",
-    "lýtko",
-    "achillovka",
-    "kotník",
-    "mobilita",
-    "regenerace",
-    "prevence zranění"
-  ],
-  "image": "/assets/drills/stretching/calf-wall-toe.webp"
-},
-{
-  "id": "warmup-single-leg-knee-hug-balance",
-  "title": "Přitahování kolene k hrudníku ve stoji",
-  "description": "Mobilizační a aktivační cvik ve stoji zaměřený na kyčle, spodní záda a stabilitu. Cvičenec stojí na jedné noze, druhou nohu pokrčí v koleni a oběma rukama ji přitáhne k hrudníku. Trup je vzpřímený, ramena uvolněná, pohled směřuje vpřed. Stojná noha je lehce pokrčená a aktivní. Cvik se provádí staticky s klidným dýcháním, poté se vystřídají strany.",
-  "types": ["WARMUP", "STRETCHING"],
-  "ageGroups": ["ALL"],
-  "durationMinutes": 1,
-  "equipment": [],
-  "tags": [
-    "rozcvička",
-    "mobilita",
-    "stabilita",
-    "kyčle",
-    "spodní záda",
-    "rovnováha",
-    "aktivace"
-  ],
-  "image": "/assets/drills/stretching/single-leg-knee-hug-balance.webp"
-}
-
-
+  }
 ]
 
