@@ -18,6 +18,62 @@
   ],
   "image": "/assets/drills/stretching/neck-lateral-standing.webp"
 },
+{
+  "id": "warmup-neck-circles",
+  "title": "Kroužení hlavou – mobilita krku",
+  "description": "Mobilizační cvik pro krční páteř. Cvičenec stojí vzpřímeně, ramena jsou uvolněná a spuštěná dolů. Hlava se pomalu a plynule pohybuje v kruhu – vpřed, do strany, vzad a na druhou stranu. Pohyb je kontrolovaný, bez švihu a bez záklonu do krajních poloh. Po několika krouženích se směr změní.",
+  "types": ["WARMUP", "STRETCHING"],
+  "ageGroups": ["ALL"],
+  "durationMinutes": 1,
+  "equipment": [],
+  "tags": [
+    "rozcvička",
+    "mobilita",
+    "krk",
+    "krční páteř",
+    "šíje",
+    "uvolnění",
+    "prevence zranění"
+  ],
+  "image": "/assets/drills/stretching/neck-circles.webp"
+},
+{
+    "id": "stretching-shoulder-cross-body",
+    "title": "Protažení ramene přes tělo",
+    "description": "Statický strečink ramenního kloubu a zadní části paže. Jedna paže je přitažená přes tělo, druhá ruka ji jemně přitahuje k hrudníku. Ramena jsou uvolněná, trup vzpřímený. Držet plynule, bez švihu a s klidným dýcháním. Vystřídat obě strany.",
+    "types": ["WARMUP", "STRETCHING"],
+    "ageGroups": ["ALL"],
+    "durationMinutes": 2,
+    "equipment": [],
+    "tags": [
+      "strečink",
+      "rameno",
+      "paže",
+      "zadní delt",
+      "mobilita",
+      "prevence zranění"
+    ],
+    "image": "/assets/drills/stretching/shoulder-cross-body-stretch.webp"
+  },
+  {
+  "id": "stretching-triceps-overhead",
+  "title": "Protažení tricepsu nad hlavou",
+  "description": "Statický strečink zadní strany paže a oblasti ramen. Jedna paže je zvednutá nad hlavu a pokrčená v lokti, druhá ruka jemně tlačí loket směrem dolů a dozadu. Trup zůstává vzpřímený, ramena jsou uvolněná. Cvik provádět plynule bez švihu, s klidným dýcháním. Vystřídat obě strany.",
+  "types": ["WARMUP", "STRETCHING"],
+  "ageGroups": ["ALL"],
+  "durationMinutes": 2,
+  "equipment": [],
+  "tags": [
+    "strečink",
+    "triceps",
+    "ramena",
+    "paže",
+    "mobilita",
+    "prevence zranění",
+    "rozcvička"
+  ],
+  "image": "/assets/drills/stretching/triceps-overhead-stretch.webp"
+},
   {
     "id": "serve-short-backspin-targets",
     "title": "Krátký backspin servis na cíle",
@@ -250,43 +306,6 @@
     "image": "/assets/drills/stretching/stretching-hamstrings-forward-bend.webp"
   },
   {
-    "id": "stretching-shoulder-cross-body",
-    "title": "Protažení ramene přes tělo",
-    "description": "Statický strečink ramenního kloubu a zadní části paže. Jedna paže je přitažená přes tělo, druhá ruka ji jemně přitahuje k hrudníku. Ramena jsou uvolněná, trup vzpřímený. Držet plynule, bez švihu a s klidným dýcháním. Vystřídat obě strany.",
-    "types": ["WARMUP", "STRETCHING"],
-    "ageGroups": ["ALL"],
-    "durationMinutes": 2,
-    "equipment": [],
-    "tags": [
-      "strečink",
-      "rameno",
-      "paže",
-      "zadní delt",
-      "mobilita",
-      "prevence zranění"
-    ],
-    "image": "/assets/drills/stretching/shoulder-cross-body-stretch.webp"
-  },
-  {
-  "id": "stretching-triceps-overhead",
-  "title": "Protažení tricepsu nad hlavou",
-  "description": "Statický strečink zadní strany paže a oblasti ramen. Jedna paže je zvednutá nad hlavu a pokrčená v lokti, druhá ruka jemně tlačí loket směrem dolů a dozadu. Trup zůstává vzpřímený, ramena jsou uvolněná. Cvik provádět plynule bez švihu, s klidným dýcháním. Vystřídat obě strany.",
-  "types": ["WARMUP", "STRETCHING"],
-  "ageGroups": ["ALL"],
-  "durationMinutes": 2,
-  "equipment": [],
-  "tags": [
-    "strečink",
-    "triceps",
-    "ramena",
-    "paže",
-    "mobilita",
-    "prevence zranění",
-    "rozcvička"
-  ],
-  "image": "/assets/drills/stretching/triceps-overhead-stretch.webp"
-},
-{
   "id": "stretching-cobra-spine-extension",
   "title": "Kobra – protažení páteře v lehu",
   "description": "Statický strečink páteře a přední strany trupu. Cvičenec leží na břiše, dlaně má opřené o podložku pod rameny a plynule se vytlačuje do záklonu. Pánev zůstává na zemi, ramena jsou stažená dolů od uší a pohled směřuje vpřed nebo mírně vzhůru. Cvik provádět kontrolovaně, bez švihu, s klidným dýcháním.",
@@ -399,25 +418,6 @@
     "uvolnění"
   ],
   "image": "/assets/drills/stretching/standing-trunk-rotation.webp"
-},
-{
-  "id": "warmup-neck-circles",
-  "title": "Kroužení hlavou – mobilita krku",
-  "description": "Mobilizační cvik pro krční páteř. Cvičenec stojí vzpřímeně, ramena jsou uvolněná a spuštěná dolů. Hlava se pomalu a plynule pohybuje v kruhu – vpřed, do strany, vzad a na druhou stranu. Pohyb je kontrolovaný, bez švihu a bez záklonu do krajních poloh. Po několika krouženích se směr změní.",
-  "types": ["WARMUP", "STRETCHING"],
-  "ageGroups": ["ALL"],
-  "durationMinutes": 1,
-  "equipment": [],
-  "tags": [
-    "rozcvička",
-    "mobilita",
-    "krk",
-    "krční páteř",
-    "šíje",
-    "uvolnění",
-    "prevence zranění"
-  ],
-  "image": "/assets/drills/stretching/neck-circles.webp"
 },
 {
   "id": "warmup-single-leg-knee-hug-balance",
