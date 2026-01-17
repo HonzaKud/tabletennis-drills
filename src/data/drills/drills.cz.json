@@ -151,6 +151,36 @@
     "image": "/assets/drills/stretching/stretching-hamstrings-forward-bend.webp"
   },
     {
+    "id": "stretching-hamstrings-seated",
+    "title": "Protažení hamstringů vsedě",
+    "description": "Protažení zadní strany stehen a spodních zad v sedu.",
+    "types": ["WARMUP", "STRETCHING"],
+    "ageGroups": ["ALL"],
+    "durationMinutes": 3,
+    "equipment": [],
+    "tags": ["strečink", "hamstringy", "záda"],
+    "image": "/assets/drills/stretching/hamstring-stretch-seated.webp"
+  },
+  {
+  "id": "stretching-seated-hamstring-single-leg",
+  "title": "Protažení hamstringů vsedě – jedna noha",
+  "description": "Statický strečink zadní strany stehen a spodních zad. Cvičenec sedí na podložce, jedna noha je natažená před tělem, druhá je pokrčená stranou. Trup se plynule předklání z kyčlí směrem k natažené noze, paže směřují vpřed ke špičce chodidla. Záda zůstávají co nejvíce rovná, pohyb je kontrolovaný, bez švihu. Po výdrži vystřídat strany.",
+  "types": ["WARMUP", "STRETCHING"],
+  "ageGroups": ["ALL"],
+  "durationMinutes": 2,
+  "equipment": [],
+  "tags": [
+    "strečink",
+    "hamstringy",
+    "zadní strana stehen",
+    "záda",
+    "mobilita",
+    "regenerace",
+    "rozcvička"
+  ],
+  "image": "/assets/drills/stretching/seated-hamstring-single-leg.webp"
+},
+    {
     "id": "regular-fh-bh-two-corners",
     "title": "Pravidelně FH–BH do dvou rohů",
     "description": "Pravidelná kombinace na stabilitu postavení a přesun. Tempo podle úrovně.",
@@ -187,7 +217,6 @@
     "tags": ["servis", "příjem", "třetí míč", "útok"],
     "image": "/assets/drills/regular_combo/serve-receive-push-attack.webp"
   },
-
   {
     "id": "irregular-random-placement",
     "title": "Nepravidelně: náhodné umístění",
@@ -221,18 +250,6 @@
     "tags": ["strečink", "kvadriceps", "rozklus"],
     "image": "/assets/drills/stretching/quad-stretch-standing.webp"
   },
-  {
-    "id": "stretching-hamstrings-seated",
-    "title": "Protažení hamstringů vsedě",
-    "description": "Protažení zadní strany stehen a spodních zad v sedu.",
-    "types": ["WARMUP", "STRETCHING"],
-    "ageGroups": ["ALL"],
-    "durationMinutes": 3,
-    "equipment": [],
-    "tags": ["strečink", "hamstringy", "záda"],
-    "image": "/assets/drills/stretching/hamstring-stretch-seated.webp"
-  },
-
   {
     "id": "regular-topspin-bh-middle-fh-cycle",
     "title": "Pravidelná kombinace BH–střed–BH–FH (topspin)",
@@ -383,25 +400,6 @@
     "rozcvička"
   ],
   "image": "/assets/drills/stretching/cobra-spine-extension.webp"
-},
-{
-  "id": "stretching-seated-hamstring-single-leg",
-  "title": "Protažení hamstringů vsedě – jedna noha",
-  "description": "Statický strečink zadní strany stehen a spodních zad. Cvičenec sedí na podložce, jedna noha je natažená před tělem, druhá je pokrčená stranou. Trup se plynule předklání z kyčlí směrem k natažené noze, paže směřují vpřed ke špičce chodidla. Záda zůstávají co nejvíce rovná, pohyb je kontrolovaný, bez švihu. Po výdrži vystřídat strany.",
-  "types": ["WARMUP", "STRETCHING"],
-  "ageGroups": ["ALL"],
-  "durationMinutes": 2,
-  "equipment": [],
-  "tags": [
-    "strečink",
-    "hamstringy",
-    "zadní strana stehen",
-    "záda",
-    "mobilita",
-    "regenerace",
-    "rozcvička"
-  ],
-  "image": "/assets/drills/stretching/seated-hamstring-single-leg.webp"
 },
 {
   "id": "stretching-calf-wall",
