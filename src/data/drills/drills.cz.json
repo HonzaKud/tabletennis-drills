@@ -180,6 +180,36 @@
   ],
   "image": "/assets/drills/stretching/seated-hamstring-single-leg.webp"
 },
+  {
+  "id": "stretching-cobra-spine-extension",
+  "title": "Kobra – protažení páteře v lehu",
+  "description": "Statický strečink páteře a přední strany trupu. Cvičenec leží na břiše, dlaně má opřené o podložku pod rameny a plynule se vytlačuje do záklonu. Pánev zůstává na zemi, ramena jsou stažená dolů od uší a pohled směřuje vpřed nebo mírně vzhůru. Cvik provádět kontrolovaně, bez švihu, s klidným dýcháním.",
+  "types": ["WARMUP", "STRETCHING"],
+  "ageGroups": ["ALL"],
+  "durationMinutes": 2,
+  "equipment": [],
+  "tags": [
+    "strečink",
+    "páteř",
+    "záda",
+    "bedra",
+    "mobilita",
+    "regenerace",
+    "rozcvička"
+  ],
+  "image": "/assets/drills/stretching/cobra-spine-extension.webp"
+},
+  {
+    "id": "stretching-quadriceps-standing",
+    "title": "Protažení kvadricepsu ve stoje",
+    "description": "Základní statické protažení přední strany stehen.",
+    "types": ["WARMUP", "STRETCHING"],
+    "ageGroups": ["ALL"],
+    "durationMinutes": 2,
+    "equipment": [],
+    "tags": ["strečink", "kvadriceps", "rozklus"],
+    "image": "/assets/drills/stretching/quad-stretch-standing.webp"
+  },
     {
     "id": "regular-fh-bh-two-corners",
     "title": "Pravidelně FH–BH do dvou rohů",
@@ -238,17 +268,6 @@
     "durationMinutes": 10,
     "equipment": ["multiball_basket", "stopwatch"],
     "tags": ["zásobník", "otevření", "topspin"]
-  },
-  {
-    "id": "stretching-quadriceps-standing",
-    "title": "Protažení kvadricepsu ve stoje",
-    "description": "Základní statické protažení přední strany stehen.",
-    "types": ["WARMUP", "STRETCHING"],
-    "ageGroups": ["ALL"],
-    "durationMinutes": 2,
-    "equipment": [],
-    "tags": ["strečink", "kvadriceps", "rozklus"],
-    "image": "/assets/drills/stretching/quad-stretch-standing.webp"
   },
   {
     "id": "regular-topspin-bh-middle-fh-cycle",
@@ -382,25 +401,6 @@
       "rozhodování"
     ]
   },
-  {
-  "id": "stretching-cobra-spine-extension",
-  "title": "Kobra – protažení páteře v lehu",
-  "description": "Statický strečink páteře a přední strany trupu. Cvičenec leží na břiše, dlaně má opřené o podložku pod rameny a plynule se vytlačuje do záklonu. Pánev zůstává na zemi, ramena jsou stažená dolů od uší a pohled směřuje vpřed nebo mírně vzhůru. Cvik provádět kontrolovaně, bez švihu, s klidným dýcháním.",
-  "types": ["WARMUP", "STRETCHING"],
-  "ageGroups": ["ALL"],
-  "durationMinutes": 2,
-  "equipment": [],
-  "tags": [
-    "strečink",
-    "páteř",
-    "záda",
-    "bedra",
-    "mobilita",
-    "regenerace",
-    "rozcvička"
-  ],
-  "image": "/assets/drills/stretching/cobra-spine-extension.webp"
-},
 {
   "id": "stretching-calf-wall",
   "title": "Protažení lýtek u stěny",
