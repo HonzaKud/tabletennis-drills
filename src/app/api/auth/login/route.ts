@@ -3,6 +3,11 @@ import { NextResponse } from "next/server";
 import { loginSchema } from "@/schemas/auth";
 import { setSessionCookie } from "@/lib/auth/cookies";
 import { authService, AuthServiceError } from "@/server/auth/service";
+import { getAuthRequestMeta } from "@/server/auth/requestMeta";
+import { checkLoginRateLimit } from "@/server/auth/rateLimit";
+import { writeAuthAuditEvent } from "@/server/auth/audit";
+
+export const runtime = "nodejs";
 
 /**
  * POST /api/auth/login
@@ -15,20 +20,29 @@ import { authService, AuthServiceError } from "@/server/auth/service";
  * Security:
  * - Returns generic error for invalid credentials (no user enumeration).
  * - Cookie is httpOnly and secure in production (configured centrally).
+ *
+ * Operational:
+ * - Rate limiting (best-effort; fail-open on infra issues).
+ * - Audit events (best-effort; never breaks login).
  */
 export async function POST(req: Request) {
-  // --- (Optional) Rate limiting hook ---
-  // TODO(Auth v1): Add rate limiting here (by IP/email).
-  // If rate limited, return 429.
+  const meta = getAuthRequestMeta(req);
+
+  // Helper: audit must never break login.
+  async function safeAudit(event: Parameters<typeof writeAuthAuditEvent>[0]) {
+    try {
+      await writeAuthAuditEvent(event);
+    } catch (e) {
+      // Fail-open: do not block auth flow if audit storage is down.
+      console.warn("[auth] audit write failed", e);
+    }
+  }
 
   let json: unknown;
   try {
     json = await req.json();
   } catch {
-    return NextResponse.json(
-      { ok: false, error: "INVALID_JSON" },
-      { status: 400 }
-    );
+    return NextResponse.json({ ok: false, error: "INVALID_JSON" }, { status: 400 });
   }
 
   const parsed = loginSchema.safeParse(json);
@@ -48,27 +62,74 @@ export async function POST(req: Request) {
 
   const { email, password } = parsed.data;
 
+  // Rate limiting: 5/5min per (ip+email) and 20/5min per ip.
+  // Apply after validation to avoid blocking users for formatting mistakes.
+  try {
+    const rl = await checkLoginRateLimit({ ip: meta.ip, email });
+
+    if (!rl.allowed) {
+      await safeAudit({
+        type: "RATE_LIMIT",
+        email,
+        ip: meta.ip,
+        ua: meta.userAgent,
+        detail: "login rate limited",
+      });
+
+      return NextResponse.json(
+        { ok: false, error: "RATE_LIMITED" },
+        {
+          status: 429,
+          headers: rl.retryAfterSeconds
+            ? { "Retry-After": String(rl.retryAfterSeconds) }
+            : undefined,
+        }
+      );
+    }
+  } catch (e) {
+    // Fail-open: if rate limit infra is down, proceed without limiting.
+    console.warn("[auth] rate limit check failed (fail-open)", e);
+  }
+
   try {
     const { sessionId } = await authService.login(email, password);
 
     // Set httpOnly session cookie (server-only).
     await setSessionCookie(sessionId);
 
+    await safeAudit({
+      type: "SUCCESS",
+      email,
+      ip: meta.ip,
+      ua: meta.userAgent,
+    });
+
     return NextResponse.json({ ok: true }, { status: 200 });
   } catch (err) {
-    if (err instanceof AuthServiceError) {
-      if (err.code === "INVALID_CREDENTIALS") {
-        return NextResponse.json(
-          { ok: false, error: "INVALID_CREDENTIALS" },
-          { status: 401 }
-        );
-      }
+    if (err instanceof AuthServiceError && err.code === "INVALID_CREDENTIALS") {
+      await safeAudit({
+        type: "FAIL",
+        email,
+        ip: meta.ip,
+        ua: meta.userAgent,
+        detail: "invalid credentials",
+      });
+
+      return NextResponse.json(
+        { ok: false, error: "INVALID_CREDENTIALS" },
+        { status: 401 }
+      );
     }
 
+    await safeAudit({
+      type: "ERROR",
+      email,
+      ip: meta.ip,
+      ua: meta.userAgent,
+      detail: "internal error",
+    });
+
     // Fail-safe: do not leak internal errors.
-    return NextResponse.json(
-      { ok: false, error: "INTERNAL_ERROR" },
-      { status: 500 }
-    );
+    return NextResponse.json({ ok: false, error: "INTERNAL_ERROR" }, { status: 500 });
   }
 }
