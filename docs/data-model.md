@@ -1,98 +1,195 @@
 # Datový model – TableTennis Drills
 
-Tento dokument popisuje datový model aplikace TableTennis Drills. Slouží jako stabilní kontrakt mezi daty (JSON / databáze / API), aplikační logikou a UI vrstvou. V dokumentaci jsou pojmy „cvičení“ a „drill“ používány jako synonyma.
+Tento dokument popisuje **datový model aplikace TableTennis Drills**.
+Slouží jako **stabilní kontrakt** mezi daty (JSON / databáze / API),
+aplikační logikou a UI vrstvou.
 
-Zdroj dat (JSON, databáze, API) je považován za vyměnitelný detail. Struktura dat a význam jednotlivých polí jsou považovány za stabilní.
+V dokumentaci jsou pojmy **„cvičení“** a **„drill“** používány jako synonyma.
 
-## 1) Základní principy
+Zdroj dat (JSON, databáze, API) je považován za **vyměnitelný detail**.
+Struktura dat a význam jednotlivých polí jsou považovány za **stabilní**.
 
-Každé cvičení je samostatná entita. Každé cvičení má unikátní identifikátor (ID / slug). Data používají stabilní interní klíče (bez diakritiky). Uživatelsky čitelné texty (české popisky) se řeší v UI vrstvě.
+---
 
-Datový model je navržen tak, aby fungoval v MVP (JSON soubory), byl připravený na databázi a byl rozšiřitelný bez porušení zpětné kompatibility.
+## 1. Základní principy datového modelu
 
-## 2) Entita: Cvičení (Drill)
+- Každé cvičení je **samostatná entita**.
+- Každé cvičení má **unikátní identifikátor** (`id` / slug).
+- Data používají **stabilní interní klíče** (bez diakritiky, bez mezer).
+- Uživatelsky čitelné popisky (čeština) se řeší **výhradně v UI vrstvě**.
+- Datový model je:
+  - použitelný v MVP (JSON),
+  - připravený na databázi,
+  - rozšiřitelný bez porušení zpětné kompatibility.
 
-Jedno cvičení reprezentuje jeden konkrétní tréninkový drill nebo kombinaci.
+---
 
-Povinná pole entity:
-id, title, description, category, ageGroup, durationMinutes, equipment, tags
+## 2. Entita: Cvičení (Drill)
 
-Volitelná pole (MVP-ready):
-image
+Jedno cvičení reprezentuje **jeden konkrétní tréninkový drill nebo kombinaci**.
 
-## 3) Detailní popis polí
+### Povinná pole (MVP)
+- `id`
+- `title`
+- `description`
+- `category`
+- `ageGroup`
+- `durationMinutes`
+- `equipment`
+- `tags`
 
-id  
-typ: string  
-povinné: ano  
+### Volitelná pole (MVP-ready)
+- `image`
 
-Unikátní identifikátor cvičení. Slouží pro routing, odkazy a interní identifikaci.  
-Příklad: fh-bh-basic-combo
+---
 
-title  
-typ: string  
-povinné: ano  
+## 3. Detailní popis polí
 
-Krátký název cvičení, zobrazovaný v seznamu i detailu.  
-Příklad: Základní kombinace FH–BH
+### `id`
+- typ: `string`
+- povinné: **ano**
 
-description  
-typ: string  
-povinné: ano  
+Unikátní identifikátor cvičení.
+Používá se pro routing, odkazy a interní identifikaci.
 
-Textový popis cvičení. Vysvětluje průběh, cíl a základní provedení.  
-Poznámka: V MVP se jedná o čistý text bez formátování.
+- formát: slug (lowercase, pomlčky)
+- příklad:  
+  `fh-bh-basic-combo`
 
-category  
-typ: string (stabilní klíč)  
-povinné: ano  
+---
 
-Typ cvičení. Používá se pro filtrování a kategorizaci.  
-Povolené hodnoty (MVP):  
-serve, serve_combo, no_serve_combo, regular_combo, irregular_combo, mixed_regular_irregular, warmup, stretching, multiball  
+### `title`
+- typ: `string`
+- povinné: **ano**
 
-Poznámka: UI zobrazuje české popisky podle mapování v konfiguračních konstantách.
+Krátký název cvičení zobrazovaný v seznamu i detailu.
 
-ageGroup  
-typ: string (stabilní klíč)  
-povinné: ano  
+- příklad:  
+  `Základní kombinace FH–BH`
 
-Doporučená věková kategorie pro cvičení.  
-Povolené hodnoty: U9, U11, U13, U15, U17, ADULT, ALL  
+---
 
-Poznámka: Hodnota ALL označuje cvičení vhodná pro všechny věkové kategorie (např. rozcvička, strečink). Ve filtrech je ALL vždy zahrnuto.
+### `description`
+- typ: `string`
+- povinné: **ano**
 
-durationMinutes  
-typ: number  
-povinné: ano  
+Textový popis cvičení.
+Vysvětluje průběh, cíl a základní provedení.
 
-Doporučená délka cvičení v minutách.  
-Příklad: 10
+> Poznámka:  
+> V MVP se jedná o čistý text bez formátování (Markdown / HTML se zatím nepoužívá).
 
-equipment  
-typ: array of string (stabilní klíče)  
-povinné: ano (pole vždy existuje, může být prázdné)  
+---
 
-Seznam pomůcek potřebných ke cvičení. Prázdné pole znamená, že nejsou potřeba žádné specifické pomůcky nad rámec základního vybavení (stůl, míčky, pálka).  
-Povolené hodnoty (MVP): cones, barriers, ladder, jump_rope, robot, multiball_basket, stopwatch
+### `category`
+- typ: `string` (stabilní klíč)
+- povinné: **ano**
 
-tags  
-typ: array of string  
-povinné: ano (pole vždy existuje, může být prázdné)  
+Typ cvičení. Používá se pro filtrování a kategorizaci.
 
-Volitelné tagy popisující cvičení. Slouží pro budoucí rozšíření (vyhledávání, doporučení, pokročilé filtrování).  
-Poznámka: V MVP se jedná o volné texty (bez stabilních klíčů).  
-Příklady: forehand, backhand, topspin, footwork, consistency
+#### Povolené hodnoty (MVP)
+- `serve`
+- `serve_combo`
+- `no_serve_combo`
+- `regular_combo`
+- `irregular_combo`
+- `mixed_regular_irregular`
+- `warmup`
+- `stretching`
+- `multiball`
 
-image  
-typ: string  
-povinné: ne  
+> Poznámka:  
+> UI zobrazuje české popisky pomocí mapování v konfiguračních konstantách.
 
-Cesta nebo URL k obrázku cvičení. Pole je již podporováno v kódu a UI, ale jeho využití je zatím volitelné.  
-Příklad: /images/drills/fh-bh-basic-combo.png
+---
 
-## 4) Příklad cvičení (JSON – MVP)
+### `ageGroup`
+- typ: `string` (stabilní klíč)
+- povinné: **ano**
 
+Doporučená věková kategorie pro cvičení.
+
+#### Povolené hodnoty
+- `U9`
+- `U11`
+- `U13`
+- `U15`
+- `U17`
+- `ADULT`
+- `ALL`
+
+> Poznámka:  
+> Hodnota `ALL` označuje cvičení vhodná pro všechny věkové kategorie  
+> (např. rozcvička, strečink).  
+> Ve filtrech je hodnota `ALL` vždy implicitně zahrnuta.
+
+---
+
+### `durationMinutes`
+- typ: `number`
+- povinné: **ano**
+
+Doporučená délka cvičení v minutách.
+
+- příklad:  
+  `10`
+
+---
+
+### `equipment`
+- typ: `string[]` (stabilní klíče)
+- povinné: **ano** (pole vždy existuje, může být prázdné)
+
+Seznam pomůcek potřebných ke cvičení.
+
+Prázdné pole znamená, že nejsou potřeba žádné specifické pomůcky nad rámec
+základního vybavení (stůl, míčky, pálka).
+
+#### Povolené hodnoty (MVP)
+- `cones`
+- `barriers`
+- `ladder`
+- `jump_rope`
+- `robot`
+- `multiball_basket`
+- `stopwatch`
+
+---
+
+### `tags`
+- typ: `string[]`
+- povinné: **ano** (pole vždy existuje, může být prázdné)
+
+Volitelné tagy popisující cvičení.
+
+- slouží pro budoucí rozšíření (vyhledávání, doporučení, filtrování),
+- v MVP se jedná o **volné texty** (ne stabilní klíče).
+
+Příklady:
+- `forehand`
+- `backhand`
+- `topspin`
+- `footwork`
+- `consistency`
+
+---
+
+### `image`
+- typ: `string`
+- povinné: **ne**
+
+Cesta nebo URL k obrázku cvičení.
+
+Pole je již podporováno v kódu a UI, ale jeho použití je v MVP volitelné.
+
+- příklad:  
+  `/images/drills/fh-bh-basic-combo.png`
+
+---
+
+## 4. Příklad cvičení (JSON – MVP)
+
+```json
 {
   "id": "fh-bh-basic-combo",
   "title": "Základní kombinace FH–BH",
@@ -103,13 +200,30 @@ Příklad: /images/drills/fh-bh-basic-combo.png
   "equipment": [],
   "tags": ["forehand", "backhand", "consistency"]
 }
+5. Rozšiřitelnost datového modelu
+Datový model je navržen tak, aby bylo možné bez porušení existujících dat
+přidat například:
 
-## 5) Rozšiřitelnost modelu
+média (images, videos, youtubeId)
 
-Datový model je navržen tak, aby bylo možné bez porušení existujících dat přidat například média (images, videos, youtubeId), obtížnost (difficulty), cíle cvičení (goals), varianty cvičení nebo jazykové mutace.
+obtížnost (difficulty)
 
-Nová pole musí být volitelná, zpětně kompatibilní a zdokumentovaná v tomto souboru.
+cíle cvičení (goals)
 
-## 6) Shrnutí
+varianty cvičení
 
-Tento datový model definuje stabilní kontrakt aplikace, odpovídá aktuálnímu stavu MVP, odděluje data od UI, umožňuje plynulý přechod z JSON na databázi a slouží jako hlavní reference pro další vývoj.
+jazykové mutace
+
+Všechna nová pole musí být:
+
+volitelná,
+
+zpětně kompatibilní,
+
+zdokumentovaná v tomto souboru.
+
+6. Shrnutí
+Tento datový model definuje stabilní kontrakt aplikace TableTennis Drills.
+Odpovídá aktuálnímu stavu MVP, odděluje data od UI,
+umožňuje plynulý přechod z JSON na databázi
+a slouží jako hlavní reference pro další vývoj.

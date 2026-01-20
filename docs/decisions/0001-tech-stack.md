@@ -7,19 +7,24 @@ Stav: Přijato
 
 ## Kontext
 
-Projekt TableTennis Drills je webová aplikace zaměřená na práci s tréninkovými
-cvičeními. Projekt je vyvíjen iterativně, bez pevně dané roadmapy, s důrazem na:
+Projekt **TableTennis Drills** je webová aplikace zaměřená na práci s tréninkovými
+cvičeními pro stolní tenis.
+
+Projekt je vyvíjen iterativně, bez pevně dané dlouhodobé roadmapy,
+s důrazem na:
 
 - rychlý vývoj funkčního MVP,
-- čitelnost a udržitelnost kódu,
-- možnost postupného rozšiřování,
-- nasazení veřejně dostupné aplikace.
+- čitelnost a dlouhodobou udržitelnost kódu,
+- možnost postupného rozšiřování bez zásadních refaktorů,
+- veřejně dostupnou aplikaci s jednoduchým nasazením.
 
-Technologický stack musí:
+Technologický stack musí splňovat následující požadavky:
+
 - podporovat moderní frontendový vývoj,
-- umožnit server-side rendering,
-- být vhodný pro práci s daty (JSON → databáze),
-- minimalizovat nutnost budoucích refaktorů.
+- umožnit server-side rendering (SSR) i static rendering,
+- být vhodný pro práci s daty (JSON → databáze / API),
+- minimalizovat provozní a konfigurační režii,
+- umožnit budoucí rozšíření o autentizaci a backendové funkce.
 
 ---
 
@@ -27,86 +32,115 @@ Technologický stack musí:
 
 Byl zvolen následující technologický stack:
 
-- Next.js (App Router)
-- React
-- TypeScript
-- Tailwind CSS
-- JSON soubory jako zdroj dat pro MVP
-- Hosting na platformě Vercel
+- **Next.js (App Router)**
+- **React**
+- **TypeScript**
+- **Tailwind CSS**
+- **JSON soubory jako zdroj dat pro MVP**
+- **Hosting na platformě Vercel**
 
 ---
 
-## Důvody rozhodnutí
+## Odůvodnění rozhodnutí
 
 ### Next.js (App Router)
+
 - moderní framework nad Reactem,
-- podpora server-side a static renderingu,
+- podpora server-side i static renderingu,
 - vestavěný routing a layout systém,
-- API routy pro budoucí backend,
-- přirozená integrace s Vercel.
+- možnost API rout pro budoucí backendovou logiku,
+- přirozená integrace s platformou Vercel.
+
+Použití App Routeru odpovídá současným doporučeným postupům Next.js
+a zajišťuje dlouhodobou udržitelnost projektu.
+
+---
 
 ### React
+
 - osvědčená UI knihovna,
 - komponentový přístup,
-- široký ekosystém,
-- dlouhodobá udržitelnost.
+- široký ekosystém a dlouhodobá podpora,
+- přirozená volba v kombinaci s Next.js.
+
+---
 
 ### TypeScript
-- typová bezpečnost,
-- lepší čitelnost kódu,
-- jednodušší refaktoring,
-- menší riziko chyb při růstu projektu.
+
+- typová bezpečnost napříč aplikací,
+- lepší čitelnost a srozumitelnost kódu,
+- jednodušší refaktoring při růstu projektu,
+- nižší riziko chyb při práci s datovým modelem.
+
+---
 
 ### Tailwind CSS
-- rychlé vytváření layoutů,
+
+- rychlé vytváření UI bez vlastní CSS architektury,
 - mobile-first přístup,
-- konzistentní styling bez složité CSS architektury,
-- dobrá škálovatelnost UI.
+- konzistentní styling napříč aplikací,
+- dobrá škálovatelnost bez nárůstu technického dluhu.
+
+---
 
 ### JSON jako zdroj dat (MVP)
-- nejrychlejší způsob, jak vytvořit funkční aplikaci,
-- jednoduchá editace a verzování,
-- možnost snadného přechodu na databázi díky oddělené datové vrstvě.
+
+- nejrychlejší způsob vytvoření funkční aplikace,
+- jednoduchá editace a verzování v Git repozitáři,
+- žádná provozní závislost na databázi v rané fázi,
+- datová vrstva je oddělena tak, aby byl možný
+  pozdější přechod na databázi nebo API bez změn UI.
+
+---
 
 ### Vercel
+
 - nativní podpora Next.js,
 - jednoduchý a rychlý deployment,
-- minimální provozní režie.
+- minimální provozní režie,
+- vhodné prostředí pro MVP i veřejnou demonstraci projektu.
 
 ---
 
 ## Zvažované alternativy
 
-- Čistý React + Vite  
-  (méně vhodné pro SSR a budoucí backendové funkce)
+- **Čistý React + Vite**  
+  Nevhodné z hlediska SSR a budoucích backendových funkcí.
 
-- Jiný CSS framework  
-  (vyšší režie bez zásadního přínosu)
+- **Jiný CSS framework**  
+  Vyšší režie bez zásadního přínosu pro rozsah MVP.
 
-- Databáze již od MVP  
-  (zbytečná komplexita v rané fázi projektu)
+- **Databáze již v MVP fázi**  
+  Zbytečná komplexita a provozní náklady v rané fázi projektu.
 
 ---
 
 ## Důsledky rozhodnutí
 
-### Pozitivní
-- rychlý start projektu,
-- jasná architektura,
-- snadná rozšiřitelnost,
-- vhodné prostředí pro iterativní vývoj.
+### Pozitivní důsledky
 
-### Negativní / omezení
+- rychlý start vývoje,
+- jasná a čitelná architektura,
+- snadná rozšiřitelnost aplikace,
+- vhodné prostředí pro iterativní vývoj,
+- minimální provozní náklady v MVP fázi.
+
+---
+
+### Negativní důsledky / omezení
+
 - JSON jako zdroj dat není vhodný pro složitější správu obsahu,
 - některé pokročilé funkce budou vyžadovat pozdější rozšíření stacku
-  (auth, databáze, admin).
+  (databáze, autentizace, admin rozhraní).
 
-Tato omezení jsou považována za akceptovatelná v rámci MVP.
+Tato omezení jsou považována za **akceptovatelná v rámci MVP**.
 
 ---
 
 ## Poznámka
 
-Toto rozhodnutí se týká výchozí fáze projektu.
-V případě zásadních změn (např. přechod na databázi, změna auth řešení)
+Toto rozhodnutí se vztahuje k výchozí fázi projektu (MVP).
+
+V případě zásadních architektonických změn
+(např. přechod na databázi, změna autentizační strategie)
 bude vytvořen nový ADR dokument.

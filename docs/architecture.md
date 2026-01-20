@@ -1,140 +1,269 @@
 # Architektura projektu – TableTennis Drills
 
-Tento dokument popisuje architekturu projektu TableTennis Drills, hlavní technická rozhodnutí a strukturu aplikace v aktuálním stavu (MVP).
+Tento dokument popisuje architekturu projektu **TableTennis Drills**,
+hlavní technická rozhodnutí a strukturu aplikace v aktuálním stavu (MVP).
 
-Cílem architektury je umožnit rychlý vývoj funkčního MVP, zachovat čitelnost a jednoduchost kódu, jasně oddělit doménovou logiku, UI a data a připravit projekt na budoucí rozšíření bez nutnosti velkých refaktorů.
+Cílem architektury je:
+- umožnit rychlý vývoj funkčního MVP,
+- zachovat čitelnost a jednoduchost kódu,
+- jasně oddělit UI, doménovou logiku a data,
+- připravit projekt na budoucí rozšíření bez nutnosti zásadních refaktorů.
 
-## 1) Přehled architektury
+---
 
-Aplikace je postavena jako moderní webová aplikace s využitím následujících technologií: Next.js (App Router), React, TypeScript, Tailwind CSS a JSON data jako zdroj dat v MVP.
+## 1. Přehled architektury
 
-Architektura je navržena tak, aby UI nepracovalo přímo s datovým zdrojem, doménová logika byla soustředěna do feature modulů a datový zdroj (JSON → databáze / API) šel vyměnit bez zásahu do UI vrstvy.
+Aplikace je postavena jako moderní webová aplikace využívající:
 
-## 2) Rozhodnutí: Next.js + App Router
+- **Next.js (App Router)**
+- **React**
+- **TypeScript**
+- **Tailwind CSS**
+- **JSON data** jako zdroj dat v MVP
 
-Next.js byl zvolen z následujících důvodů: vestavěný routing, možnost server-side i static renderingu, jasná a škálovatelná struktura projektu, bezproblémový deployment (Vercel / GitHub Pages) a připravenost na budoucí backend (API routes).
+Architektura je navržena tak, aby:
+- UI nepracovalo přímo s datovým zdrojem,
+- doménová logika byla soustředěna do feature modulů,
+- datový zdroj (JSON → databáze / API) byl snadno vyměnitelný bez zásahu do UI.
 
-App Router je použit jako moderní standard Next.js. Umožňuje práci s layouty a routami, oddělení server a client komponent a dlouhodobou udržitelnost projektu.
+---
 
-## 3) Rozhodnutí: React + TypeScript
+## 2. Rozhodnutí: Next.js + App Router
 
-React je použit jako UI knihovna (součást Next.js). TypeScript zajišťuje typovou bezpečnost, konzistentní datový model, snadnější refaktoring a nižší chybovost při růstu projektu.
+Next.js byl zvolen z následujících důvodů:
+- vestavěný routing,
+- podpora server-side a static renderingu,
+- jasná a škálovatelná struktura projektu,
+- bezproblémový deployment na Vercel,
+- připravenost na backendové API a autentizaci.
 
-Datové typy jsou sdílené mezi loaderem, UI a routingem, což zajišťuje jednotný kontrakt napříč aplikací.
+Použit je **App Router** jako moderní a doporučený standard Next.js.
+Umožňuje práci s layouty, route groups a jasné oddělení server a client komponent.
 
-## 4) Vrstvy aplikace
+---
+
+## 3. Rozhodnutí: React + TypeScript
+
+React slouží jako UI vrstva aplikace (součást Next.js).
+TypeScript zajišťuje:
+
+- typovou bezpečnost,
+- konzistentní datový model,
+- snadnější refaktoring,
+- nižší chybovost při rozšiřování projektu.
+
+Datové typy jsou sdílené mezi doménovou logikou, loadery a UI,
+což vytváří jednotný kontrakt napříč aplikací.
+
+---
+
+## 4. Vrstvy aplikace
 
 ### Routing a stránky (`src/app`)
 
-Vrstva `src/app` definuje URL strukturu aplikace, layouty a stránky. Obsahuje logiku navigace mezi stránkami a kombinuje server a client komponenty podle potřeby.
+Vrstva `src/app` definuje:
+- URL strukturu aplikace,
+- layouty,
+- stránky,
+- rozdělení na server a client komponenty.
 
-Routing odpovídá aktuálnímu MVP:
-- `/` – landing stránka s filtry
+Aktuální routing (MVP):
+- `/` – úvodní stránka s filtry
 - `/drills` – seznam cvičení
 - `/drills/[id]` – detail cvičení
+- `/login` – přihlášení (Auth v1)
+- `(protected)` – chráněné části aplikace
+
+---
 
 ### Feature vrstva (`src/features`)
 
-Feature vrstva obsahuje doménovou logiku aplikace. Každá feature (např. `drills`) má vlastní strukturu zahrnující typy, datové loadery, helpery a UI komponenty vztahující se ke konkrétní doméně.
+Feature vrstva obsahuje **doménovou logiku aplikace**.
+Každá feature (např. `drills`) je izolovaná do vlastního modulu.
 
-Feature vrstva slouží jako mezivrstva mezi UI a datovým zdrojem.
+Obsahuje:
+- typy,
+- datové loadery,
+- helpery,
+- UI komponenty specifické pro danou doménu.
+
+Feature vrstva slouží jako **mezivrstva mezi UI a datovým zdrojem**.
+
+---
 
 ### Datová vrstva (`src/data`)
 
-Datová vrstva obsahuje JSON soubory sloužící jako zdroj dat v MVP. Data jsou verzována v Git repozitáři a jejich struktura je popsána v dokumentu `docs/data-model.md`.
+Datová vrstva obsahuje JSON soubory, které slouží jako zdroj dat v MVP.
 
-Zdroj dat je považován za vyměnitelný detail (JSON → databáze / API).
+- data jsou verzována v Git repozitáři,
+- struktura dat je popsána v `docs/data-model.md`,
+- zdroj dat je považován za **vyměnitelný detail**.
+
+Přechod na databázi nebo API je možný bez změn v UI.
+
+---
 
 ### Sdílené UI komponenty (`src/components`)
 
-Obsahuje layoutové a znovupoužitelné UI komponenty, které nejsou svázané s konkrétní doménou. Patří sem například Header, Footer, Sponsors a obecné UI prvky.
+Obsahuje znovupoužitelné a layoutové komponenty,
+které nejsou svázané s konkrétní doménou.
+
+Např.:
+- Header
+- Footer
+- obecné UI prvky
+
+---
+
+### Autentizace a server logika (`src/server`, `src/lib/auth`)
+
+Autentizační logika (Auth v1) je implementována server-side.
+
+Obsahuje:
+- správu session,
+- rate limiting,
+- audit log,
+- ochranu chráněných rout.
+
+Architektura autentizace je popsána samostatně v `docs/auth.md`.
+
+---
 
 ### Statické assety (`src/assets`)
 
-Adresář `src/assets` obsahuje statické grafické podklady používané v aplikaci (loga, SVG, branding, sponzoři apod.). Assety nejsou součástí doménové logiky.
+Adresář obsahuje statické grafické podklady:
+- loga,
+- SVG,
+- branding,
+- sponzorské prvky.
 
-### Dokumentace (`docs` – root projektu)
+Assety nejsou součástí doménové logiky.
 
-Adresář `docs` se nachází v kořeni repozitáře a obsahuje technickou dokumentaci projektu – architekturu, datový model a technická rozhodnutí (ADR). Dokumentace slouží jako zdroj pravdy pro další vývoj projektu.
+---
 
-## 5) Struktura adresářů (aktuální)
+### Dokumentace (`docs`)
 
-Aktuální struktura projektu:
+Adresář `docs` v kořeni projektu obsahuje:
+- architekturu projektu,
+- datový model,
+- autentizační dokumentaci,
+- technická rozhodnutí (ADR).
+
+Dokumentace slouží jako **zdroj pravdy pro další vývoj**.
+
+---
+
+## 5. Struktura adresářů (aktuální)
 
 /
 ├─ docs/
-│  ├─ architecture.md
-│  ├─ data-model.md
-│  └─ decisions/
+│ ├─ architecture.md
+│ ├─ auth.md
+│ ├─ data-model.md
+│ └─ decisions/
 │
 ├─ src/
-│  ├─ app/
-│  ├─ features/
-│  ├─ data/
-│  ├─ components/
-│  └─ assets/
+│ ├─ app/
+│ ├─ features/
+│ ├─ data/
+│ ├─ components/
+│ ├─ server/
+│ ├─ lib/
+│ └─ assets/
 │
 └─ public/
 
-Styly jsou řešeny pomocí Tailwind CSS a globálního souboru `src/app/globals.css`. Samostatný adresář `styles/` není v projektu používán. Adresářová struktura je záměrně jednoduchá a odpovídá rozsahu MVP.
+yaml
+Zkopírovat kód
 
-## 6) Feature-first přístup
+Styling je řešen pomocí Tailwind CSS a `src/app/globals.css`.
+Samostatný adresář `styles/` není používán.
 
-Projekt používá feature-first strukturu. Každá doména (např. drills) je izolovaná do vlastního modulu.
+---
 
-Příklad struktury feature:
+## 6. Feature-first přístup
+
+Projekt používá **feature-first strukturu**.
+
+Příklad:
 features/drills/
 ├─ components/
 ├─ data/
 ├─ types/
 └─ index.ts
 
-Tento přístup zajišťuje jasné oddělení doménové logiky, snadné přidávání dalších feature, lepší orientaci v projektu a omezení vzájemných závislostí.
+yaml
+Zkopírovat kód
 
-## 7) Datová architektura (MVP)
+Výhody:
+- jasné oddělení domén,
+- lepší orientace v projektu,
+- snadné přidávání dalších feature,
+- omezení nechtěných závislostí.
 
-Zdroj dat tvoří JSON soubory v `src/data/drills/`. Jazyk dat je čeština. Data jsou součástí repozitáře a jejich struktura je stabilně popsána v `docs/data-model.md`.
+---
 
-UI komponenty nepracují přímo s JSON soubory. Přístup k datům je realizován pomocí loaderů ve feature vrstvě. UI pracuje výhradně s typovanými daty.
+## 7. Datová architektura (MVP)
 
-Tento přístup umožňuje pozdější přechod na databázi nebo API při zachování stejného rozhraní pro UI.
+- zdrojem dat jsou JSON soubory (`src/data/drills`)
+- data jsou typovaná
+- UI nikdy nepracuje přímo s JSON soubory
+- přístup k datům probíhá přes loadery ve feature vrstvě
 
-## 8) Stabilní klíče vs. UI popisky
+Tento přístup umožňuje plynulý přechod na databázi nebo API.
 
-Data používají stabilní interní klíče bez diakritiky. UI zobrazuje české popisky pomocí mapování v konfiguračních konstantách.
+---
+
+## 8. Stabilní klíče vs. UI popisky
+
+Data používají stabilní interní klíče (bez diakritiky).
+UI zobrazuje české popisky pomocí mapování.
 
 Příklad:
 Data:
-ageGroup = "U13"
 equipment = ["cones", "ladder"]
 
 UI:
 cones → Kloboučky
 ladder → Koordinační žebřík
 
-Tento přístup zajišťuje stabilitu dat, umožňuje budoucí vícejazyčnost a odděluje data od prezentace.
+yaml
+Zkopírovat kód
 
-## 9) Routingová struktura
+Tento přístup:
+- odděluje data od prezentace,
+- umožňuje vícejazyčnost,
+- zajišťuje stabilitu datového modelu.
 
-Aktuální MVP routing:
-- `/` – landing stránka s filtry
-- `/drills` – seznam cvičení
-- `/drills/[id]` – detail cvičení
+---
 
-Možná budoucí rozšíření:
-- `/login`
-- `/admin`
-- `/admin/drills`
-- `/profile`
+## 9. Responzivita a design
 
-## 10) Responzivita a design
+Aplikace je navržena **mobile-first** přístupem.
 
-Aplikace je navržena mobile-first přístupem. Styling je realizován pomocí Tailwind CSS. UI je jednoduché, přehledné a optimalizované pro použití při tréninku (telefon, tablet, desktop).
+- Tailwind CSS
+- responzivní layout (telefon / tablet / desktop)
+- jednoduché a přehledné UI
+- optimalizace pro použití při tréninku
 
-## 11) Připravenost na budoucí rozšíření
+---
 
-Architektura je připravena na autentizaci uživatelů, admin rozhraní, validaci dat, přechod na databázi / API, práci s médii (obrázky, videa) a vícejazyčnost bez nutnosti zásadních architektonických změn v existujícím kódu.
+## 10. Připravenost na budoucí rozšíření
 
-## 12) Shrnutí
+Architektura je připravena na:
+- rozšíření autentizace,
+- admin rozhraní,
+- správu dat (CRUD),
+- práci s médii (obrázky, videa),
+- vícejazyčnost,
+- přechod na databázi / API.
 
-Architektura projektu TableTennis Drills odpovídá aktuálnímu stavu MVP, je čitelná, udržitelná a podporuje rychlý vývoj i budoucí rozšiřování projektu.
+Bez nutnosti zásadních změn v existujícím kódu.
+
+---
+
+## 11. Shrnutí
+
+Architektura projektu **TableTennis Drills** odpovídá aktuálnímu stavu MVP,
+je čitelná, udržitelná a podporuje jak rychlý vývoj,
+tak dlouhodobé rozšiřování aplikace.

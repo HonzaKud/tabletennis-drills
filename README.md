@@ -4,8 +4,8 @@ Live demo: https://tabletennis-drills.vercel.app
 
 > Pracovní dokumentace projektu.  
 > Slouží jako hlavní zdroj pravdy pro aktuální stav aplikace, její smysl,
-> strukturu a další směřování.  
-> Dokumentace odpovídá **reálnému stavu kódu** (MVP).
+> architekturu a další směřování.  
+> Dokumentace odpovídá **reálnému stavu kódu (MVP)**.
 
 ---
 
@@ -19,16 +19,16 @@ Live demo: https://tabletennis-drills.vercel.app
 ## 1) Vize a smysl projektu
 
 **TableTennis Drills** je webová aplikace pro stolní tenis, určená především
-trenérům a hráčům.  
+trenérům a aktivním hráčům.  
 Umožňuje **rychle procházet a vybírat tréninková cvičení** pomocí jednoduchých
-filtrů.
+a srozumitelných filtrů.
 
 Projekt je od začátku navržen tak, aby:
-- byl snadno pochopitelný a použitelný přímo v hale / tělocvičně
+- byl snadno použitelný přímo v hale / tělocvičně
 - měl čistý, čitelný a typově bezpečný kód
-- bylo možné ho postupně rozšiřovat bez zásadních refaktorů
+- byl dlouhodobě udržitelný a snadno rozšiřitelný
 
-Datový a doménový model je záměrně **obecný**, aby bylo možné aplikaci později
+Datový i doménový model je záměrně **obecný**, aby bylo možné aplikaci v budoucnu
 přizpůsobit i jiným sportům.
 
 ---
@@ -49,7 +49,7 @@ přizpůsobit i jiným sportům.
 
 ### Přístup k vývoji
 
-- Nejprve funkční a stabilní MVP
+- Nejprve stabilní a funkční MVP
 - Dokumentace jako zdroj pravdy
 - Postupné rozšiřování bez zbytečné komplexity
 
@@ -59,13 +59,13 @@ přizpůsobit i jiným sportům.
 
 ### Routing (MVP)
 
-- `/` – landing stránka s filtry a úvodem
-- `/drills` – seznam cvičení (výsledky)
-- `/drills/[id]` – **detail cvičení** (již součást MVP)
+- `/login` – přihlášení uživatele
+- `/` – hlavní stránka s filtry a úvodem (chráněná)
+- `/drills` – seznam cvičení
+- `/drills/[id]` – detail cvičení
 
 > Poznámka:  
-> Detail cvičení je v MVP dostupný, i když zatím obsahuje pouze základní data
-> bez médií.
+> Aplikace je v MVP **přístupná pouze přihlášeným uživatelům**.
 
 ---
 
@@ -75,14 +75,14 @@ Obsahuje:
 - stručné vysvětlení:
   - co aplikace je
   - pro koho je určena
-- základní branding (název / jednoduché logo)
+- základní branding (název / logo)
 - filtry cvičení
 - tlačítko **Vyhledat** (navigace na `/drills`)
 - placeholder pro sponzory
 - footer (GitHub, základní odkazy)
 
-Na hlavní stránce se **nezobrazuje seznam cvičení** – slouží primárně jako
-vstupní bod a rozcestník.
+Na hlavní stránce se **nezobrazuje seznam cvičení** – slouží jako vstupní bod
+a rozcestník.
 
 ---
 
@@ -99,14 +99,14 @@ vstupní bod a rozcestník.
 
 #### Speciální hodnota
 
-- **ALL** – cvičení vhodné pro všechny věkové kategorie  
+- **ALL** – cvičení vhodná pro všechny věkové kategorie  
   (např. rozcvička, strečink)
 
 > V datech je `ALL` reprezentováno explicitně a filtr ho vždy zahrne.
 
 ---
 
-### Typ cvičení (UI popisky) 
+### Typ cvičení (UI popisky)
 
 - Servis
 - Kombinace se servisem
@@ -118,21 +118,20 @@ vstupní bod a rozcestník.
 - Strečink
 - Zásobník (multiball)
 
-> Poznámka:  
 > V UI se používají **české popisky**,  
-> v datech jsou použity **stabilní interní klíče**  
+> v datech **stabilní interní klíče**  
 > (viz `docs/data-model.md`).
 
 ---
 
 ### Seznam cvičení (`/drills`)
 
-Zobrazuje základní informace o každém cvičení:
+Zobrazuje:
 - název
 - krátký popis
 - typ cvičení
-- věková kategorie
-- doporučená délka
+- věkovou kategorii
+- doporučenou délku
 
 Slouží jako rychlý přehled bez nutnosti detailního studia.
 
@@ -163,9 +162,9 @@ Každé cvičení obsahuje:
 - `category` – typ cvičení (interní klíč)
 - `ageGroup` – věková kategorie (`U9` … `ADULT` | `ALL`)
 - `durationMinutes` – doporučená délka
-- `equipment` – seznam pomůcek (pole, může být prázdné)
+- `equipment` – seznam pomůcek
 - `tags` – seznam tagů
-- `image?` – volitelný obrázek (připraveno pro budoucí použití)
+- `image?` – volitelný obrázek (připraveno do budoucna)
 
 ---
 
@@ -177,7 +176,7 @@ Každé cvičení obsahuje:
   (stůl, míčky, pálka)
 - U specifických cvičení se pomůcky uvádějí explicitně
 
-### Pevně definovaný seznam pomůcek (UI – CZ)
+### Pevně definovaný seznam (UI – CZ)
 
 - Kloboučky
 - Ohrádky
@@ -192,7 +191,32 @@ Interně jsou pomůcky reprezentovány stabilními klíči
 
 ---
 
-## 7) Technologie
+## 7) Autentizace (Auth v1)
+
+Aplikace obsahuje vlastní autentizační vrstvu navrženou jako
+produkčně realistické MVP.
+
+### Vlastnosti
+
+- session-based autentizace (httpOnly cookies)
+- server-side ověřování uživatele
+- chráněné routy pomocí `(protected)` layoutu
+- rate limiting přihlašování
+- audit log autentizačních událostí
+- demo účet (konfigurovatelný přes env)
+
+### Účel
+
+Autentizace v MVP slouží především:
+- k ochraně aplikace
+- jako architektonická reference
+- jako základ pro budoucí rozšíření
+
+Veřejná registrace zatím není součástí projektu.
+
+---
+
+## 8) Technologie
 
 - Framework: **Next.js (App Router)**
 - UI: **React**
@@ -200,10 +224,11 @@ Interně jsou pomůcky reprezentovány stabilními klíči
 - Styling: **Tailwind CSS**
 - Hosting: **Vercel**
 - Data (MVP): **JSON soubory**
+- Auth state / rate limiting: **Vercel KV (Upstash)**
 
 ---
 
-## 8) Přístupnost a design
+## 9) Přístupnost a design
 
 - Mobile-first přístup
 - Responzivní layout (telefon / tablet / desktop)
@@ -212,7 +237,7 @@ Interně jsou pomůcky reprezentovány stabilními klíči
 
 ---
 
-## 9) Budoucí rozšíření (mimo MVP)
+## 10) Budoucí rozšíření (mimo MVP)
 
 ### Média
 - obrázky
@@ -220,7 +245,7 @@ Interně jsou pomůcky reprezentovány stabilními klíči
 - YouTube odkazy
 
 ### Uživatelé
-- přihlášení
+- invite-only onboarding
 - role (admin / editor)
 - admin rozhraní
 
@@ -230,9 +255,9 @@ Interně jsou pomůcky reprezentovány stabilními klíči
 
 ---
 
-## 10) Backlog (bez závazku)
+## 11) Backlog (bez závazku)
 
-- Autentizace uživatelů
+- Invite-only onboarding
 - Admin rozhraní
 - Správa cvičení (CRUD)
 - Vyhledávání
@@ -244,16 +269,17 @@ Interně jsou pomůcky reprezentovány stabilními klíči
 
 ---
 
-## 11) Struktura projektu (aktuální)
+## 12) Struktura projektu
 
 Projekt je postavený na Next.js (App Router) a TypeScriptu.
 
 Hlavní části:
 - `src/app` – routy a stránky
-- `src/features` – doménová logika (např. drills)
+- `src/features` – doménová logika
 - `src/data` – JSON data (MVP)
-- `src/components` – layout a obecné UI komponenty
-- `docs` – architektura, datový model, rozhodnutí (ADR)
+- `src/components` – layout a UI komponenty
+- `src/server` – server-side logika (auth, rate limit, audit)
+- `docs` – architektura, datový model, ADR
 
-Struktura projektu odpovídá **feature-first přístupu** a je navržena tak,
+Struktura odpovídá **feature-first přístupu** a je navržena tak,
 aby byla dlouhodobě udržitelná.
