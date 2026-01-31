@@ -1,6 +1,5 @@
-import "server-only";
-
 import crypto from "node:crypto";
+
 import type {
   CreateSessionParams,
   SessionId,
@@ -8,52 +7,53 @@ import type {
   SessionRepo,
 } from "../sessionRepo";
 
-/**
- * Global storage key so the same in-memory Map is shared across
- * different module instances/bundles in dev (Turbopack can create more than one).
- */
+function nowMs(): number {
+  return Date.now();
+}
+
 const GLOBAL_SESSIONS_KEY = Symbol.for("ttd.auth.sessions");
 
 type GlobalWithSessions = typeof globalThis & {
-  [GLOBAL_SESSIONS_KEY]?: Map<SessionId, SessionRecord>;
+  [GLOBAL_SESSIONS_KEY]?: {
+    sessionsById: Map<SessionId, SessionRecord>;
+  };
 };
 
-function getGlobalSessionStore(): Map<SessionId, SessionRecord> {
+function getGlobalSessionStore() {
   const g = globalThis as GlobalWithSessions;
   if (!g[GLOBAL_SESSIONS_KEY]) {
-    g[GLOBAL_SESSIONS_KEY] = new Map<SessionId, SessionRecord>();
+    g[GLOBAL_SESSIONS_KEY] = {
+      sessionsById: new Map<SessionId, SessionRecord>(),
+    };
   }
   return g[GLOBAL_SESSIONS_KEY]!;
 }
 
 export class InMemorySessionRepo implements SessionRepo {
-  private get sessions() {
+  private get store() {
     return getGlobalSessionStore();
   }
 
   async create(params: CreateSessionParams): Promise<SessionRecord> {
     const now = new Date();
-    await this.deleteExpired(now);
 
-    const sessionId = this.generateSessionId();
     const record: SessionRecord = {
-      sessionId,
+      sessionId: crypto.randomBytes(32).toString("base64url"),
       userId: params.userId,
       createdAt: now,
       expiresAt: params.expiresAt,
     };
 
-    this.sessions.set(sessionId, record);
+    this.store.sessionsById.set(record.sessionId, record);
     return record;
   }
 
   async get(sessionId: SessionId): Promise<SessionRecord | null> {
-    const record = this.sessions.get(sessionId) ?? null;
+    const record = this.store.sessionsById.get(sessionId) ?? null;
     if (!record) return null;
 
-    const now = new Date();
-    if (record.expiresAt.getTime() <= now.getTime()) {
-      this.sessions.delete(sessionId);
+    if (record.expiresAt.getTime() <= nowMs()) {
+      this.store.sessionsById.delete(sessionId);
       return null;
     }
 
@@ -61,21 +61,20 @@ export class InMemorySessionRepo implements SessionRepo {
   }
 
   async delete(sessionId: SessionId): Promise<boolean> {
-    return this.sessions.delete(sessionId);
+    return this.store.sessionsById.delete(sessionId);
   }
 
-  async deleteExpired(now: Date = new Date()): Promise<number> {
+  async deleteExpired(): Promise<number> {
+    const now = nowMs();
     let removed = 0;
-    for (const [id, record] of this.sessions.entries()) {
-      if (record.expiresAt.getTime() <= now.getTime()) {
-        this.sessions.delete(id);
+
+    for (const [id, record] of this.store.sessionsById.entries()) {
+      if (record.expiresAt.getTime() <= now) {
+        this.store.sessionsById.delete(id);
         removed += 1;
       }
     }
-    return removed;
-  }
 
-  private generateSessionId(): SessionId {
-    return crypto.randomBytes(32).toString("base64url");
+    return removed;
   }
 }

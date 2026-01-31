@@ -9,17 +9,18 @@ import type { UserId } from "@/server/repositories/userRepo";
 /**
  * Public user shape that can be safely returned to API routes / UI.
  */
-export type PublicUser = {
+export type PublicUser = Readonly<{
   id: UserId;
   email: string;
-};
+}>;
 
 export type AuthServiceErrorCode =
   | "INVALID_CREDENTIALS"
-  | "RATE_LIMITED"
-  | "INTERNAL_ERROR";
+  // Reserved for future use; routes/middleware typically implement rate limiting.
+  | "RATE_LIMITED";
 
 export class AuthServiceError extends Error {
+  readonly name = "AuthServiceError";
   readonly code: AuthServiceErrorCode;
 
   constructor(code: AuthServiceErrorCode, message?: string) {
@@ -28,14 +29,22 @@ export class AuthServiceError extends Error {
   }
 }
 
-export type LoginResult = {
+export type LoginResult = Readonly<{
   sessionId: SessionId;
   user: PublicUser;
-};
+}>;
 
 export type MeResult =
-  | { authenticated: true; user: PublicUser }
-  | { authenticated: false };
+  | Readonly<{ authenticated: true; user: PublicUser }>
+  | Readonly<{ authenticated: false }>;
+
+function normalizeEmail(email: string): string {
+  return email.trim().toLowerCase();
+}
+
+function toPublicUser(user: { id: UserId; email: string }): PublicUser {
+  return { id: user.id, email: user.email };
+}
 
 /**
  * Core auth service (Auth v1).
@@ -56,14 +65,14 @@ export class AuthService {
    *
    * Security:
    * - Does not reveal whether the email exists.
-   * - Returns INVALID_CREDENTIALS for any credential mismatch.
+   * - Always throws INVALID_CREDENTIALS for any mismatch.
    */
   async login(email: string, password: string): Promise<LoginResult> {
-    const normalizedEmail = email.trim().toLowerCase();
+    const emailKey = normalizeEmail(email);
 
-    const user = await userRepo.findByEmail(normalizedEmail);
+    const user = await userRepo.findByEmail(emailKey);
 
-    // If user does not exist OR is inactive, we still respond as invalid credentials.
+    // If user does not exist OR is inactive, respond as invalid credentials.
     if (!user || user.isActive === false) {
       throw new AuthServiceError("INVALID_CREDENTIALS", "Invalid credentials.");
     }
@@ -73,8 +82,8 @@ export class AuthService {
       throw new AuthServiceError("INVALID_CREDENTIALS", "Invalid credentials.");
     }
 
-    const now = new Date();
-    const expiresAt = new Date(now.getTime() + AUTH_CONFIG.sessionTtlSeconds * 1000);
+    const now = Date.now();
+    const expiresAt = new Date(now + AUTH_CONFIG.sessionTtlSeconds * 1000);
 
     const session = await sessionRepo.create({
       userId: user.id,
@@ -83,7 +92,7 @@ export class AuthService {
 
     return {
       sessionId: session.sessionId,
-      user: { id: user.id, email: user.email },
+      user: toPublicUser(user),
     };
   }
 
@@ -99,6 +108,13 @@ export class AuthService {
 
   /**
    * Resolve current user from session id.
+   *
+   * Security:
+   * - Missing/expired session => not authenticated
+   * - Missing/disabled user => not authenticated
+   *
+   * Note:
+   * - We intentionally do not auto-delete sessions here; routes may call logout explicitly if needed.
    */
   async me(sessionId: SessionId | null): Promise<MeResult> {
     if (!sessionId) return { authenticated: false };
@@ -108,15 +124,10 @@ export class AuthService {
 
     const user = await userRepo.findById(session.userId);
     if (!user || user.isActive === false) {
-      // If user is missing/disabled, treat as not authenticated.
-      // (Optional: could also proactively delete session)
       return { authenticated: false };
     }
 
-    return {
-      authenticated: true,
-      user: { id: user.id, email: user.email },
-    };
+    return { authenticated: true, user: toPublicUser(user) };
   }
 }
 

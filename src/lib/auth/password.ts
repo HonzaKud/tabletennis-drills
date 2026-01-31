@@ -1,5 +1,3 @@
-import "server-only";
-
 /**
  * Password hashing & verification (Argon2id).
  *
@@ -11,7 +9,7 @@ import "server-only";
  * - This module must run on Node.js runtime (not Edge),
  *   because Argon2 implementations rely on native bindings / Node APIs.
  *
- * Dependencies (choose one and install in your project):
+ * Dependencies:
  * - Recommended: `argon2`
  *   npm i argon2
  *
@@ -58,7 +56,6 @@ function withPepper(password: string, opts?: HashOptions) {
 
 async function getArgon2() {
   // Dynamic import keeps this module flexible and avoids bundler edge-cases.
-  // Also makes it obvious this is server-only.
   try {
     const mod = await import("argon2");
     return mod;

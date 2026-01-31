@@ -9,6 +9,40 @@ import { writeAuthAuditEvent } from "@/server/auth/audit";
 
 export const runtime = "nodejs";
 
+type ApiOk = { ok: true };
+type ApiErr =
+  | { ok: false; error: "INVALID_JSON" }
+  | {
+      ok: false;
+      error: "VALIDATION_ERROR";
+      issues: Array<{ path: string; message: string }>;
+    }
+  | { ok: false; error: "RATE_LIMITED" }
+  | { ok: false; error: "INVALID_CREDENTIALS" }
+  | { ok: false; error: "INTERNAL_ERROR" };
+
+function json<T extends ApiOk | ApiErr>(
+  body: T,
+  init?: { status?: number; headers?: Record<string, string> }
+) {
+  return NextResponse.json(body, {
+    status: init?.status ?? 200,
+    headers: init?.headers,
+  });
+}
+
+/**
+ * Helper: audit must never break the auth flow.
+ */
+async function safeAudit(event: Parameters<typeof writeAuthAuditEvent>[0]) {
+  try {
+    await writeAuthAuditEvent(event);
+  } catch (e) {
+    // Fail-open: do not block auth flow if audit storage is down.
+    console.warn("[auth] audit write failed", e);
+  }
+}
+
 /**
  * POST /api/auth/login
  *
@@ -28,26 +62,18 @@ export const runtime = "nodejs";
 export async function POST(req: Request) {
   const meta = getAuthRequestMeta(req);
 
-  // Helper: audit must never break login.
-  async function safeAudit(event: Parameters<typeof writeAuthAuditEvent>[0]) {
-    try {
-      await writeAuthAuditEvent(event);
-    } catch (e) {
-      // Fail-open: do not block auth flow if audit storage is down.
-      console.warn("[auth] audit write failed", e);
-    }
-  }
-
-  let json: unknown;
+  // 1) Parse JSON
+  let payload: unknown;
   try {
-    json = await req.json();
+    payload = await req.json();
   } catch {
-    return NextResponse.json({ ok: false, error: "INVALID_JSON" }, { status: 400 });
+    return json({ ok: false, error: "INVALID_JSON" }, { status: 400 });
   }
 
-  const parsed = loginSchema.safeParse(json);
+  // 2) Validate
+  const parsed = loginSchema.safeParse(payload);
   if (!parsed.success) {
-    return NextResponse.json(
+    return json(
       {
         ok: false,
         error: "VALIDATION_ERROR",
@@ -62,8 +88,7 @@ export async function POST(req: Request) {
 
   const { email, password } = parsed.data;
 
-  // Rate limiting: 5/5min per (ip+email) and 20/5min per ip.
-  // Apply after validation to avoid blocking users for formatting mistakes.
+  // 3) Rate limiting (best-effort; apply after validation)
   try {
     const rl = await checkLoginRateLimit({ ip: meta.ip, email });
 
@@ -76,7 +101,7 @@ export async function POST(req: Request) {
         detail: "login rate limited",
       });
 
-      return NextResponse.json(
+      return json(
         { ok: false, error: "RATE_LIMITED" },
         {
           status: 429,
@@ -91,10 +116,9 @@ export async function POST(req: Request) {
     console.warn("[auth] rate limit check failed (fail-open)", e);
   }
 
+  // 4) Perform login + set cookie
   try {
     const { sessionId } = await authService.login(email, password);
-
-    // Set httpOnly session cookie (server-only).
     await setSessionCookie(sessionId);
 
     await safeAudit({
@@ -104,7 +128,7 @@ export async function POST(req: Request) {
       ua: meta.userAgent,
     });
 
-    return NextResponse.json({ ok: true }, { status: 200 });
+    return json({ ok: true }, { status: 200 });
   } catch (err) {
     if (err instanceof AuthServiceError && err.code === "INVALID_CREDENTIALS") {
       await safeAudit({
@@ -115,10 +139,7 @@ export async function POST(req: Request) {
         detail: "invalid credentials",
       });
 
-      return NextResponse.json(
-        { ok: false, error: "INVALID_CREDENTIALS" },
-        { status: 401 }
-      );
+      return json({ ok: false, error: "INVALID_CREDENTIALS" }, { status: 401 });
     }
 
     await safeAudit({
@@ -130,6 +151,6 @@ export async function POST(req: Request) {
     });
 
     // Fail-safe: do not leak internal errors.
-    return NextResponse.json({ ok: false, error: "INTERNAL_ERROR" }, { status: 500 });
+    return json({ ok: false, error: "INTERNAL_ERROR" }, { status: 500 });
   }
 }

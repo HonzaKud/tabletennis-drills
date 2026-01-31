@@ -1,5 +1,3 @@
-import "server-only";
-
 import crypto from "node:crypto";
 import type { UserId, UserRecord, UserRepo } from "../userRepo";
 
@@ -51,16 +49,13 @@ function isDemoUserEnabled(): boolean {
  * Read demo user credentials from env.
  * Returns null when demo user is disabled or misconfigured.
  */
-function getDemoSeedUser():
-  | { email: string; passwordHash: string }
-  | null {
+function getDemoSeedUser(): { email: string; passwordHash: string } | null {
   if (!isDemoUserEnabled()) return null;
 
   const email = normalizeEmail(process.env.AUTH_DEV_SEED_EMAIL ?? "");
   const passwordHash = (process.env.AUTH_DEV_SEED_PASSWORD_HASH ?? "").trim();
 
   if (!email || !passwordHash) return null;
-
   return { email, passwordHash };
 }
 
@@ -79,6 +74,14 @@ function stableDemoUserIdFromEmail(email: string): UserId {
     .createHash("sha256")
     .update(`ttd:demo-user:${normalizeEmail(email)}`)
     .digest("hex");
+}
+
+function ensureActiveDefaults(user: UserRecord): UserRecord {
+  return {
+    ...user,
+    email: normalizeEmail(user.email),
+    isActive: user.isActive ?? true,
+  };
 }
 
 export class InMemoryUserRepo implements UserRepo {
@@ -120,14 +123,58 @@ export class InMemoryUserRepo implements UserRepo {
     return this.store.usersById.get(id) ?? null;
   }
 
-  private insert(user: UserRecord): void {
-    const emailKey = normalizeEmail(user.email);
+  /**
+   * Create a new user.
+   * (Needed for invite onboarding.)
+   */
+  async create(params: {
+    email: string;
+    passwordHash: string;
+    isActive?: boolean;
+  }): Promise<UserRecord> {
+    const emailKey = normalizeEmail(params.email);
 
-    const record: UserRecord = {
-      ...user,
+    if (this.store.usersByEmail.has(emailKey)) {
+      // Keep consistent with your KV repo error type if you use it there.
+      // If you already have UserEmailAlreadyExistsError, userRepo interface will use it.
+      throw new Error("UserEmailAlreadyExists");
+    }
+
+    const record: UserRecord = ensureActiveDefaults({
+      id: crypto.randomUUID(),
       email: emailKey,
-      isActive: user.isActive ?? true,
+      passwordHash: params.passwordHash,
+      createdAt: new Date(),
+      isActive: params.isActive ?? true,
+    });
+
+    this.store.usersById.set(record.id, record);
+    this.store.usersByEmail.set(emailKey, record);
+
+    return record;
+  }
+
+  /**
+   * Update password hash (future use: reset / change password).
+   */
+  async updatePasswordHash(userId: UserId, passwordHash: string): Promise<boolean> {
+    const existing = this.store.usersById.get(userId);
+    if (!existing) return false;
+
+    const updated: UserRecord = {
+      ...existing,
+      passwordHash,
     };
+
+    this.store.usersById.set(userId, updated);
+    this.store.usersByEmail.set(normalizeEmail(updated.email), updated);
+
+    return true;
+  }
+
+  private insert(user: UserRecord): void {
+    const record = ensureActiveDefaults(user);
+    const emailKey = normalizeEmail(record.email);
 
     this.store.usersById.set(record.id, record);
     this.store.usersByEmail.set(emailKey, record);

@@ -3,6 +3,7 @@
 import { useMemo, useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { loginSchema, type LoginInput } from "@/schemas/auth";
 
@@ -16,7 +17,8 @@ type LoginApiResponse =
         | "INVALID_JSON"
         | "VALIDATION_ERROR"
         | "INVALID_CREDENTIALS"
-        | "INTERNAL_ERROR";
+        | "INTERNAL_ERROR"
+        | "RATE_LIMITED";
       issues?: ApiValidationIssue[];
     };
 
@@ -30,9 +32,29 @@ async function safeJson<T>(res: Response): Promise<T | null> {
   }
 }
 
+function safeNextPath(raw: string | null): string | null {
+  if (!raw) return null;
+
+  // Only allow internal relative paths to prevent open redirects.
+  // Examples allowed: "/drills", "/drills/123", "/"
+  // Disallowed: "http://evil.com", "//evil.com", "javascript:..."
+  if (!raw.startsWith("/")) return null;
+  if (raw.startsWith("//")) return null;
+
+  // Optional: disallow redirecting back to login itself
+  if (raw === "/login") return null;
+
+  return raw;
+}
+
 export default function LoginForm() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [isPending, startTransition] = useTransition();
   const [serverError, setServerError] = useState<string | null>(null);
+
+  const nextPath = safeNextPath(searchParams.get("next")) ?? "/drills";
 
   const form = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
@@ -73,7 +95,8 @@ export default function LoginForm() {
         };
 
         if (res.ok && data.ok) {
-          window.location.assign("/");
+          // ✅ Redirect back to protected page (or default)
+          router.replace(nextPath);
           return;
         }
 
@@ -83,17 +106,29 @@ export default function LoginForm() {
             return;
           }
 
+          if (data.error === "RATE_LIMITED") {
+            setServerError("Příliš mnoho pokusů. Zkus to prosím za chvíli.");
+            return;
+          }
+
           if (data.error === "VALIDATION_ERROR" && data.issues?.length) {
+            let anyFieldIssue = false;
+
             for (const issue of data.issues) {
               if (issue.path === "email" || issue.path === "password") {
+                anyFieldIssue = true;
                 form.setError(issue.path as keyof LoginInput, {
                   type: "server",
                   message: issue.message,
                 });
-              } else {
-                setServerError(issue.message);
               }
             }
+
+            // If validation issues don't map to known fields, show the first message.
+            if (!anyFieldIssue) {
+              setServerError(data.issues[0]?.message ?? "Neplatná data.");
+            }
+
             return;
           }
 
@@ -145,10 +180,7 @@ export default function LoginForm() {
       </div>
 
       <div className="space-y-1">
-        <label
-          htmlFor="password"
-          className="block text-sm font-medium text-gray-800"
-        >
+        <label htmlFor="password" className="block text-sm font-medium text-gray-800">
           Heslo
         </label>
         <input
