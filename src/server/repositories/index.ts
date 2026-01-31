@@ -1,5 +1,3 @@
-import "server-only";
-
 import type { SessionRepo } from "./sessionRepo";
 import type { UserRepo } from "./userRepo";
 import type { InviteRepo } from "./inviteRepo";
