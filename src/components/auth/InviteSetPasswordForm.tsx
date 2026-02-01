@@ -39,13 +39,14 @@ export default function InviteSetPasswordForm({ token }: Props) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token, password }),
+        credentials: "include",
       });
 
       const data = (await res.json()) as ApiResponse;
 
       if (data.ok) {
-        // Auto-login succeeded (cookie set by server). Go to the app.
-        window.location.href = "/drills";
+        // Auto-login succeeded (cookie set by server). Go to the home page.
+        window.location.href = "/";
         return;
       }
 
@@ -94,7 +95,9 @@ export default function InviteSetPasswordForm({ token }: Props) {
           disabled={disabled}
           className={[
             "w-full rounded-xl border bg-white px-3 py-2 text-sm text-gray-900 shadow-sm outline-none transition",
-            passwordError ? "border-red-300 focus:ring-2 focus:ring-red-200" : "border-gray-200 focus:ring-2 focus:ring-gray-200",
+            passwordError
+              ? "border-red-300 focus:ring-2 focus:ring-red-200"
+              : "border-gray-200 focus:ring-2 focus:ring-gray-200",
             disabled ? "opacity-60" : "",
           ].join(" ")}
           placeholder="Zadej nové heslo"
