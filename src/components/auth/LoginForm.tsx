@@ -54,7 +54,9 @@ export default function LoginForm() {
   const [isPending, startTransition] = useTransition();
   const [serverError, setServerError] = useState<string | null>(null);
 
-  const nextPath = safeNextPath(searchParams.get("next")) ?? "/drills";
+  // ✅ Default after successful login should be home page.
+  // If middleware/protected pages append ?next=..., we respect it.
+  const nextPath = safeNextPath(searchParams.get("next")) ?? "/";
 
   const form = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
